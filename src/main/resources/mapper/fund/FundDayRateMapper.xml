@@ -17,10 +17,33 @@
         id,base_id,code,unit_value,grand_value,rate_type,rate,`day`
     </sql>
 
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into fund_day_rate
+          (base_id,code,unit_value,grand_value,rate_type,rate,`day`)
+        values
+          (#{baseId},#{code},#{model.unitValue},#{model.grandValue},#{model.type},#{model.rate},#{model.day})
+    </insert>
+
     <select id="selectByBaseId" resultMap="allMap">
-        select <include refid="allField"/>
+        select
+        <include refid="allField"/>
         from fund_day_rate t
         where base_id = #{baseId}
         order by `day` desc
+    </select>
+
+    <select id="lastFundDayRate" resultMap="allMap">
+        select
+        <include refid="allField"/>
+        from fund_day_rate t
+        where t.base_id = #{baseId}
+        order by t.`day` desc
+        limit 1
+    </select>
+
+    <select id="countBaseIdByDay" resultType="java.lang.Integer">
+        select count(1)
+        from fund_day_rate t
+        where t.base_id = #{baseId} and t.day = #{day}
     </select>
 </mapper>

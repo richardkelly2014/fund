@@ -169,7 +169,7 @@ public class FundView extends AbstractFxView {
     private FundClient fundClient;
 
     protected void btnTest(ActionEvent event) {
-        
-        fundClient.findFundHistory();
+
+        log.info("{}", fundClient.findFundHistory("001559"));
     }
 }

@@ -1,5 +1,6 @@
 package com.fund.service.impl;
 
+import com.fund.client.model.EastFundModel;
 import com.fund.dal.FundDayRateMapper;
 import com.fund.model.FundDayRateModel;
 import com.fund.service.FundDayRateService;
@@ -23,6 +24,25 @@ public class FundDayRateServiceImpl implements FundDayRateService {
             return fundDayRateMapper.selectByBaseId(baseId);
         } else {
             return Lists.newArrayList();
+        }
+    }
+
+    @Override
+    public FundDayRateModel queryLastFundDayRate(Integer baseId) {
+        if (baseId != null && baseId > 0) {
+            return fundDayRateMapper.lastFundDayRate(baseId);
+        }
+        return null;
+    }
+
+    @Override
+    public int createFundDayRate(Integer baseId, String code, EastFundModel model) {
+        String day = model.getDay();
+        int count = fundDayRateMapper.countBaseIdByDay(baseId, day);
+        if (count > 0) {
+            return -1;
+        } else {
+            return fundDayRateMapper.insert(baseId, code, model);
         }
     }
 }

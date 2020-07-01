@@ -17,7 +17,7 @@
                 <leftItems>
                     <JFXButton fx:id="btnSearch" buttonType="RAISED" text="刷新"
                                style="-fx-text-fill:WHITE;-fx-background-color:#2962ff;-fx-font-size:14px;"/>
-                    <JFXButton fx:id="btnAdd" buttonType="RAISED" text="添加净值"
+                    <JFXButton fx:id="btnAdd" buttonType="RAISED" text="手动同步"
                                style="-fx-text-fill:WHITE;-fx-background-color:#79ae56;-fx-font-size:14px;"/>
                 </leftItems>
             </JFXToolbar>
@@ -27,7 +27,7 @@
                 <children>
                     <HBox>
                         <children>
-                            <StackPane>
+                            <StackPane prefWidth="430">
                                 <JFXTreeTableView fx:id="fundRateTreeTable">
                                     <columns>
                                         <JFXTreeTableColumn minWidth="100" fx:id="fundTreeTableColumnDay" text="日期">
@@ -44,7 +44,8 @@
                             <StackPane maxWidth="Infinity" HBox.hgrow="ALWAYS">
                                 <BorderPane>
                                     <top>
-                                        <JFXToolbar style="-fx-pref-height: 40px;-fx-pref-width: 100%;-fx-background-color:#d4d5ff">
+                                        <JFXToolbar
+                                                style="-fx-pref-height: 40px;-fx-pref-width: 100%;-fx-background-color:#d4d5ff">
 
                                         </JFXToolbar>
                                     </top>

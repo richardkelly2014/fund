@@ -1,5 +1,7 @@
 package com.fund.view;
 
+import com.fund.client.FundClient;
+import com.fund.client.model.EastFundModel;
 import com.fund.config.AbstractFxView;
 import com.fund.config.FXMLViewAndController;
 import com.fund.model.FundBaseModel;
@@ -49,6 +51,8 @@ public class FundRateView extends AbstractFxView {
 
     @Autowired
     private FundDayRateService fundDayRateService;
+    @Autowired
+    private FundClient fundClient;
 
     private FundBaseModel model;
     //数据
@@ -90,6 +94,7 @@ public class FundRateView extends AbstractFxView {
         this.fundRateTreeTable.setShowRoot(false);
 
         this.btnSearch.setOnAction(this::btnSearchAction);
+        this.btnAdd.setOnAction(this::btnAddSyncAction);
 
         btnSearchAction(null);
     }
@@ -112,6 +117,34 @@ public class FundRateView extends AbstractFxView {
             this.spinnerInfo.setVisible(false);
             this.fundRateTreeTable.setDisable(false);
         });
+    }
+
+    protected void btnAddSyncAction(ActionEvent event) {
+        this.spinnerInfo.setVisible(true);
+        DefaultThreadFactory.runLater(() -> {
+
+            int baseId = this.model.getId();
+            String code = this.model.getCode();
+
+            FundDayRateModel dayRateModel = fundDayRateService.queryLastFundDayRate(baseId);
+            List<EastFundModel> eastFundModels;
+            if (dayRateModel != null) {
+                eastFundModels = fundClient.findFundHistory(code, dayRateModel.getDay());
+            } else {
+                eastFundModels = fundClient.findFundHistory(code);
+            }
+
+            if (eastFundModels != null && eastFundModels.size() > 0) {
+                eastFundModels.stream().forEach(model -> {
+                    int id = fundDayRateService.createFundDayRate(baseId, code, model);
+                    log.info("{},{},{},{}", baseId, code, model.getDay(), id);
+                });
+            }
+            this.spinnerInfo.setVisible(false);
+
+            this.btnSearchAction(event);
+        });
+
     }
 
     @Override

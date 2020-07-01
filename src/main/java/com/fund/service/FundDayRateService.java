@@ -1,5 +1,6 @@
 package com.fund.service;
 
+import com.fund.client.model.EastFundModel;
 import com.fund.model.FundDayRateModel;
 
 import java.util.List;
@@ -10,4 +11,16 @@ import java.util.List;
 public interface FundDayRateService {
 
     List<FundDayRateModel> queryByBaseId(final Integer baseId);
+
+    FundDayRateModel queryLastFundDayRate(final Integer baseId);
+
+    /**
+     * 创建
+     *
+     * @param baseId
+     * @param code
+     * @param model
+     * @return
+     */
+    int createFundDayRate(final Integer baseId, final String code, final EastFundModel model);
 }
