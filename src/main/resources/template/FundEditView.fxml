@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXButton?>
+<StackPane fx:id="root"
+           xmlns="http://javafx.com/javafx/8.0.112"
+           xmlns:fx="http://javafx.com/fxml/1">
+    <GridPane hgap="20" vgap="20" alignment="CENTER">
+        <Label text="基金名称：" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <JFXTextField fx:id="name" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+        <Label text="基金编码" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <JFXTextField fx:id="code" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+        <Label text="基金类型" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <JFXComboBox id="jfxComboBox" fx:id="type" promptText="请选择" GridPane.columnIndex="1" GridPane.rowIndex="2">
+        </JFXComboBox>
+
+        <Label text="风险等级" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+        <JFXComboBox id="jfxComboBox" fx:id="riskLevel" promptText="请选择" GridPane.columnIndex="1" GridPane.rowIndex="3">
+        </JFXComboBox>
+
+        <Label text="晨星评级" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+        <JFXComboBox id="jfxComboBox" fx:id="rateLevel" promptText="请选择" GridPane.columnIndex="1" GridPane.rowIndex="4">
+        </JFXComboBox>
+
+        <JFXButton fx:id="btnAdd" buttonType="RAISED" text="提交"
+                   GridPane.columnIndex="2" GridPane.rowIndex="5"
+                   style="-fx-text-fill:WHITE;-fx-background-color:#79ae56;-fx-font-size:14px;"/>
+
+        <padding>
+            <Insets top="20" bottom="20" left="20" right="20"/>
+        </padding>
+    </GridPane>
+</StackPane>

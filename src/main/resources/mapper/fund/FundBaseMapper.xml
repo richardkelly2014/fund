@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fund.dal.FundBaseMapper">
+
+    <resultMap id="allMap" type="com.fund.model.FundBaseModel">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="code" column="code"/>
+        <result property="riskLevel" column="risk_level"/>
+        <result property="type" column="type"/>
+        <result property="rateLevel" column="rate_level"/>
+    </resultMap>
+
+    <sql id="allField">
+        id,`name`,code,risk_level,`type`,rate_level
+    </sql>
+    <insert id="insert">
+        insert into fund_base
+          (`name`,code,risk_level,`type`,rate_level)
+        values
+          (#{name},#{code},#{riskLevel},#{type},#{rateLevel})
+    </insert>
+
+    <update id="update">
+        UPDATE fund_base
+        SET
+          `name` = #{name},
+          code = #{code},
+          risk_level = #{riskLevel},
+          `type` = #{type},
+          rate_level = #{rateLevel}
+        where
+          id = #{id}
+    </update>
+
+    <select id="selectAll" resultMap="allMap">
+        select
+        <include refid="allField"/>
+        from fund_base
+    </select>
+</mapper>

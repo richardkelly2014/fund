@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.StackPane?>
+
+<?import javafx.scene.layout.BorderPane?>
+<?import com.jfoenix.controls.JFXToolbar?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.layout.HBox?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import com.jfoenix.controls.JFXTreeTableColumn?>
+<?import com.jfoenix.controls.JFXSpinner?>
+<StackPane fx:id="root"
+           xmlns="http://javafx.com/javafx/8.0.112"
+           xmlns:fx="http://javafx.com/fxml/1">
+    <BorderPane>
+        <top>
+            <JFXToolbar style="-fx-pref-height: 40px;-fx-pref-width: 100%;-fx-background-color:WHITE">
+                <leftItems>
+                    <JFXButton fx:id="btnSearch" buttonType="RAISED" text="刷新"
+                               style="-fx-text-fill:WHITE;-fx-background-color:#2962ff;-fx-font-size:14px;"/>
+                    <JFXButton fx:id="btnAdd" buttonType="RAISED" text="添加净值"
+                               style="-fx-text-fill:WHITE;-fx-background-color:#79ae56;-fx-font-size:14px;"/>
+                </leftItems>
+            </JFXToolbar>
+        </top>
+        <center>
+            <StackPane>
+                <children>
+                    <HBox>
+                        <children>
+                            <StackPane>
+                                <JFXTreeTableView fx:id="fundRateTreeTable">
+                                    <columns>
+                                        <JFXTreeTableColumn minWidth="100" fx:id="fundTreeTableColumnDay" text="日期">
+                                        </JFXTreeTableColumn>
+                                        <JFXTreeTableColumn minWidth="100" fx:id="fundTreeTableColumnUnit" text="单位净值">
+                                        </JFXTreeTableColumn>
+                                        <JFXTreeTableColumn minWidth="100" fx:id="fundTreeTableColumnGrand" text="累计净值">
+                                        </JFXTreeTableColumn>
+                                        <JFXTreeTableColumn minWidth="100" fx:id="fundTreeTableColumnRate" text="日涨幅">
+                                        </JFXTreeTableColumn>
+                                    </columns>
+                                </JFXTreeTableView>
+                            </StackPane>
+                            <StackPane maxWidth="Infinity" HBox.hgrow="ALWAYS">
+                                <BorderPane>
+                                    <top>
+                                        <JFXToolbar style="-fx-pref-height: 40px;-fx-pref-width: 100%;-fx-background-color:#d4d5ff">
+
+                                        </JFXToolbar>
+                                    </top>
+                                    <center>
+
+                                    </center>
+                                </BorderPane>
+                            </StackPane>
+                        </children>
+                    </HBox>
+                    <JFXSpinner fx:id="spinnerInfo"
+                                styleClass="green-spinner" visible="false" StackPane.alignment="CENTER"
+                                startingAngle="0" radius="13"/>
+                </children>
+            </StackPane>
+        </center>
+    </BorderPane>
+</StackPane>

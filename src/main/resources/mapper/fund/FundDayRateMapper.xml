@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fund.dal.FundDayRateMapper">
+
+    <resultMap id="allMap" type="com.fund.model.FundDayRateModel">
+        <id property="id" column="id"/>
+        <result property="baseId" column="base_id"/>
+        <result property="code" column="code"/>
+        <result property="unitValue" column="unit_value"/>
+        <result property="grandValue" column="grand_value"/>
+        <result property="rateType" column="rate_type"/>
+        <result property="rate" column="rate"/>
+        <result property="day" column="day"/>
+    </resultMap>
+
+    <sql id="allField">
+        id,base_id,code,unit_value,grand_value,rate_type,rate,`day`
+    </sql>
+
+    <select id="selectByBaseId" resultMap="allMap">
+        select <include refid="allField"/>
+        from fund_day_rate t
+        where base_id = #{baseId}
+        order by `day` desc
+    </select>
+</mapper>

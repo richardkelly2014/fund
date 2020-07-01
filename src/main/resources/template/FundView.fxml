@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import com.jfoenix.controls.JFXToolbar?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import com.jfoenix.controls.JFXNodesList?>
+<?import javafx.geometry.Insets?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import com.jfoenix.controls.JFXTreeTableColumn?>
+<?import com.jfoenix.controls.JFXSpinner?>
+<StackPane fx:id="root"
+           xmlns="http://javafx.com/javafx/8.0.112"
+           xmlns:fx="http://javafx.com/fxml/1">
+    <BorderPane>
+        <top>
+            <JFXToolbar style="-fx-pref-height: 40px;-fx-pref-width: 100%;-fx-background-color:WHITE">
+                <leftItems>
+                    <JFXButton fx:id="btnSearch" buttonType="RAISED" text="刷新"
+                               style="-fx-text-fill:WHITE;-fx-background-color:#2962ff;-fx-font-size:14px;"/>
+                    <JFXButton fx:id="btnAdd" buttonType="RAISED" text="添加基金"
+                               style="-fx-text-fill:WHITE;-fx-background-color:#79ae56;-fx-font-size:14px;"/>
+                </leftItems>
+            </JFXToolbar>
+        </top>
+        <center>
+            <StackPane>
+                <children>
+
+                    <JFXTreeTableView fx:id="fundTreeTable">
+                        <columns>
+                            <JFXTreeTableColumn minWidth="300" fx:id="fundTreeTableColumnName" text="基金名称">
+                            </JFXTreeTableColumn>
+                            <JFXTreeTableColumn minWidth="100" fx:id="fundTreeTableColumnCode" text="编码">
+                            </JFXTreeTableColumn>
+                            <JFXTreeTableColumn minWidth="100" fx:id="fundTreeTableColumnType" text="类型">
+                            </JFXTreeTableColumn>
+                            <JFXTreeTableColumn minWidth="100" fx:id="fundTreeTableColumnRisk" text="风险">
+                            </JFXTreeTableColumn>
+                            <JFXTreeTableColumn minWidth="100" fx:id="fundTreeTableColumnLevel" text="评级">
+                            </JFXTreeTableColumn>
+                            <JFXTreeTableColumn minWidth="500" fx:id="fundTreeTableColumnOperation" text="操作">
+                            </JFXTreeTableColumn>
+                        </columns>
+                    </JFXTreeTableView>
+                    <JFXSpinner fx:id="spinnerInfo"
+                                styleClass="green-spinner" visible="false" StackPane.alignment="CENTER"
+                                startingAngle="0" radius="13"/>
+                    <JFXNodesList stylesheets="@/css/jfoenix-components.css" fx:id="nodesList" rotate="180.0"
+                                  spacing="15"
+                                  StackPane.alignment="BOTTOM_RIGHT">
+                        <children>
+                            <JFXButton fx:id="newButton" contentDisplay="GRAPHIC_ONLY"
+                                       styleClass="main-button">
+                                <graphic>
+                                    <FontIcon iconLiteral="fas-plus" iconSize="24" styleClass="main-icon"/>
+                                </graphic>
+                            </JFXButton>
+                            <JFXButton fx:id="fileButton" contentDisplay="GRAPHIC_ONLY"
+                                       styleClass="animated-option-button">
+                                <graphic>
+                                    <FontIcon iconLiteral="far-file-alt" iconSize="24" styleClass="sub-icon"/>
+                                </graphic>
+                            </JFXButton>
+                            <JFXButton fx:id="commentButton" contentDisplay="GRAPHIC_ONLY"
+                                       styleClass="animated-option-button">
+                                <graphic>
+                                    <FontIcon iconLiteral="fas-comment" iconSize="24" styleClass="sub-icon"/>
+                                </graphic>
+                            </JFXButton>
+                            <JFXButton fx:id="filterButton" contentDisplay="GRAPHIC_ONLY"
+                                       styleClass="animated-option-button">
+                                <graphic>
+                                    <FontIcon iconLiteral="fas-filter" iconSize="24" styleClass="sub-icon"/>
+                                </graphic>
+                            </JFXButton>
+                        </children>
+                        <StackPane.margin>
+                            <Insets bottom="50.0" right="50.0"/>
+                        </StackPane.margin>
+                    </JFXNodesList>
+                </children>
+            </StackPane>
+        </center>
+    </BorderPane>
+</StackPane>

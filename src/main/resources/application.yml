@@ -1,0 +1,14 @@
+mybatis:
+  mapper-locations-custom: classpath*:mapper/**/*.xml
+  configuration:
+    default-fetch-size: 100
+    default-statement-timeout: 300
+    map-underscore-to-camel-case: true
+
+master:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: org.sqlite.JDBC
+    url: jdbc:sqlite::resource:db/fund.db
+    username:
+    password:

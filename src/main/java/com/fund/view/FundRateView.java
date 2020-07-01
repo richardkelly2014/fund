@@ -1,0 +1,104 @@
+package com.fund.view;
+
+import com.fund.config.AbstractFxView;
+import com.fund.config.FXMLViewAndController;
+import com.fund.model.FundBaseModel;
+import com.fund.model.FundDayRateModel;
+import com.fund.service.FundDayRateService;
+import com.jfoenix.controls.JFXTreeTableColumn;
+import com.jfoenix.controls.JFXTreeTableView;
+import com.jfoenix.controls.RecursiveTreeItem;
+import com.jfoenix.controls.cells.editors.base.JFXTreeTableCell;
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.control.TreeTableColumn;
+import javafx.scene.paint.Paint;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+import java.util.function.Function;
+
+/**
+ * Created by jiangfei on 2020/6/30.
+ */
+@Slf4j
+@FXMLViewAndController(value = "/template/FundRateView.fxml")
+public class FundRateView extends AbstractFxView {
+
+    @FXML
+    private JFXTreeTableView<FundDayRateModel> fundRateTreeTable;
+    @FXML
+    private JFXTreeTableColumn<FundDayRateModel, String> fundTreeTableColumnDay;
+    @FXML
+    private JFXTreeTableColumn<FundDayRateModel, String> fundTreeTableColumnUnit;
+    @FXML
+    private JFXTreeTableColumn<FundDayRateModel, String> fundTreeTableColumnGrand;
+    @FXML
+    private JFXTreeTableColumn<FundDayRateModel, String> fundTreeTableColumnRate;
+
+    @Autowired
+    private FundDayRateService fundDayRateService;
+
+    private FundBaseModel model;
+    //数据
+    private ObservableList<FundDayRateModel> dummyData = FXCollections.observableArrayList();
+
+    public FundRateView(FundBaseModel model) {
+        this.model = model;
+    }
+
+    @Override
+    public void initialize() {
+        setupCellValueFactory(fundTreeTableColumnDay, FundDayRateModel::dayProperty);
+        setupCellValueFactory(fundTreeTableColumnUnit, FundDayRateModel::unitProperty);
+        setupCellValueFactory(fundTreeTableColumnGrand, FundDayRateModel::grandProperty);
+        setupCellValueFactory(fundTreeTableColumnRate, FundDayRateModel::rateProperty);
+
+        fundTreeTableColumnRate.setCellFactory((TreeTableColumn<FundDayRateModel, String> param) -> {
+            JFXTreeTableCell<FundDayRateModel, String> cell = new JFXTreeTableCell<FundDayRateModel, String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                    } else {
+                        Label label = new Label(item);
+                        if (item.startsWith("+")) {
+                            label.setTextFill(Paint.valueOf("#FF2042"));
+                        } else {
+                            label.setTextFill(Paint.valueOf("#15FF95"));
+                        }
+                        setGraphic(label);
+                    }
+                }
+            };
+            return cell;
+        });
+
+        this.fundRateTreeTable.setRoot(new RecursiveTreeItem<>(dummyData, RecursiveTreeObject::getChildren));
+        this.fundRateTreeTable.setShowRoot(false);
+
+        List<FundDayRateModel> data = fundDayRateService.queryByBaseId(this.model.getId());
+        this.dummyData.addAll(data);
+    }
+
+    @Override
+    protected String getDefaultTitle() {
+        return "基金: " + this.model.getName() + " (" + this.model.getCode() + ")";
+    }
+
+    private <T> void setupCellValueFactory(JFXTreeTableColumn<FundDayRateModel, T> column, Function<FundDayRateModel, ObservableValue<T>> mapper) {
+        column.setCellValueFactory((TreeTableColumn.CellDataFeatures<FundDayRateModel, T> param) -> {
+            if (column.validateValue(param)) {
+                return mapper.apply(param.getValue().getValue());
+            } else {
+                return column.getComputedValue(param);
+            }
+        });
+    }
+}
