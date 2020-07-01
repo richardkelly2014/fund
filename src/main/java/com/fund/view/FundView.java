@@ -1,5 +1,6 @@
 package com.fund.view;
 
+import com.fund.client.FundClient;
 import com.fund.config.AbstractFxView;
 import com.fund.config.FXMLViewAndController;
 import com.fund.model.FundBaseModel;
@@ -58,6 +59,9 @@ public class FundView extends AbstractFxView {
     private JFXSpinner spinnerInfo;
     @FXML
     private JFXButton btnAdd;
+
+    @FXML
+    private JFXButton btnTest;
 
     @Autowired
     private FundBaseService fundBaseService;
@@ -118,6 +122,8 @@ public class FundView extends AbstractFxView {
         this.btnSearch.setOnAction(this::btnSearchAction);
         this.btnAdd.setOnAction(this::btnAddAction);
 
+        this.btnTest.setOnAction(this::btnTest);
+
         btnSearchAction(null);
     }
 
@@ -157,5 +163,13 @@ public class FundView extends AbstractFxView {
         FundRateView fundRateView = new FundRateView(model);
         capableBeanFactory.autowireBean(fundRateView);
         fundRateView.showView(Modality.WINDOW_MODAL);
+    }
+
+    @Autowired
+    private FundClient fundClient;
+
+    protected void btnTest(ActionEvent event) {
+        
+        fundClient.findFundHistory();
     }
 }
