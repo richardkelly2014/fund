@@ -5,14 +5,14 @@ import com.fund.config.FXMLViewAndController;
 import com.fund.model.FundBaseModel;
 import com.fund.model.FundDayRateModel;
 import com.fund.service.FundDayRateService;
-import com.jfoenix.controls.JFXTreeTableColumn;
-import com.jfoenix.controls.JFXTreeTableView;
-import com.jfoenix.controls.RecursiveTreeItem;
+import com.fund.util.DefaultThreadFactory;
+import com.jfoenix.controls.*;
 import com.jfoenix.controls.cells.editors.base.JFXTreeTableCell;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeTableColumn;
@@ -40,6 +40,12 @@ public class FundRateView extends AbstractFxView {
     private JFXTreeTableColumn<FundDayRateModel, String> fundTreeTableColumnGrand;
     @FXML
     private JFXTreeTableColumn<FundDayRateModel, String> fundTreeTableColumnRate;
+    @FXML
+    private JFXButton btnSearch;
+    @FXML
+    private JFXButton btnAdd;
+    @FXML
+    private JFXSpinner spinnerInfo;
 
     @Autowired
     private FundDayRateService fundDayRateService;
@@ -83,8 +89,29 @@ public class FundRateView extends AbstractFxView {
         this.fundRateTreeTable.setRoot(new RecursiveTreeItem<>(dummyData, RecursiveTreeObject::getChildren));
         this.fundRateTreeTable.setShowRoot(false);
 
-        List<FundDayRateModel> data = fundDayRateService.queryByBaseId(this.model.getId());
-        this.dummyData.addAll(data);
+        this.btnSearch.setOnAction(this::btnSearchAction);
+
+        btnSearchAction(null);
+    }
+
+    /**
+     * 搜索基金每日涨幅数据
+     *
+     * @param event
+     */
+    protected void btnSearchAction(ActionEvent event) {
+        this.spinnerInfo.setVisible(true);
+        this.fundRateTreeTable.setDisable(true);
+        //清除数据
+        this.fundRateTreeTable.getRoot().getChildren().clear();
+        this.dummyData.clear();
+
+        DefaultThreadFactory.runLater(() -> {
+            List<FundDayRateModel> data = fundDayRateService.queryByBaseId(this.model.getId());
+            dummyData.addAll(data);
+            this.spinnerInfo.setVisible(false);
+            this.fundRateTreeTable.setDisable(false);
+        });
     }
 
     @Override
