@@ -53,10 +53,19 @@
                                         <VBox>
                                             <LineChart fx:id="lineChart" title="净值图">
                                                 <xAxis>
-                                                    <CategoryAxis label="日期" side="BOTTOM" />
+                                                    <CategoryAxis label="日期" side="BOTTOM"/>
                                                 </xAxis>
                                                 <yAxis>
-                                                    <NumberAxis autoRanging="true" label="净值" side="LEFT" />
+                                                    <NumberAxis autoRanging="true" label="净值" side="LEFT"/>
+                                                </yAxis>
+                                            </LineChart>
+
+                                            <LineChart fx:id="rateLineChart" title="日涨幅">
+                                                <xAxis>
+                                                    <CategoryAxis label="日期" side="BOTTOM"/>
+                                                </xAxis>
+                                                <yAxis>
+                                                    <NumberAxis autoRanging="true" label="涨幅" side="LEFT"/>
                                                 </yAxis>
                                             </LineChart>
                                         </VBox>

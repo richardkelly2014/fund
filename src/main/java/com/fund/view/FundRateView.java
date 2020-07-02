@@ -8,6 +8,7 @@ import com.fund.model.FundBaseModel;
 import com.fund.model.FundDayRateModel;
 import com.fund.service.FundDayRateService;
 import com.fund.util.DefaultThreadFactory;
+import com.google.common.collect.Lists;
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.cells.editors.base.JFXTreeTableCell;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
@@ -56,6 +57,8 @@ public class FundRateView extends AbstractFxView {
     private JFXSpinner spinnerInfo;
     @FXML
     private LineChart<String, Number> lineChart;
+    @FXML
+    private LineChart<String, Number> rateLineChart;
 
     @Autowired
     private FundDayRateService fundDayRateService;
@@ -71,6 +74,11 @@ public class FundRateView extends AbstractFxView {
 
     private ObservableList<XYChart.Data<String, Number>> unitData = FXCollections.observableArrayList();
     private XYChart.Series<String, Number> unitSeries = new XYChart.Series<>("净值", unitData);
+
+    private ObservableList<XYChart.Series<String, Number>> rateLineChartSeries = FXCollections.observableArrayList();
+
+    private ObservableList<XYChart.Data<String, Number>> rateData = FXCollections.observableArrayList();
+    private XYChart.Series<String, Number> rateSeries = new XYChart.Series<>("涨幅", rateData);
 
 
     public FundRateView(FundBaseModel model) {
@@ -116,6 +124,10 @@ public class FundRateView extends AbstractFxView {
         this.lineChart.setData(lineChartSeries);
         lineChartSeries.add(unitSeries);
 
+        //涨幅
+        this.rateLineChart.setData(rateLineChartSeries);
+        rateLineChartSeries.add(rateSeries);
+
         btnSearchAction(null);
     }
 
@@ -130,23 +142,17 @@ public class FundRateView extends AbstractFxView {
         //清除数据
         this.fundRateTreeTable.getRoot().getChildren().clear();
         this.dummyData.clear();
-        this.unitData.clear();
+
 
         DefaultThreadFactory.runLater(() -> {
             List<FundDayRateModel> data = fundDayRateService.queryByBaseId(this.model.getId());
             dummyData.addAll(data);
 
-            List<XYChart.Data<String, Number>> result = data.stream()
-                    .map((d) -> new XYChart.Data<String, Number>(d.getDay(), d.getUnitValue()))
-                    .collect(Collectors.toList());
-            if (event == null) {
-                this.unitData.addAll(result);
-            } else {
-                Platform.runLater(() -> this.unitData.addAll(result));
-            }
-
             this.spinnerInfo.setVisible(false);
             this.fundRateTreeTable.setDisable(false);
+
+            refreshLineChart(data, event);
+            refreshRateChart(data, event);
         });
     }
 
@@ -177,6 +183,58 @@ public class FundRateView extends AbstractFxView {
 
     }
 
+    /**
+     * 刷新 净值
+     *
+     * @param data
+     * @param event
+     */
+    private void refreshLineChart(List<FundDayRateModel> data, ActionEvent event) {
+        this.unitData.clear();
+
+        DefaultThreadFactory.runLater(() -> {
+            List<XYChart.Data<String, Number>> result = data.stream()
+                    .map((d) -> new XYChart.Data<String, Number>(d.getDay(), d.getUnitValue()))
+                    .collect(Collectors.toList());
+            if (event == null) {
+                this.unitData.addAll(result);
+            } else {
+                Platform.runLater(() -> this.unitData.addAll(result));
+            }
+        });
+    }
+
+    /**
+     * 刷新涨幅
+     *
+     * @param data
+     * @param event
+     */
+    private void refreshRateChart(List<FundDayRateModel> data, ActionEvent event) {
+        this.rateData.clear();
+        DefaultThreadFactory.runLater(() -> {
+            int size = data.size();
+            if (size > 0) {
+                float init = 0.0f;
+                List<XYChart.Data<String, Number>> result = Lists.newArrayList();
+                for (int i = size - 1; i >= 0; i--) {
+                    FundDayRateModel rateModel = data.get(i);
+                    if (rateModel.getRateType() == 1) {
+                        init = init + rateModel.getRate();
+                    } else {
+                        init = init - rateModel.getRate();
+                    }
+                    result.add(new XYChart.Data<>(rateModel.getDay(), init));
+                }
+
+                if (event == null) {
+                    this.rateData.addAll(result);
+                } else {
+                    Platform.runLater(() -> this.rateData.addAll(result));
+                }
+            }
+        });
+    }
 
     @Override
     protected String getDefaultTitle() {
