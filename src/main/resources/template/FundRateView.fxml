@@ -8,6 +8,10 @@
 <?import com.jfoenix.controls.JFXTreeTableView?>
 <?import com.jfoenix.controls.JFXTreeTableColumn?>
 <?import com.jfoenix.controls.JFXSpinner?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
 <StackPane fx:id="root"
            xmlns="http://javafx.com/javafx/8.0.112"
            xmlns:fx="http://javafx.com/fxml/1">
@@ -45,14 +49,17 @@
                             </StackPane>
                             <StackPane maxWidth="Infinity" HBox.hgrow="ALWAYS">
                                 <BorderPane>
-                                    <top>
-                                        <JFXToolbar
-                                                style="-fx-pref-height: 40px;-fx-pref-width: 100%;-fx-background-color:#d4d5ff">
-
-                                        </JFXToolbar>
-                                    </top>
                                     <center>
-
+                                        <VBox>
+                                            <LineChart fx:id="lineChart" title="净值图">
+                                                <xAxis>
+                                                    <CategoryAxis label="日期" side="BOTTOM" />
+                                                </xAxis>
+                                                <yAxis>
+                                                    <NumberAxis autoRanging="true" label="净值" side="LEFT" />
+                                                </yAxis>
+                                            </LineChart>
+                                        </VBox>
                                     </center>
                                 </BorderPane>
                             </StackPane>

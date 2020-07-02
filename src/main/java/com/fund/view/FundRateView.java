@@ -11,11 +11,14 @@ import com.fund.util.DefaultThreadFactory;
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.cells.editors.base.JFXTreeTableCell;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.paint.Paint;
@@ -24,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Created by jiangfei on 2020/6/30.
@@ -50,6 +54,8 @@ public class FundRateView extends AbstractFxView {
     private JFXButton btnAdd;
     @FXML
     private JFXSpinner spinnerInfo;
+    @FXML
+    private LineChart<String, Number> lineChart;
 
     @Autowired
     private FundDayRateService fundDayRateService;
@@ -59,6 +65,13 @@ public class FundRateView extends AbstractFxView {
     private FundBaseModel model;
     //数据
     private ObservableList<FundDayRateModel> dummyData = FXCollections.observableArrayList();
+
+    //lineChart线
+    private ObservableList<XYChart.Series<String, Number>> lineChartSeries = FXCollections.observableArrayList();
+
+    private ObservableList<XYChart.Data<String, Number>> unitData = FXCollections.observableArrayList();
+    private XYChart.Series<String, Number> unitSeries = new XYChart.Series<>("净值", unitData);
+
 
     public FundRateView(FundBaseModel model) {
         this.model = model;
@@ -99,6 +112,10 @@ public class FundRateView extends AbstractFxView {
         this.btnSearch.setOnAction(this::btnSearchAction);
         this.btnAdd.setOnAction(this::btnAddSyncAction);
 
+        //净值
+        this.lineChart.setData(lineChartSeries);
+        lineChartSeries.add(unitSeries);
+
         btnSearchAction(null);
     }
 
@@ -113,10 +130,21 @@ public class FundRateView extends AbstractFxView {
         //清除数据
         this.fundRateTreeTable.getRoot().getChildren().clear();
         this.dummyData.clear();
+        this.unitData.clear();
 
         DefaultThreadFactory.runLater(() -> {
             List<FundDayRateModel> data = fundDayRateService.queryByBaseId(this.model.getId());
             dummyData.addAll(data);
+
+            List<XYChart.Data<String, Number>> result = data.stream()
+                    .map((d) -> new XYChart.Data<String, Number>(d.getDay(), d.getUnitValue()))
+                    .collect(Collectors.toList());
+            if (event == null) {
+                this.unitData.addAll(result);
+            } else {
+                Platform.runLater(() -> this.unitData.addAll(result));
+            }
+
             this.spinnerInfo.setVisible(false);
             this.fundRateTreeTable.setDisable(false);
         });
@@ -138,10 +166,9 @@ public class FundRateView extends AbstractFxView {
             }
 
             if (eastFundModels != null && eastFundModels.size() > 0) {
-                eastFundModels.stream().forEach(model -> {
-                    int id = fundDayRateService.createFundDayRate(baseId, code, model);
-                    log.info("{},{},{},{}", baseId, code, model.getDay(), id);
-                });
+                eastFundModels.stream().forEach(model ->
+                        fundDayRateService.createFundDayRate(baseId, code, model)
+                );
             }
             this.spinnerInfo.setVisible(false);
 
@@ -149,6 +176,7 @@ public class FundRateView extends AbstractFxView {
         });
 
     }
+
 
     @Override
     protected String getDefaultTitle() {
