@@ -1,6 +1,7 @@
 package com.fund.client;
 
 import com.fund.client.model.EastFundModel;
+import com.fund.util.DateTimeUtil;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -59,6 +60,7 @@ public class EastFundClient implements FundClient {
 
             while (itemMatcher.find()) {
                 String day = itemMatcher.group(1);
+                int week = DateTimeUtil.getWeekByDay(day);
                 String unitValue = itemMatcher.group(2);
                 String grandValue = itemMatcher.group(3);
                 String rate = itemMatcher.group(4);
@@ -69,6 +71,7 @@ public class EastFundClient implements FundClient {
                 }
                 result.add(EastFundModel.builder()
                         .day(day)
+                        .week(week)
                         .unitValue(Float.valueOf(unitValue))
                         .grandValue(Float.valueOf(grandValue))
                         .type(type)

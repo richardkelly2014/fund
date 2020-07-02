@@ -27,10 +27,12 @@
                 <children>
                     <HBox>
                         <children>
-                            <StackPane prefWidth="430">
+                            <StackPane prefWidth="500">
                                 <JFXTreeTableView fx:id="fundRateTreeTable">
                                     <columns>
                                         <JFXTreeTableColumn minWidth="100" fx:id="fundTreeTableColumnDay" text="日期">
+                                        </JFXTreeTableColumn>
+                                        <JFXTreeTableColumn minWidth="80" fx:id="fundTreeTableColumnWeek" text="天">
                                         </JFXTreeTableColumn>
                                         <JFXTreeTableColumn minWidth="100" fx:id="fundTreeTableColumnUnit" text="单位净值">
                                         </JFXTreeTableColumn>

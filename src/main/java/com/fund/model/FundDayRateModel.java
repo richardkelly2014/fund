@@ -18,6 +18,7 @@ public class FundDayRateModel extends RecursiveTreeObject<FundDayRateModel> {
     private Integer baseId;
     private String code;
     private String day;
+    private Integer week;
 
     private Float unitValue;
     private Float grandValue;
@@ -27,6 +28,24 @@ public class FundDayRateModel extends RecursiveTreeObject<FundDayRateModel> {
 
     public StringProperty dayProperty() {
         return new SimpleStringProperty(this.day);
+    }
+
+    public StringProperty weekProperty() {
+        if (this.week == 1) {
+            return new SimpleStringProperty("星期一");
+        } else if (this.week == 2) {
+            return new SimpleStringProperty("星期二");
+        } else if (this.week == 3) {
+            return new SimpleStringProperty("星期三");
+        } else if (this.week == 4) {
+            return new SimpleStringProperty("星期四");
+        } else if (this.week == 5) {
+            return new SimpleStringProperty("星期五");
+        } else if (this.week == 6) {
+            return new SimpleStringProperty("星期六");
+        } else {
+            return new SimpleStringProperty("星期日");
+        }
     }
 
     public StringProperty unitProperty() {

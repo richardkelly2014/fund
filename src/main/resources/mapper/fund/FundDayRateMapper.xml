@@ -11,17 +11,18 @@
         <result property="rateType" column="rate_type"/>
         <result property="rate" column="rate"/>
         <result property="day" column="day"/>
+        <result property="week" column="week"/>
     </resultMap>
 
     <sql id="allField">
-        id,base_id,code,unit_value,grand_value,rate_type,rate,`day`
+        id,base_id,code,unit_value,grand_value,rate_type,rate,`day`,week
     </sql>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         insert into fund_day_rate
-          (base_id,code,unit_value,grand_value,rate_type,rate,`day`)
+          (base_id,code,unit_value,grand_value,rate_type,rate,`day`,week)
         values
-          (#{baseId},#{code},#{model.unitValue},#{model.grandValue},#{model.type},#{model.rate},#{model.day})
+          (#{baseId},#{code},#{model.unitValue},#{model.grandValue},#{model.type},#{model.rate},#{model.day},#{model.week})
     </insert>
 
     <select id="selectByBaseId" resultMap="allMap">

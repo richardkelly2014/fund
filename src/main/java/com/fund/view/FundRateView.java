@@ -37,6 +37,8 @@ public class FundRateView extends AbstractFxView {
     @FXML
     private JFXTreeTableColumn<FundDayRateModel, String> fundTreeTableColumnDay;
     @FXML
+    private JFXTreeTableColumn<FundDayRateModel, String> fundTreeTableColumnWeek;
+    @FXML
     private JFXTreeTableColumn<FundDayRateModel, String> fundTreeTableColumnUnit;
     @FXML
     private JFXTreeTableColumn<FundDayRateModel, String> fundTreeTableColumnGrand;
@@ -68,6 +70,7 @@ public class FundRateView extends AbstractFxView {
         setupCellValueFactory(fundTreeTableColumnUnit, FundDayRateModel::unitProperty);
         setupCellValueFactory(fundTreeTableColumnGrand, FundDayRateModel::grandProperty);
         setupCellValueFactory(fundTreeTableColumnRate, FundDayRateModel::rateProperty);
+        setupCellValueFactory(fundTreeTableColumnWeek, FundDayRateModel::weekProperty);
 
         fundTreeTableColumnRate.setCellFactory((TreeTableColumn<FundDayRateModel, String> param) -> {
             JFXTreeTableCell<FundDayRateModel, String> cell = new JFXTreeTableCell<FundDayRateModel, String>() {

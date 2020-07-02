@@ -10,6 +10,7 @@ import lombok.Data;
 @Builder
 public class EastFundModel {
     private String day;
+    private int week;
     private float unitValue;
     private float grandValue;
     private int type;
