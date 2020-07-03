@@ -38,11 +38,11 @@
             var jsonData =  JSON.parse(data);
             myChart.setOption({
                 xAxis: {
-                    data: jsonData.d
+                    data: jsonData.category
                 },
                 series: [{
                     // 根据名字对应到相应的系列
-                    data: jsonData.c
+                    data: jsonData.data
                 }]
             });
         }

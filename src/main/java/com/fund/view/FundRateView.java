@@ -1,5 +1,6 @@
 package com.fund.view;
 
+import com.alibaba.druid.support.json.JSONUtils;
 import com.fund.client.FundClient;
 import com.fund.client.model.EastFundModel;
 import com.fund.config.AbstractFxView;
@@ -16,19 +17,22 @@ import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.paint.Paint;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import lombok.extern.slf4j.Slf4j;
+import netscape.javascript.JSObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * Created by jiangfei on 2020/6/30.
@@ -55,10 +59,14 @@ public class FundRateView extends AbstractFxView {
     private JFXButton btnAdd;
     @FXML
     private JFXSpinner spinnerInfo;
+
     @FXML
-    private LineChart<String, Number> lineChart;
-    @FXML
-    private LineChart<String, Number> rateLineChart;
+    private WebView webView;
+
+    /**
+     * 用于与Javascript引擎通信。
+     */
+    private JSObject javascriptConnector;
 
     @Autowired
     private FundDayRateService fundDayRateService;
@@ -69,19 +77,8 @@ public class FundRateView extends AbstractFxView {
     //数据
     private ObservableList<FundDayRateModel> dummyData = FXCollections.observableArrayList();
 
-    //lineChart线
-    private ObservableList<XYChart.Series<String, Number>> lineChartSeries = FXCollections.observableArrayList();
-
-    private ObservableList<XYChart.Data<String, Number>> unitData = FXCollections.observableArrayList();
-    private XYChart.Series<String, Number> unitSeries = new XYChart.Series<>("净值", unitData);
-
-    private ObservableList<XYChart.Series<String, Number>> rateLineChartSeries = FXCollections.observableArrayList();
-
-    private ObservableList<XYChart.Data<String, Number>> rateData = FXCollections.observableArrayList();
-    private XYChart.Series<String, Number> rateSeries = new XYChart.Series<>("涨幅", rateData);
-
-
     public FundRateView(FundBaseModel model) {
+
         this.model = model;
     }
 
@@ -120,14 +117,19 @@ public class FundRateView extends AbstractFxView {
         this.btnSearch.setOnAction(this::btnSearchAction);
         this.btnAdd.setOnAction(this::btnAddSyncAction);
 
-        //净值
-        this.lineChart.setData(lineChartSeries);
-        lineChartSeries.add(unitSeries);
+        WebEngine webEngine = this.webView.getEngine();
+        webEngine.setJavaScriptEnabled(true);
 
-        //涨幅
-        this.rateLineChart.setData(rateLineChartSeries);
-        rateLineChartSeries.add(rateSeries);
+        // 加载指示器
+        webEngine.getLoadWorker().stateProperty().addListener((ObservableValue<? extends Worker.State> observable, Worker.State oldValue, Worker.State newValue) -> {
+            if (newValue == Worker.State.SUCCEEDED) {
+                // 获取Javascript连接器对象。
+                javascriptConnector = (JSObject) webEngine.executeScript("getJsConnector()");
+            }
+        });
+        webEngine.load(getClass().getResource("/html/line.html").toExternalForm());
 
+        //搜索
         btnSearchAction(null);
     }
 
@@ -143,7 +145,6 @@ public class FundRateView extends AbstractFxView {
         this.fundRateTreeTable.getRoot().getChildren().clear();
         this.dummyData.clear();
 
-
         DefaultThreadFactory.runLater(() -> {
             List<FundDayRateModel> data = fundDayRateService.queryByBaseId(this.model.getId());
             dummyData.addAll(data);
@@ -151,7 +152,6 @@ public class FundRateView extends AbstractFxView {
             this.spinnerInfo.setVisible(false);
             this.fundRateTreeTable.setDisable(false);
 
-            refreshLineChart(data, event);
             refreshRateChart(data, event);
         });
     }
@@ -183,40 +183,17 @@ public class FundRateView extends AbstractFxView {
 
     }
 
-    /**
-     * 刷新 净值
-     *
-     * @param data
-     * @param event
-     */
-    private void refreshLineChart(List<FundDayRateModel> data, ActionEvent event) {
-        this.unitData.clear();
 
-        DefaultThreadFactory.runLater(() -> {
-            List<XYChart.Data<String, Number>> result = data.stream()
-                    .map((d) -> new XYChart.Data<String, Number>(d.getDay(), d.getUnitValue()))
-                    .collect(Collectors.toList());
-            if (event == null) {
-                this.unitData.addAll(result);
-            } else {
-                Platform.runLater(() -> this.unitData.addAll(result));
-            }
-        });
-    }
-
-    /**
-     * 刷新涨幅
-     *
-     * @param data
-     * @param event
-     */
     private void refreshRateChart(List<FundDayRateModel> data, ActionEvent event) {
-        this.rateData.clear();
         DefaultThreadFactory.runLater(() -> {
+            while (javascriptConnector == null) {
+                DefaultThreadFactory.sleep();
+            }
             int size = data.size();
             if (size > 0) {
                 float init = 0.0f;
-                List<XYChart.Data<String, Number>> result = Lists.newArrayList();
+                List<String> days = Lists.newArrayList();
+                List<Float> rates = Lists.newArrayList();
                 for (int i = size - 1; i >= 0; i--) {
                     FundDayRateModel rateModel = data.get(i);
                     if (rateModel.getRateType() == 1) {
@@ -224,14 +201,16 @@ public class FundRateView extends AbstractFxView {
                     } else {
                         init = init - rateModel.getRate();
                     }
-                    result.add(new XYChart.Data<>(rateModel.getDay(), init));
+                    days.add(rateModel.getDay());
+                    rates.add(init);
                 }
+                Map<String, Object> map = new ConcurrentHashMap<>();
+                map.put("category", days);
+                map.put("data", rates);
 
-                if (event == null) {
-                    this.rateData.addAll(result);
-                } else {
-                    Platform.runLater(() -> this.rateData.addAll(result));
-                }
+                Platform.runLater(() -> {
+                    javascriptConnector.call("showResult", JSONUtils.toJSONString(map));
+                });
             }
         });
     }

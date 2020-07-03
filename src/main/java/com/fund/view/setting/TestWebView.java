@@ -33,7 +33,6 @@ public class TestWebView extends AbstractFxView {
     @Override
     public void initialize() {
         WebEngine webEngine = this.webView.getEngine();
-
         webEngine.setJavaScriptEnabled(true);
 
         // 加载指示器
