@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <script src="echarts.min.js"></script>
+    <style type="text/css">
+        html, body {
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<div id="main" style="width: 100%;height:100%;"></div>
+<script type="text/javascript">
+    var myChart = echarts.init(document.getElementById('main'), null, {renderer: 'svg'});
+
+    // 指定图表的配置项和数据
+    var option = {
+        tooltip: {
+            trigger: 'axis'
+        },
+        xAxis: {
+            data: []
+        },
+        yAxis: {},
+        series: [{
+            name: '涨幅',
+            type: 'line',
+            data: []
+        }]
+    };
+
+    myChart.setOption(option);
+
+    var jsConnector = {
+        showResult: function (data) {
+            var jsonData =  JSON.parse(data);
+            myChart.setOption({
+                xAxis: {
+                    data: jsonData.d
+                },
+                series: [{
+                    // 根据名字对应到相应的系列
+                    data: jsonData.c
+                }]
+            });
+        }
+    };
+
+    function getJsConnector() {
+        return jsConnector;
+    };
+
+    window.addEventListener("resize", function () {
+        //myChart.resize();
+    });
+</script>
+</body>
+</html>

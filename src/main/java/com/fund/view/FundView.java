@@ -6,6 +6,7 @@ import com.fund.config.FXMLViewAndController;
 import com.fund.model.FundBaseModel;
 import com.fund.service.FundBaseService;
 import com.fund.util.DefaultThreadFactory;
+import com.fund.view.setting.TestWebView;
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.cells.editors.base.JFXTreeTableCell;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
@@ -170,6 +171,9 @@ public class FundView extends AbstractFxView {
 
     protected void btnTest(ActionEvent event) {
 
-        log.info("{}", fundClient.findFundHistory("001559"));
+        TestWebView testWebView = new TestWebView();
+        testWebView.showView(Modality.WINDOW_MODAL);
+
+        //log.info("{}", fundClient.findFundHistory("001559"));
     }
 }

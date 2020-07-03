@@ -39,7 +39,7 @@ public final class DefaultThreadFactory {
 
     public static void sleep() {
         try {
-            Thread.sleep(3000);
+            Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

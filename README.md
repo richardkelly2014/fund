@@ -8,3 +8,6 @@ http://fund.eastmoney.com/f10/F10DataApi.aspx?type=lsjz&code=000083&page=3&per=6
 
 
 https://github.com/weibycn/fund
+
+
+http://www.blog2019.net/post/134
