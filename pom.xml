@@ -213,7 +213,7 @@
                 <version>8.8.3</version>
                 <configuration>
                     <vendor>fundApp</vendor>
-                    <mainClass>com.demo.MainApplication</mainClass>
+                    <mainClass>com.fund.MainApplication</mainClass>
                 </configuration>
             </plugin>
 

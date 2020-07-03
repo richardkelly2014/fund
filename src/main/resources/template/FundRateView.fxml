@@ -45,11 +45,7 @@
                                 </JFXTreeTableView>
                             </StackPane>
                             <StackPane maxWidth="Infinity" HBox.hgrow="ALWAYS">
-                                <BorderPane>
-                                    <center>
-                                        <WebView fx:id="webView"/>
-                                    </center>
-                                </BorderPane>
+                                <WebView fx:id="webView"/>
                             </StackPane>
                         </children>
                     </HBox>
