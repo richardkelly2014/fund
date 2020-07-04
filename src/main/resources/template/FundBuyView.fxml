@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Label?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<StackPane fx:id="root"
+           xmlns="http://javafx.com/javafx/8.0.112"
+           xmlns:fx="http://javafx.com/fxml/1">
+
+    <GridPane hgap="20" vgap="20" alignment="CENTER">
+        <Label text="购买金额：" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <JFXTextField fx:id="buyMoney" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+        <Label text="购买日期:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <JFXDatePicker fx:id="buyDate" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+        <Label text="确认金额:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <JFXTextField fx:id="confirmMoney" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+        <Label text="确认份额:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+        <JFXTextField  fx:id="confirmPortion"  GridPane.columnIndex="1" GridPane.rowIndex="3">
+        </JFXTextField>
+
+        <Label text="确认净值:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+        <JFXTextField id="jfxComboBox" fx:id="confirmUnit" GridPane.columnIndex="1" GridPane.rowIndex="4">
+        </JFXTextField>
+
+        <Label text="确认日期:" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+        <JFXDatePicker fx:id="confirmDate" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+
+        <JFXButton fx:id="btnAdd" buttonType="RAISED" text="提交"
+                   GridPane.columnIndex="2" GridPane.rowIndex="6"
+                   style="-fx-text-fill:WHITE;-fx-background-color:#79ae56;-fx-font-size:14px;"/>
+
+        <padding>
+            <Insets top="20" bottom="20" left="20" right="20"/>
+        </padding>
+
+    </GridPane>
+
+</StackPane>

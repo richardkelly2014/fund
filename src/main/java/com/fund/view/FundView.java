@@ -181,7 +181,9 @@ public class FundView extends AbstractFxView {
     }
 
     protected void buyAction(FundBaseModel model) {
+        FundBuyView buyView = new FundBuyView(model);
 
+        buyView.showView(Modality.WINDOW_MODAL);
     }
 
     protected void btnTest(ActionEvent event) {
