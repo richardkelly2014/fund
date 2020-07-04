@@ -214,6 +214,9 @@
                 <configuration>
                     <vendor>fundApp</vendor>
                     <mainClass>com.fund.MainApplication</mainClass>
+                    <bundleArguments>
+                        <icon>${project.basedir}/src/main/resources/images/icon.icns</icon>
+                    </bundleArguments>
                 </configuration>
             </plugin>
 
