@@ -26,7 +26,7 @@
                            style="-fx-text-fill:WHITE;-fx-background-color:#22ae79;-fx-font-size:14px;">
                 </JFXButton>
 
-                <JFXButton fx:id="btnPlan" buttonType="RAISED" text="计划"
+                <JFXButton fx:id="btnPlan" buttonType="RAISED" text="我的"
                            style="-fx-text-fill:WHITE;-fx-background-color:#ae6c7d;-fx-font-size:14px;"/>
             </leftItems>
         </JFXToolbar>

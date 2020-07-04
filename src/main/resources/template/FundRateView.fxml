@@ -28,7 +28,7 @@
                 <children>
                     <HBox>
                         <children>
-                            <StackPane prefWidth="500">
+                            <StackPane minWidth="500">
                                 <JFXTreeTableView fx:id="fundRateTreeTable">
                                     <columns>
                                         <JFXTreeTableColumn minWidth="100" fx:id="fundTreeTableColumnDay" text="日期">

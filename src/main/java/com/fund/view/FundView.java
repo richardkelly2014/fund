@@ -17,9 +17,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.Modality;
 import lombok.extern.slf4j.Slf4j;
@@ -105,12 +107,24 @@ public class FundView extends AbstractFxView {
                     if (empty) {
                         setGraphic(null);
                     } else {
+                        HBox hBox = new HBox();
+                        hBox.setSpacing(10);
+                        hBox.setAlignment(Pos.TOP_CENTER);
                         JFXButton jfxButton = new JFXButton("详情");
                         jfxButton.setButtonType(JFXButton.ButtonType.RAISED);
                         jfxButton.setOnAction((ActionEvent event) -> {
                             btnInfo(getTreeTableView().getTreeItem(getIndex()).getValue());
                         });
-                        setGraphic(jfxButton);
+
+                        JFXButton buyButton = new JFXButton("购买");
+                        buyButton.setButtonType(JFXButton.ButtonType.RAISED);
+                        buyButton.setOnAction((ActionEvent event) -> {
+                            buyAction(getTreeTableView().getTreeItem(getIndex()).getValue());
+                        });
+
+                        hBox.getChildren().addAll(jfxButton, buyButton);
+
+                        setGraphic(hBox);
                     }
                 }
             };
@@ -166,8 +180,9 @@ public class FundView extends AbstractFxView {
         fundRateView.showView(Modality.WINDOW_MODAL);
     }
 
-    @Autowired
-    private FundClient fundClient;
+    protected void buyAction(FundBaseModel model) {
+
+    }
 
     protected void btnTest(ActionEvent event) {
 
