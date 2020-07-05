@@ -14,4 +14,9 @@ public final class DateTimeUtil {
         LocalDate date = LocalDate.parse(day, dayFormatter);
         return date.getDayOfWeek().getValue();
     }
+
+    public static String addDay(String day, int plus) {
+        LocalDate localDate = LocalDate.parse(day, dayFormatter);
+        return localDate.plusDays(plus).format(dayFormatter);
+    }
 }

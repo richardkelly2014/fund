@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fund.dal.FundRecordProfitMapper">
+
+    <resultMap id="allMap" type="com.fund.model.FundRecordProfitModel">
+        <id property="id" column="id"/>
+        <result property="buyRecordId" column="buy_record_id"/>
+        <result property="profitDay" column="profit_day"/>
+        <result property="profitWeek" column="profit_week"/>
+        <result property="profitType" column="profit_type"/>
+        <result property="profitRate" column="profit_rate"/>
+        <result property="profitValue" column="profit_value"/>
+    </resultMap>
+
+    <sql id="allField">
+        id,buy_record_id,profit_day,profit_week,profit_type,profit_rate,profit_value
+    </sql>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into fund_record_profit
+          (buy_record_id,profit_day,profit_week,profit_type,profit_rate,profit_value)
+        values
+          (#{buyRecordId},#{profitDay},#{profitWeek},#{profitType},#{profitRate},#{profitValue})
+    </insert>
+
+    <select id="selectLastRecord" resultMap="allMap">
+        select <include refid="allField"/>
+        from fund_record_profit t
+        where t.buy_record_id = #{recordId}
+        order by t.profit_day desc
+        limit 1
+    </select>
+
+    <select id="countByRecordAndDay" resultType="java.lang.Integer">
+        select count(1)
+        from fund_record_profit t
+        where t.buy_record_id = #{recordId} and t.profit_day = #{day}
+    </select>
+</mapper>

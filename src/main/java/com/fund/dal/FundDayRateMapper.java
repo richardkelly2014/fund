@@ -22,6 +22,14 @@ public interface FundDayRateMapper {
     List<FundDayRateModel> selectByBaseId(final @Param("baseId") Integer baseId);
 
     /**
+     * select
+     * @param code
+     * @param day
+     * @return
+     */
+    List<FundDayRateModel> selectByCodeAndDay(final @Param("code") String code, final @Param("day") String day);
+
+    /**
      * 最近一次数据
      *
      * @param baseId

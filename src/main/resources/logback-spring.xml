@@ -44,7 +44,7 @@
 
     <logger name="com.ailong" level="DEBUG"/>
 
-    <root level="info">
+    <root level="DEBUG">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="ROLLING"/>
         <appender-ref ref="ERROR_FILE_LOG"/>

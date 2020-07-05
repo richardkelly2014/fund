@@ -183,9 +183,8 @@ public class FundView extends AbstractFxView {
         capableBeanFactory.autowireBean(buyView);
         buyView.setCloseEvent((WindowEvent event) -> {
             if (buyView.getFlag()) {
-
+                SpringUtils.getBean(MainView.class).switchContent(MyFundView.class);
             }
-            SpringUtils.getBean(MainView.class).switchContent(MyFundView.class);
         });
         buyView.showViewAndWait(Modality.WINDOW_MODAL);
     }

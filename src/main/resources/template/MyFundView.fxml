@@ -1,11 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import com.jfoenix.controls.JFXTreeTableColumn?>
+<?import javafx.scene.layout.BorderPane?>
+<?import com.jfoenix.controls.JFXToolbar?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXSpinner?>
 <StackPane fx:id="root"
            xmlns="http://javafx.com/javafx/8.0.112"
            xmlns:fx="http://javafx.com/fxml/1">
 
-    <Label text="11" />
+    <BorderPane>
+        <top>
+            <JFXToolbar style="-fx-pref-height: 40px;-fx-pref-width: 100%;-fx-background-color:WHITE">
+                <leftItems>
+                    <JFXButton fx:id="btnSearch" buttonType="RAISED" text="刷新"
+                               style="-fx-text-fill:WHITE;-fx-background-color:#2962ff;-fx-font-size:14px;"/>
+                </leftItems>
+            </JFXToolbar>
+        </top>
+        <center>
+            <StackPane>
+                <children>
+                    <VBox>
+
+                        <children>
+
+                            <JFXTreeTableView fx:id="recordTable" maxWidth="Infinity" VBox.vgrow="ALWAYS">
+                                <columns>
+                                    <JFXTreeTableColumn minWidth="300" fx:id="fundTreeTableColumnName" text="基金"/>
+                                    <JFXTreeTableColumn minWidth="80" fx:id="fundTreeTableColumnCode" text="编码"/>
+                                    <JFXTreeTableColumn minWidth="100" fx:id="fundTreeTableColumnBuyMoney" text="购买金额"/>
+                                    <JFXTreeTableColumn minWidth="100" fx:id="fundTreeTableColumnBuyDay" text="购买日期"/>
+
+                                    <JFXTreeTableColumn minWidth="100" fx:id="fundTreeTableColumnConfirmMoney" text="确认金额"/>
+                                    <JFXTreeTableColumn minWidth="100" fx:id="fundTreeTableColumnConfirmPortion" text="确认份额"/>
+                                    <JFXTreeTableColumn minWidth="100" fx:id="fundTreeTableColumnConfirmUnit" text="确认净值"/>
+                                    <JFXTreeTableColumn minWidth="100" fx:id="fundTreeTableColumnConfirmDay" text="确认日期"/>
+
+                                    <JFXTreeTableColumn minWidth="100"  fx:id="fundTreeTableColumnCurrentMoney" text="当前金额"/>
+                                    <JFXTreeTableColumn minWidth="100" fx:id="fundTreeTableColumnCurrentProfit" text="当前收益"/>
+                                    <JFXTreeTableColumn fx:id="columnOperation" maxWidth="Infinity" text="操作"/>
+                                </columns>
+                            </JFXTreeTableView>
+
+                        </children>
+
+                    </VBox>
+
+                    <JFXSpinner fx:id="spinnerInfo"
+                                styleClass="green-spinner" visible="false" StackPane.alignment="CENTER"
+                                startingAngle="0" radius="13"/>
+                </children>
+            </StackPane>
+
+        </center>
+    </BorderPane>
+
 
 </StackPane>

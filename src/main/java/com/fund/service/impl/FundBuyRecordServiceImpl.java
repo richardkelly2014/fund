@@ -6,6 +6,8 @@ import com.fund.service.FundBuyRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by jiangfei on 2020/7/4.
  */
@@ -24,5 +26,16 @@ public class FundBuyRecordServiceImpl implements FundBuyRecordService {
         recordModel.setStatus(1);
 
         return fundBuyRecordMapper.insert(recordModel);
+    }
+
+    @Override
+    public int updateCurrent(int recordId, float currentMoney, float currentProfit) {
+
+        return fundBuyRecordMapper.updateCurrent(recordId, currentMoney, currentProfit);
+    }
+
+    @Override
+    public List<FundBuyRecordModel> queryAll() {
+        return fundBuyRecordMapper.select();
     }
 }

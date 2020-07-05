@@ -28,6 +28,12 @@ public class FundDayRateServiceImpl implements FundDayRateService {
     }
 
     @Override
+    public List<FundDayRateModel> queryByCodeAndDay(String code, String day) {
+
+        return fundDayRateMapper.selectByCodeAndDay(code, day);
+    }
+
+    @Override
     public FundDayRateModel queryLastFundDayRate(Integer baseId) {
         if (baseId != null && baseId > 0) {
             return fundDayRateMapper.lastFundDayRate(baseId);

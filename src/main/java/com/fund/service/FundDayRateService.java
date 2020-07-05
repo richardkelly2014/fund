@@ -12,6 +12,8 @@ public interface FundDayRateService {
 
     List<FundDayRateModel> queryByBaseId(final Integer baseId);
 
+    List<FundDayRateModel> queryByCodeAndDay(final String code, final String day);
+
     FundDayRateModel queryLastFundDayRate(final Integer baseId);
 
     /**
