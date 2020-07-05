@@ -25,7 +25,7 @@
         </JFXTextField>
 
         <Label text="确认净值:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
-        <JFXTextField id="jfxComboBox" fx:id="confirmUnit" GridPane.columnIndex="1" GridPane.rowIndex="4">
+        <JFXTextField  fx:id="confirmUnit" GridPane.columnIndex="1" GridPane.rowIndex="4">
         </JFXTextField>
 
         <Label text="确认日期:" GridPane.columnIndex="0" GridPane.rowIndex="5"/>

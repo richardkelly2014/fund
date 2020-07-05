@@ -43,7 +43,6 @@ public abstract class AbstractFxView implements Initializable {
     public void close() {
         if (this.stage != null) {
             this.stage.fireEvent(new WindowEvent(stage, WindowEvent.WINDOW_CLOSE_REQUEST));
-            //this.stage.close();
         }
     }
 

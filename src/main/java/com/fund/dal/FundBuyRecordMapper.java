@@ -1,6 +1,7 @@
 package com.fund.dal;
 
 import com.fund.model.FundBuyRecordModel;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.List;
 /**
  * Created by jiangfei on 2020/7/4.
  */
+@Mapper
 public interface FundBuyRecordMapper {
 
     /**

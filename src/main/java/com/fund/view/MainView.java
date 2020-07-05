@@ -63,8 +63,20 @@ public class MainView extends AbstractFxView {
             drawer.setContent(SpringUtils.getBean(FundView.class).getView());
         });
 
+        this.btnPlan.setOnAction((ActionEvent event) -> {
+            drawer.setContent(SpringUtils.getBean(MyFundView.class).getView());
+        });
+
         drawer.setContent(SpringUtils.getBean(FundView.class).getView());
     }
 
+    /**
+     * 切换
+     *
+     * @param clazz
+     */
+    public void switchContent(Class<? extends AbstractFxView> clazz) {
+        drawer.setContent(SpringUtils.getBean(clazz).getView());
+    }
 
 }

@@ -21,7 +21,7 @@ public class FundBuyRecordModel {
     private Float confirmMoney;
     private Float confirmPortion;
     private Float confirmUnit;
-    private Float confirmDay;
+    private String confirmDay;
 
     private Integer status;
 }

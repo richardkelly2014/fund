@@ -1,8 +1,8 @@
 package com.fund.view;
 
-import com.fund.client.FundClient;
 import com.fund.config.AbstractFxView;
 import com.fund.config.FXMLViewAndController;
+import com.fund.config.SpringUtils;
 import com.fund.model.FundBaseModel;
 import com.fund.service.FundBaseService;
 import com.fund.util.DefaultThreadFactory;
@@ -10,8 +10,6 @@ import com.fund.view.setting.TestWebView;
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.cells.editors.base.JFXTreeTableCell;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,11 +17,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.Modality;
+import javafx.stage.WindowEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
@@ -182,8 +180,14 @@ public class FundView extends AbstractFxView {
 
     protected void buyAction(FundBaseModel model) {
         FundBuyView buyView = new FundBuyView(model);
+        capableBeanFactory.autowireBean(buyView);
+        buyView.setCloseEvent((WindowEvent event) -> {
+            if (buyView.getFlag()) {
 
-        buyView.showView(Modality.WINDOW_MODAL);
+            }
+            SpringUtils.getBean(MainView.class).switchContent(MyFundView.class);
+        });
+        buyView.showViewAndWait(Modality.WINDOW_MODAL);
     }
 
     protected void btnTest(ActionEvent event) {
