@@ -43,8 +43,6 @@ public class TestWebView extends AbstractFxView {
             }
         });
 
-        //webEngine.load("http://www.baidu.com");
-//        log.info("{}", getClass().getResource("/html/line.html").toExternalForm());
         webEngine.load(getClass().getResource("/html/line.html").toExternalForm());
 
         DefaultThreadFactory.runLater(() -> {
