@@ -1,5 +1,6 @@
 package com.fund.model;
 
+import com.fund.util.DateTimeUtil;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -65,6 +66,7 @@ public class FundBuyRecordModel extends RecursiveTreeObject<FundBuyRecordModel> 
     }
 
     public StringProperty confirmDayProperty() {
-        return new SimpleStringProperty(confirmDay);
+        int day = DateTimeUtil.differDay(confirmDay);
+        return new SimpleStringProperty(confirmDay + "(" + day + ")");
     }
 }
