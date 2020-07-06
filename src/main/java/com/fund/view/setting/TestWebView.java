@@ -53,8 +53,8 @@ public class TestWebView extends AbstractFxView {
                 List<String> name = Lists.newArrayList("11", "22", "333");
                 List<Integer> value = Lists.newArrayList(1, 2, 3);
                 Map<String, Object> map = new ConcurrentHashMap<>();
-                map.put("d", name);
-                map.put("c", value);
+                map.put("category", name);
+                map.put("data", value);
                 Platform.runLater(() -> {
                     log.info("{}", javascriptConnector.call("showResult", JSONUtils.toJSONString(map)));
                 });
