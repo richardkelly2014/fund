@@ -22,4 +22,13 @@ public interface FundClient {
      * @return
      */
     List<EastFundModel> findFundHistory(String code, String sdate);
+
+    /**
+     * 向前同步
+     *
+     * @param code
+     * @param edate
+     * @return
+     */
+    List<EastFundModel> findFundNextHistory(String code, String edate);
 }

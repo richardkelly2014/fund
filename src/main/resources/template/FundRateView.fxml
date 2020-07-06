@@ -18,7 +18,10 @@
                 <leftItems>
                     <JFXButton fx:id="btnSearch" buttonType="RAISED" text="刷新"
                                style="-fx-text-fill:WHITE;-fx-background-color:#2962ff;-fx-font-size:14px;"/>
-                    <JFXButton fx:id="btnAdd" buttonType="RAISED" text="手动同步"
+                    <JFXButton fx:id="btnAdd" buttonType="RAISED" text="同步最新"
+                               style="-fx-text-fill:WHITE;-fx-background-color:#79ae56;-fx-font-size:14px;"/>
+
+                    <JFXButton fx:id="btnNextSync" buttonType="RAISED" text="同步历史"
                                style="-fx-text-fill:WHITE;-fx-background-color:#79ae56;-fx-font-size:14px;"/>
                 </leftItems>
             </JFXToolbar>

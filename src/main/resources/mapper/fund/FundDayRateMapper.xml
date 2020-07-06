@@ -42,6 +42,15 @@
         limit 1
     </select>
 
+    <select id="firstFundDayRate" resultMap="allMap">
+        select
+        <include refid="allField"/>
+        from fund_day_rate t
+        where t.base_id = #{baseId}
+        order by t.`day` asc
+        limit 1
+    </select>
+
     <select id="countBaseIdByDay" resultType="java.lang.Integer">
         select count(1)
         from fund_day_rate t
@@ -54,4 +63,5 @@
         where t.code = #{code} and t.day >= #{day}
         order by t.day asc
     </select>
+
 </mapper>

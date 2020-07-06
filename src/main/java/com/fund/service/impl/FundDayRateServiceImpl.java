@@ -42,6 +42,14 @@ public class FundDayRateServiceImpl implements FundDayRateService {
     }
 
     @Override
+    public FundDayRateModel queryFirstFundDayRate(Integer baseId) {
+        if (baseId != null && baseId > 0) {
+            return fundDayRateMapper.firstFundDayRate(baseId);
+        }
+        return null;
+    }
+
+    @Override
     public int createFundDayRate(Integer baseId, String code, EastFundModel model) {
         String day = model.getDay();
         int count = fundDayRateMapper.countBaseIdByDay(baseId, day);

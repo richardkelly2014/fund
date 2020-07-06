@@ -17,6 +17,14 @@ public interface FundDayRateService {
     FundDayRateModel queryLastFundDayRate(final Integer baseId);
 
     /**
+     * first
+     *
+     * @param baseId
+     * @return
+     */
+    FundDayRateModel queryFirstFundDayRate(final Integer baseId);
+
+    /**
      * 创建
      *
      * @param baseId

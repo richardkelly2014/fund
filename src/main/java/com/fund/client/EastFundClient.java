@@ -36,6 +36,12 @@ public class EastFundClient implements FundClient {
         return find(url);
     }
 
+    @Override
+    public List<EastFundModel> findFundNextHistory(String code, String edate) {
+        String url = ListURL + "?type=lsjz&per=20&code=" + code + "&edate=" + edate;
+        return find(url);
+    }
+
     private List<EastFundModel> find(String url) {
         String value = restTemplate.getForObject(url, String.class);
         if (StringUtils.isNotBlank(value)) {

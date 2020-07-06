@@ -23,6 +23,7 @@ public interface FundDayRateMapper {
 
     /**
      * select
+     *
      * @param code
      * @param day
      * @return
@@ -36,6 +37,14 @@ public interface FundDayRateMapper {
      * @return
      */
     FundDayRateModel lastFundDayRate(final @Param("baseId") Integer baseId);
+
+    /**
+     * first数据
+     *
+     * @param baseId
+     * @return
+     */
+    FundDayRateModel firstFundDayRate(final @Param("baseId") Integer baseId);
 
     /**
      * count

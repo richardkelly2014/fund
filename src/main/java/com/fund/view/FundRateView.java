@@ -58,6 +58,8 @@ public class FundRateView extends AbstractFxView {
     @FXML
     private JFXButton btnAdd;
     @FXML
+    private JFXButton btnNextSync;
+    @FXML
     private JFXSpinner spinnerInfo;
 
     @FXML
@@ -116,6 +118,7 @@ public class FundRateView extends AbstractFxView {
 
         this.btnSearch.setOnAction(this::btnSearchAction);
         this.btnAdd.setOnAction(this::btnAddSyncAction);
+        this.btnNextSync.setOnAction(this::btnNextAction);
 
         WebEngine webEngine = this.webView.getEngine();
         webEngine.setJavaScriptEnabled(true);
@@ -183,6 +186,31 @@ public class FundRateView extends AbstractFxView {
 
     }
 
+    protected void btnNextAction(ActionEvent event) {
+        this.spinnerInfo.setVisible(true);
+        DefaultThreadFactory.runLater(() -> {
+
+            int baseId = this.model.getId();
+            String code = this.model.getCode();
+
+            FundDayRateModel dayRateModel = fundDayRateService.queryFirstFundDayRate(baseId);
+            List<EastFundModel> eastFundModels;
+            if (dayRateModel != null) {
+                eastFundModels = fundClient.findFundNextHistory(code, dayRateModel.getDay());
+            } else {
+                eastFundModels = fundClient.findFundHistory(code);
+            }
+
+            if (eastFundModels != null && eastFundModels.size() > 0) {
+                eastFundModels.stream().forEach(model ->
+                        fundDayRateService.createFundDayRate(baseId, code, model)
+                );
+            }
+
+            this.spinnerInfo.setVisible(false);
+            this.btnSearchAction(event);
+        });
+    }
 
     private void refreshRateChart(List<FundDayRateModel> data, ActionEvent event) {
         DefaultThreadFactory.runLater(() -> {
