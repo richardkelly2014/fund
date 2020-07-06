@@ -1,6 +1,7 @@
 package com.fund.dal;
 
 import com.fund.model.FundBuyRecordModel;
+import com.fund.model.FundSumRecordModel;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -47,4 +48,11 @@ public interface FundBuyRecordMapper {
      * @return
      */
     List<FundBuyRecordModel> select();
+
+    /**
+     * 查询 统计
+     *
+     * @return
+     */
+    FundSumRecordModel selectSumRecord();
 }

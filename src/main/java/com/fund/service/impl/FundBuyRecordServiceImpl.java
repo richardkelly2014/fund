@@ -2,6 +2,7 @@ package com.fund.service.impl;
 
 import com.fund.dal.FundBuyRecordMapper;
 import com.fund.model.FundBuyRecordModel;
+import com.fund.model.FundSumRecordModel;
 import com.fund.service.FundBuyRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,5 +38,11 @@ public class FundBuyRecordServiceImpl implements FundBuyRecordService {
     @Override
     public List<FundBuyRecordModel> queryAll() {
         return fundBuyRecordMapper.select();
+    }
+
+    @Override
+    public FundSumRecordModel querySumRecord() {
+
+        return fundBuyRecordMapper.selectSumRecord();
     }
 }

@@ -55,4 +55,9 @@
         from fund_buy_record
     </select>
 
+    <select id="selectSumRecord" resultType="com.fund.model.FundSumRecordModel">
+        select sum(t.buy_money) totalBuyMoney,sum(t.current_money) as totalCurrentMoney,sum(t.current_profit_value) as totalProfit
+        from fund_buy_record t
+    </select>
+
 </mapper>

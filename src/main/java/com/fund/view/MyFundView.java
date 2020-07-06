@@ -6,6 +6,7 @@ import com.fund.config.FXMLViewAndController;
 import com.fund.model.FundBuyRecordModel;
 import com.fund.model.FundDayRateModel;
 import com.fund.model.FundRecordProfitModel;
+import com.fund.model.FundSumRecordModel;
 import com.fund.service.FundBuyRecordService;
 import com.fund.service.FundDayRateService;
 import com.fund.service.FundRecordProfitService;
@@ -14,12 +15,14 @@ import com.fund.util.DefaultThreadFactory;
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.cells.editors.base.JFXTreeTableCell;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.layout.HBox;
 import lombok.extern.slf4j.Slf4j;
@@ -64,6 +67,12 @@ public class MyFundView extends AbstractFxView {
     private JFXTreeTableColumn<FundBuyRecordModel, String> fundTreeTableColumnCurrentProfit;
     @FXML
     private JFXTreeTableColumn<FundBuyRecordModel, String> columnOperation;
+    @FXML
+    private Label totalMoney;
+    @FXML
+    private Label currentMoney;
+    @FXML
+    private Label currentProfit;
 
     @FXML
     private JFXButton btnSearch;
@@ -144,6 +153,15 @@ public class MyFundView extends AbstractFxView {
         DefaultThreadFactory.runLater(() -> {
             List<FundBuyRecordModel> data = fundBuyRecordService.queryAll();
             dummyData.addAll(data);
+
+            FundSumRecordModel sumRecordModel = fundBuyRecordService.querySumRecord();
+            if (sumRecordModel != null) {
+                Platform.runLater(() -> {
+                    this.totalMoney.setText(String.valueOf(sumRecordModel.getTotalBuyMoney()));
+                    this.currentMoney.setText(String.valueOf(sumRecordModel.getTotalCurrentMoney()));
+                    this.currentProfit.setText(String.valueOf(sumRecordModel.getTotalProfit()));
+                });
+            }
 
             this.spinnerInfo.setVisible(false);
             this.recordTable.setDisable(false);
