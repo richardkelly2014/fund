@@ -9,7 +9,8 @@ master:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: org.sqlite.JDBC
-    url: jdbc:sqlite::resource:db/fund.db
+#    url: jdbc:sqlite::resource:db/fund.db
+    url: jdbc:sqlite:db/fund.db
     username:
     password:
     filters: stat

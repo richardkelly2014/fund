@@ -12,7 +12,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
 <StackPane fx:id="root"
            xmlns="http://javafx.com/javafx/8.0.112"
@@ -23,6 +22,9 @@
             <JFXToolbar style="-fx-pref-height: 40px;-fx-pref-width: 100%;-fx-background-color:WHITE">
                 <leftItems>
                     <JFXButton fx:id="btnSearch" buttonType="RAISED" text="刷新"
+                               style="-fx-text-fill:WHITE;-fx-background-color:#2962ff;-fx-font-size:14px;"/>
+
+                    <JFXButton fx:id="btnSearchAll" buttonType="RAISED" text="一键刷新"
                                style="-fx-text-fill:WHITE;-fx-background-color:#2962ff;-fx-font-size:14px;"/>
                 </leftItems>
             </JFXToolbar>

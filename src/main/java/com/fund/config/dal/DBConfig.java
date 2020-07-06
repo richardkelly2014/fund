@@ -2,6 +2,7 @@ package com.fund.config.dal;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Mapper;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
@@ -23,6 +24,7 @@ import java.util.Map;
 @Configuration
 @EnableTransactionManagement
 @MapperScan(basePackages = "com.fund", annotationClass = Mapper.class)
+@Slf4j
 public class DBConfig implements TransactionManagementConfigurer {
 
     @Bean("master")
@@ -47,6 +49,8 @@ public class DBConfig implements TransactionManagementConfigurer {
 
         dynamicRoutingDataSource.setDefaultTargetDataSource(masterDataSource());
         dynamicRoutingDataSource.setTargetDataSources(dataSourceMap);
+
+        log.info("{}", masterDataSource().getUrl());
 
         return dynamicRoutingDataSource;
     }
