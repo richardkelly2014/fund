@@ -8,6 +8,21 @@ http://fund.eastmoney.com/f10/F10DataApi.aspx?type=lsjz&code=000083&page=3&per=6
 
 
 https://github.com/weibycn/fund
-
+__
 
 http://www.blog2019.net/post/134
+
+(t-x)/x = y
+(t-x) = y*x
+t = y*x + x
+t== x *(y+1)
+x = t/
+
+(2.4705 - x) = 0.0218 * x
+
+2.4705  = 0.0218 * x + x
+2.4705  = x*( 0.0218 +1)
+
+x = (t)/(1+y)
+
+(t-(t/(1+y))) * d
