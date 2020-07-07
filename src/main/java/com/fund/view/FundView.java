@@ -178,9 +178,8 @@ public class FundView extends AbstractFxView {
         FundEditView editView = new FundEditView();
         capableBeanFactory.autowireBean(editView);
         editView.showViewAndWait(Modality.WINDOW_MODAL);
-        FundBaseModel baseModel = editView.result();
-        this.btnSearchAction(null);
 
+        FundBaseModel baseModel = editView.result();
         if (baseModel != null) {
             asyncFundRate(baseModel);
         }
@@ -214,6 +213,13 @@ public class FundView extends AbstractFxView {
      * @param baseModel
      */
     private void asyncFundRate(FundBaseModel baseModel) {
+
+        this.spinnerInfo.setVisible(true);
+        this.fundTreeTable.setDisable(true);
+        //不知道是否是这个控件的bug。后面提bug
+        this.fundTreeTable.getRoot().getChildren().clear();
+        this.dummyData.clear();
+
         DefaultThreadFactory.runLater(() -> {
             int baseId = baseModel.getId();
             String code = baseModel.getCode();
@@ -225,6 +231,11 @@ public class FundView extends AbstractFxView {
                         fundDayRateService.createFundDayRate(baseId, code, model)
                 );
             }
+
+            List<FundBaseModel> funds = fundBaseService.query();
+            dummyData.addAll(funds);
+            this.spinnerInfo.setVisible(false);
+            this.fundTreeTable.setDisable(false);
         });
     }
 }
