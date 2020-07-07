@@ -1,10 +1,14 @@
 package com.fund.view;
 
+import com.fund.client.FundClient;
+import com.fund.client.model.EastFundModel;
 import com.fund.config.AbstractFxView;
 import com.fund.config.FXMLViewAndController;
 import com.fund.config.SpringUtils;
 import com.fund.model.FundBaseModel;
+import com.fund.model.FundDayRateModel;
 import com.fund.service.FundBaseService;
+import com.fund.service.FundDayRateService;
 import com.fund.util.DefaultThreadFactory;
 import com.fund.view.setting.TestWebView;
 import com.jfoenix.controls.*;
@@ -66,6 +70,11 @@ public class FundView extends AbstractFxView {
 
     @Autowired
     private FundBaseService fundBaseService;
+    @Autowired
+    private FundDayRateService fundDayRateService;
+    @Autowired
+    private FundClient fundClient;
+
     @Autowired
     private AutowireCapableBeanFactory capableBeanFactory;
 
@@ -169,7 +178,12 @@ public class FundView extends AbstractFxView {
         FundEditView editView = new FundEditView();
         capableBeanFactory.autowireBean(editView);
         editView.showViewAndWait(Modality.WINDOW_MODAL);
+        FundBaseModel baseModel = editView.result();
         this.btnSearchAction(null);
+
+        if (baseModel != null) {
+            asyncFundRate(baseModel);
+        }
     }
 
     protected void btnInfo(FundBaseModel model) {
@@ -190,10 +204,27 @@ public class FundView extends AbstractFxView {
     }
 
     protected void btnTest(ActionEvent event) {
-
         TestWebView testWebView = new TestWebView();
         testWebView.showView(Modality.WINDOW_MODAL);
+    }
 
-        //log.info("{}", fundClient.findFundHistory("001559"));
+    /**
+     * 同步涨幅
+     *
+     * @param baseModel
+     */
+    private void asyncFundRate(FundBaseModel baseModel) {
+        DefaultThreadFactory.runLater(() -> {
+            int baseId = baseModel.getId();
+            String code = baseModel.getCode();
+
+            List<EastFundModel> eastFundModels = fundClient.findFundHistory(code);
+
+            if (eastFundModels != null && eastFundModels.size() > 0) {
+                eastFundModels.stream().forEach(model ->
+                        fundDayRateService.createFundDayRate(baseId, code, model)
+                );
+            }
+        });
     }
 }

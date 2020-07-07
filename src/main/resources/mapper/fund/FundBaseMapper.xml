@@ -14,7 +14,7 @@
     <sql id="allField">
         id,`name`,code,risk_level,`type`,rate_level
     </sql>
-    <insert id="insert">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         insert into fund_base
           (`name`,code,risk_level,`type`,rate_level)
         values

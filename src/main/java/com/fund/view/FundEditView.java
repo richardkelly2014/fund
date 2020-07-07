@@ -107,6 +107,10 @@ public class FundEditView extends AbstractFxView {
         this.close();
     }
 
+    public FundBaseModel result() {
+        return this.editModel;
+    }
+
     @Data
     @Builder
     private static class CMModel {
