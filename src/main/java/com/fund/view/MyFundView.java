@@ -179,6 +179,7 @@ public class MyFundView extends AbstractFxView {
             int recordId = recordModel.getId();
             String code = recordModel.getFundCode();
             String day = recordModel.getConfirmDay();
+            float portion = recordModel.getConfirmPortion();
 
             FundRecordProfitModel last = fundRecordProfitService.queryLastRecord(recordId);
             if (last != null) {
@@ -195,14 +196,14 @@ public class MyFundView extends AbstractFxView {
                 int type = rateModel.getRateType();
                 float rate = rateModel.getRate();
 
-                float profitValue = (float) NumberUtil.mul(NumberUtil.div(currentMoney, 100.00), rate);
-                if (type == 1) {
-                    currentMoney += profitValue;
-                    currentProfit += profitValue;
-                } else {
-                    currentMoney -= profitValue;
-                    currentProfit -= profitValue;
-                }
+                double tRate = type == 1 ? (1 + NumberUtil.div(rate,100)) : (1 - NumberUtil.div(rate,100));
+                float profitValue = (float) NumberUtil.mul(portion,
+                        NumberUtil.sub(rateModel.getUnitValue().floatValue(),
+                                NumberUtil.div(rateModel.getUnitValue().floatValue(), tRate)));
+
+                //float profitValue = (float) NumberUtil.mul(NumberUtil.div(currentMoney, 100.00), rate);
+                currentMoney += profitValue;
+                currentProfit += profitValue;
                 fundRecordProfitService.createRecordProfit(recordId, date, week, type, rate, profitValue);
             }
 

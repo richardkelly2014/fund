@@ -21,7 +21,7 @@
                     <JFXButton fx:id="btnAdd" buttonType="RAISED" text="添加基金"
                                style="-fx-text-fill:WHITE;-fx-background-color:#79ae56;-fx-font-size:14px;"/>
 
-                    <JFXButton fx:id="btnTest" buttonType="RAISED" text="测试数据" visible="false"
+                    <JFXButton fx:id="btnTest" buttonType="RAISED" text="一键刷新" visible="false"
                                style="-fx-text-fill:WHITE;-fx-background-color:#79ae56;-fx-font-size:14px;"/>
                 </leftItems>
             </JFXToolbar>

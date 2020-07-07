@@ -52,7 +52,8 @@
 
     <select id="select" resultMap="allMap">
         select <include refid="allField"/>
-        from fund_buy_record
+        from fund_buy_record t
+        order by t.confirm_day asc
     </select>
 
     <select id="selectSumRecord" resultType="com.fund.model.FundSumRecordModel">
