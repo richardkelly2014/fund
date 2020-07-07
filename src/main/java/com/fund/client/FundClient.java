@@ -1,6 +1,7 @@
 package com.fund.client;
 
 import com.fund.client.model.EastFundModel;
+import com.fund.client.model.EastRealFundModel;
 
 import java.util.List;
 
@@ -31,4 +32,12 @@ public interface FundClient {
      * @return
      */
     List<EastFundModel> findFundNextHistory(String code, String edate);
+
+    /**
+     * 查询基金实时数据
+     *
+     * @param code
+     * @return
+     */
+    EastRealFundModel findFundReal(String code);
 }

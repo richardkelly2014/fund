@@ -21,6 +21,8 @@ public class FundBaseModel extends RecursiveTreeObject<FundBaseModel> {
     private Integer type;
     private Integer rateLevel;
 
+    private Float dayRate;
+
     public StringProperty nameProperty() {
         return new SimpleStringProperty(this.name);
     }
@@ -66,5 +68,13 @@ public class FundBaseModel extends RecursiveTreeObject<FundBaseModel> {
             return new SimpleStringProperty("未知");
         }
 
+    }
+
+    public StringProperty dayRateProperty() {
+        if (dayRate != null) {
+            return new SimpleStringProperty(String.valueOf(dayRate));
+        } else {
+            return new SimpleStringProperty("0.00");
+        }
     }
 }

@@ -1,5 +1,7 @@
 package com.fund.service.impl;
 
+import com.fund.client.FundClient;
+import com.fund.client.model.EastRealFundModel;
 import com.fund.dal.FundBaseMapper;
 import com.fund.model.FundBaseModel;
 import com.fund.service.FundBaseService;
@@ -16,9 +18,22 @@ public class FundBaseServiceImpl implements FundBaseService {
     @Autowired
     private FundBaseMapper fundBaseMapper;
 
+    @Autowired
+    private FundClient fundClient;
+
     @Override
     public List<FundBaseModel> query() {
-        return fundBaseMapper.selectAll();
+        List<FundBaseModel> result = fundBaseMapper.selectAll();
+
+        result.stream().forEach(model -> {
+            String code = model.getCode();
+            EastRealFundModel realFundModel = fundClient.findFundReal(code);
+            if (realFundModel != null) {
+                model.setDayRate(realFundModel.getGszzl());
+            }
+        });
+
+        return result;
     }
 
     @Override

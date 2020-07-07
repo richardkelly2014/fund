@@ -57,6 +57,8 @@ public class FundView extends AbstractFxView {
     private JFXTreeTableColumn<FundBaseModel, String> fundTreeTableColumnLevel;
     @FXML
     private JFXTreeTableColumn<FundBaseModel, String> fundTreeTableColumnOperation;
+    @FXML
+    private JFXTreeTableColumn<FundBaseModel, String> fundTreeTableColumnRate;
 
     @FXML
     private JFXButton btnSearch;
@@ -88,6 +90,7 @@ public class FundView extends AbstractFxView {
         setupCellValueFactory(fundTreeTableColumnType, FundBaseModel::typeProperty);
         setupCellValueFactory(fundTreeTableColumnRisk, FundBaseModel::riskLevelProperty);
         setupCellValueFactory(fundTreeTableColumnLevel, FundBaseModel::rateLevelProperty);
+        setupCellValueFactory(fundTreeTableColumnRate, FundBaseModel::dayRateProperty);
 
         fundTreeTableColumnRisk.setCellFactory((TreeTableColumn<FundBaseModel, String> param) -> {
             JFXTreeTableCell<FundBaseModel, String> cell = new JFXTreeTableCell<FundBaseModel, String>() {

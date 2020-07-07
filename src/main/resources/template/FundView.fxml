@@ -42,7 +42,9 @@
                             </JFXTreeTableColumn>
                             <JFXTreeTableColumn minWidth="100" fx:id="fundTreeTableColumnLevel" text="评级">
                             </JFXTreeTableColumn>
-                            <JFXTreeTableColumn minWidth="500" fx:id="fundTreeTableColumnOperation" text="操作">
+                            <JFXTreeTableColumn minWidth="100" fx:id="fundTreeTableColumnRate" text="今日涨幅">
+                            </JFXTreeTableColumn>
+                            <JFXTreeTableColumn minWidth="300" maxWidth="Infinity" fx:id="fundTreeTableColumnOperation" text="操作">
                             </JFXTreeTableColumn>
                         </columns>
                     </JFXTreeTableView>

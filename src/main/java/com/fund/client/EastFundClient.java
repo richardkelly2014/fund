@@ -1,6 +1,8 @@
 package com.fund.client;
 
+import com.alibaba.fastjson.JSON;
 import com.fund.client.model.EastFundModel;
+import com.fund.client.model.EastRealFundModel;
 import com.fund.util.DateTimeUtil;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +20,7 @@ import java.util.regex.Pattern;
 public class EastFundClient implements FundClient {
 
     private final static String ListURL = "http://fund.eastmoney.com/f10/F10DataApi.aspx";
+    private final static String RealURL = "http://fundgz.1234567.com.cn/js/";
     private Pattern trPattern = Pattern.compile("<tr>(.*?)</tr>");
     private Pattern tdPattern = Pattern.compile("<td>(\\d{4}-\\d{2}-\\d{2})</td><td.*?>(.*?)</td><td.*?>(.*?)</td><td.*?>(.*?)%</td><td.*?>(.*?)</td><td.*?>(.*?)</td><td.*?></td>");
 
@@ -40,6 +43,21 @@ public class EastFundClient implements FundClient {
     public List<EastFundModel> findFundNextHistory(String code, String edate) {
         String url = ListURL + "?type=lsjz&per=20&code=" + code + "&edate=" + edate;
         return find(url);
+    }
+
+    @Override
+    public EastRealFundModel findFundReal(String code) {
+        long time = System.currentTimeMillis();
+        String url = RealURL + code + ".js?rt=" + time;
+
+        String value = restTemplate.getForObject(url, String.class);
+        value = value.substring(8, value.length() - 2);
+
+        if (StringUtils.isNotBlank(value)) {
+            return JSON.parseObject(value, EastRealFundModel.class);
+        } else {
+            return null;
+        }
     }
 
     private List<EastFundModel> find(String url) {

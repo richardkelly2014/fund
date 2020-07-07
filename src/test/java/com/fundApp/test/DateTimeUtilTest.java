@@ -12,4 +12,10 @@ public class DateTimeUtilTest {
 
         log.info("{}", DateTimeUtil.getWeekByDay("2020-06-28"));
     }
+
+    @Test
+    public void test2() {
+        String value = "jsonpgz({});";
+        log.info("{}", value.substring(8, value.length() - 2));
+    }
 }
