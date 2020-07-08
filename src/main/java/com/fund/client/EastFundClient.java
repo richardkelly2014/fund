@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.fund.util.NumberConstante.rateBase;
+import static com.fund.util.NumberConstante.unitBase;
+
 @Slf4j
 @Service
 public class EastFundClient implements FundClient {
@@ -96,10 +99,10 @@ public class EastFundClient implements FundClient {
                 result.add(EastFundModel.builder()
                         .day(day)
                         .week(week)
-                        .unitValue(Float.valueOf(unitValue))
-                        .grandValue(Float.valueOf(grandValue))
+                        .unitValue((int) (Float.valueOf(unitValue) * unitBase))
+                        .grandValue((int) (Float.valueOf(grandValue) * unitBase))
                         .type(type)
-                        .rate(Float.valueOf(rate))
+                        .rate((int) (Float.valueOf(rate) * rateBase))
                         .build());
             }
         }

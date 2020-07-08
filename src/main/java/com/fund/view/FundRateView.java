@@ -1,5 +1,6 @@
 package com.fund.view;
 
+import cn.hutool.core.util.NumberUtil;
 import com.alibaba.druid.support.json.JSONUtils;
 import com.fund.client.FundClient;
 import com.fund.client.model.EastFundModel;
@@ -33,6 +34,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
+
+import static com.fund.util.NumberConstante.rateBase;
 
 /**
  * Created by jiangfei on 2020/6/30.
@@ -219,15 +222,15 @@ public class FundRateView extends AbstractFxView {
             }
             int size = data.size();
             if (size > 0) {
-                float init = 0.0f;
+                double init = 0;
                 List<String> days = Lists.newArrayList();
-                List<Float> rates = Lists.newArrayList();
+                List<Double> rates = Lists.newArrayList();
                 for (int i = size - 1; i >= 0; i--) {
                     FundDayRateModel rateModel = data.get(i);
                     if (rateModel.getRateType() == 1) {
-                        init = init + rateModel.getRate();
+                        init = NumberUtil.add(init, NumberUtil.div(rateModel.getRate(), rateBase, 2).doubleValue());
                     } else {
-                        init = init - rateModel.getRate();
+                        init = NumberUtil.sub(init, NumberUtil.div(rateModel.getRate(), rateBase, 2).doubleValue());
                     }
                     days.add(rateModel.getDay());
                     rates.add(init);

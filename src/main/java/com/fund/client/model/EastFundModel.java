@@ -11,8 +11,8 @@ import lombok.Data;
 public class EastFundModel {
     private String day;
     private int week;
-    private float unitValue;
-    private float grandValue;
+    private int unitValue;
+    private int grandValue;
     private int type;
-    private float rate;
+    private int rate;
 }

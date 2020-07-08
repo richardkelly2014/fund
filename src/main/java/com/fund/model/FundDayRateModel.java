@@ -1,11 +1,15 @@
 package com.fund.model;
 
+import cn.hutool.core.util.NumberUtil;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import static com.fund.util.NumberConstante.rateBase;
+import static com.fund.util.NumberConstante.unitBase;
 
 /**
  * Created by jiangfei on 2020/6/30.
@@ -20,10 +24,10 @@ public class FundDayRateModel extends RecursiveTreeObject<FundDayRateModel> {
     private String day;
     private Integer week;
 
-    private Float unitValue;
-    private Float grandValue;
+    private Integer unitValue;
+    private Integer grandValue;
     private Integer rateType;
-    private Float rate;
+    private Integer rate;
 
 
     public StringProperty dayProperty() {
@@ -49,15 +53,18 @@ public class FundDayRateModel extends RecursiveTreeObject<FundDayRateModel> {
     }
 
     public StringProperty unitProperty() {
-        return new SimpleStringProperty(String.valueOf(this.unitValue));
+        double value = NumberUtil.div(this.unitValue, unitBase, 4).doubleValue();
+        return new SimpleStringProperty(String.valueOf(value));
     }
 
     public StringProperty grandProperty() {
-        return new SimpleStringProperty(String.valueOf(this.grandValue));
+        double value = NumberUtil.div(this.grandValue, unitBase, 4).doubleValue();
+        return new SimpleStringProperty(String.valueOf(value));
     }
 
     public StringProperty rateProperty() {
-        String value = String.valueOf(this.rate) + "%";
+        double v = NumberUtil.div(this.rate, rateBase, 2).doubleValue();
+        String value = String.valueOf(v) + "%";
         if (rateType == 1) {
             value = "+" + value;
         } else {
