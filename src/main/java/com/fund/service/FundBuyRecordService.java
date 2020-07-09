@@ -16,7 +16,7 @@ public interface FundBuyRecordService {
      * @param recordModel
      * @return
      */
-    int createBuyRecord(FundBuyRecordModel recordModel);
+    int createBuyRecord(FundBuyRecordModel recordModel, Integer myBuyId, Integer type);
 
     /**
      * 更新

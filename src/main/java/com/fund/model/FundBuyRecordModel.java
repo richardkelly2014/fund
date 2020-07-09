@@ -13,6 +13,8 @@ import lombok.Data;
 public class FundBuyRecordModel extends RecursiveTreeObject<FundBuyRecordModel> {
 
     private Integer id;
+    private Integer myBuyId;
+    private Integer type;
     private String fundName;
     private String fundCode;
 

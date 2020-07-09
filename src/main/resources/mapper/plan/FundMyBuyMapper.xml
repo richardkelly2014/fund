@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fund.dal.FundMyBuyMapper">
+
+    <sql id="allField">
+        id,fund_name,fund_code,buy_money,buy_unit,
+        hold_money,hold_profit,hold_portion,status
+    </sql>
+
+    <resultMap id="allMap" type="com.fund.model.FundMyBuyModel">
+        <id property="id" column="id"/>
+        <result property="fundName" column="fund_name"/>
+        <result property="fundCode" column="fund_code"/>
+        <result property="buyMoney" column="buy_money"/>
+        <result property="buyUnit" column="buy_unit"/>
+        <result property="holdMoney" column="hold_money"/>
+        <result property="holdProfit" column="hold_profit"/>
+        <result property="holdPortion" column="hold_portion"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into fund_my_buy
+          (fund_name,fund_code,buy_money,buy_unit,hold_money,hold_profit,hold_portion,status)
+        values
+          (#{fundName},#{fundCode},#{buyMoney},#{buyUnit},#{holdMoney},#{holdProfit},#{holdPortion},1)
+    </insert>
+
+    <update id="update">
+        update fund_my_buy
+        set
+          buy_money = #{buyMoney},
+          buy_unit = #{buyUnit},
+          hold_money = #{holdMoney},
+          hold_profit = {holdProfit},
+          hold_portion = {holdPortion}
+        where id = #{id}
+    </update>
+
+    <select id="selectByCode" resultMap="allMap">
+        select <include refid="allField"/>
+        from fund_my_buy t
+        where t.fund_code = #{code}
+    </select>
+
+    <select id="selectAll" resultMap="allMap">
+        select <include refid="allField"/>
+        from fund_my_buy t
+    </select>
+</mapper>

@@ -4,6 +4,8 @@
 
     <resultMap id="allMap" type="com.fund.model.FundBuyRecordModel">
         <id property="id" column="id" />
+        <result property="myBuyId" column="my_buy_id"/>
+        <result property="type" column="type"/>
         <result property="fundName" column="fund_name"/>
         <result property="fundCode" column="fund_code"/>
         <result property="buyMoney" column="buy_money"/>
@@ -21,18 +23,18 @@
         id,fund_name,fund_code,buy_money,buy_time,
         current_money,current_profit_value,
         confirm_money,confirm_portion,confirm_unit,confirm_day,
-        status
+        status,my_buy_id,`type`
     </sql>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         insert into fund_buy_record
           (fund_name,fund_code,buy_money,buy_time,
           current_money,current_profit_value,
-          confirm_money,confirm_portion,confirm_unit,confirm_day,status)
+          confirm_money,confirm_portion,confirm_unit,confirm_day,status,my_buy_id,`type`)
         values
           (#{fundName},#{fundCode},#{buyMoney},#{buyDateTime},
           #{currentMoney},#{currentProfitValue},
-          #{confirmMoney},#{confirmPortion},#{confirmUnit},#{confirmDay},#{status})
+          #{confirmMoney},#{confirmPortion},#{confirmUnit},#{confirmDay},#{status},#{myBuyId},#{type})
     </insert>
 
     <update id="updateCurrent">

@@ -6,6 +6,7 @@ import com.fund.config.FXMLViewAndController;
 import com.fund.model.FundBaseModel;
 import com.fund.model.FundBuyRecordModel;
 import com.fund.service.FundBuyRecordService;
+import com.fund.service.FundMyBuyService;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
@@ -43,7 +44,7 @@ public class FundBuyView extends AbstractFxView {
     private boolean flag = false;
 
     @Autowired
-    private FundBuyRecordService fundBuyRecordService;
+    private FundMyBuyService fundMyBuyService;
 
     private FundBaseModel model;
 
@@ -79,7 +80,7 @@ public class FundBuyView extends AbstractFxView {
         recordModel.setConfirmUnit(NumberUtil.mul(strConfirmUnit, "10000").intValue());
         recordModel.setConfirmDay(localConfirmDate.toString());
 
-        int value = fundBuyRecordService.createBuyRecord(recordModel);
+        int value = fundMyBuyService.createMyBuy(recordModel);
         if (value > 0) {
             this.flag = true;
         }

@@ -18,12 +18,14 @@ public class FundBuyRecordServiceImpl implements FundBuyRecordService {
     private FundBuyRecordMapper fundBuyRecordMapper;
 
     @Override
-    public int createBuyRecord(FundBuyRecordModel recordModel) {
+    public int createBuyRecord(FundBuyRecordModel recordModel, Integer myBuyId, Integer type) {
 
         if (recordModel.getConfirmMoney() != null) {
             recordModel.setCurrentMoney(recordModel.getConfirmMoney());
             recordModel.setCurrentProfitValue(0);
         }
+        recordModel.setMyBuyId(myBuyId);
+        recordModel.setType(type);
         recordModel.setStatus(1);
 
         return fundBuyRecordMapper.insert(recordModel);
