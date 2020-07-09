@@ -16,15 +16,15 @@ public class FundBuyRecordModel extends RecursiveTreeObject<FundBuyRecordModel> 
     private String fundName;
     private String fundCode;
 
-    private Float buyMoney;
+    private Integer buyMoney;
     private String buyDateTime;
 
-    private Float currentMoney;
-    private Float currentProfitValue;
+    private Integer currentMoney;
+    private Integer currentProfitValue;
 
-    private Float confirmMoney;
-    private Float confirmPortion;
-    private Float confirmUnit;
+    private Integer confirmMoney;
+    private Integer confirmPortion;
+    private Integer confirmUnit;
     private String confirmDay;
 
     private Integer status;

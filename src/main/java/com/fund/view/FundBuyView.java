@@ -1,5 +1,6 @@
 package com.fund.view;
 
+import cn.hutool.core.util.NumberUtil;
 import com.fund.config.AbstractFxView;
 import com.fund.config.FXMLViewAndController;
 import com.fund.model.FundBaseModel;
@@ -70,12 +71,12 @@ public class FundBuyView extends AbstractFxView {
         LocalDate localConfirmDate = this.confirmDate.getValue();
 
 
-        recordModel.setBuyMoney(NumberUtils.createBigDecimal(strBuyMoney).setScale(2).floatValue());
+        recordModel.setBuyMoney(NumberUtil.mul(strBuyMoney, "100").intValue());
         recordModel.setBuyDateTime(localBuyDate.toString());
 
-        recordModel.setConfirmMoney(NumberUtils.createBigDecimal(strConfirmMoney).setScale(2).floatValue());
-        recordModel.setConfirmPortion(NumberUtils.createBigDecimal(strConfirmPortion).setScale(2).floatValue());
-        recordModel.setConfirmUnit(NumberUtils.createBigDecimal(strConfirmUnit).setScale(4).floatValue());
+        recordModel.setConfirmMoney(NumberUtil.mul(strConfirmMoney, "100").intValue());
+        recordModel.setConfirmPortion(NumberUtil.mul(strConfirmPortion, "100").intValue());
+        recordModel.setConfirmUnit(NumberUtil.mul(strConfirmUnit, "10000").intValue());
         recordModel.setConfirmDay(localConfirmDate.toString());
 
         int value = fundBuyRecordService.createBuyRecord(recordModel);

@@ -22,7 +22,7 @@ public class FundBuyRecordServiceImpl implements FundBuyRecordService {
 
         if (recordModel.getConfirmMoney() != null) {
             recordModel.setCurrentMoney(recordModel.getConfirmMoney());
-            recordModel.setCurrentProfitValue(0.0f);
+            recordModel.setCurrentProfitValue(0);
         }
         recordModel.setStatus(1);
 
