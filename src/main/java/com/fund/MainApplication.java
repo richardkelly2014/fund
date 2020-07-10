@@ -11,6 +11,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class MainApplication extends AbstractFxApplication {
     public static void main(String[] args) {
 
-        run(MainApplication.class, args, MainView.class);
+        run(MainApplication.class, args, MapView.class);
     }
 }
