@@ -9,9 +9,8 @@ import java.util.List;
 @Slf4j
 public class LineTest {
     /**
-     *
      * https://www.cnblogs.com/datamining-bio/p/9240378.html
-     *
+     * <p>
      * 为了计算对于给定数据点的最小方差回线，需要计算SumX,SumY,SumXX,SumXY; (注：SumXX = Sum (X^2))
      * 回归直线方程如下： f(x)=a1x+a0
      * <p>
@@ -27,30 +26,30 @@ public class LineTest {
 
     @Test
     public void test1() {
-
+        List<Integer> blue100 = Lists.newArrayList(
+                7, 3, 2, 2, 6, 1, 3, 16, 10, 8,
+                7, 16, 4, 7, 7, 3, 3, 12, 6, 11,
+                11, 5, 14, 9, 9, 3, 16, 14, 12, 8,
+                7, 2, 14, 2, 11, 3, 3, 4, 9, 10, 16, 12, 9, 1, 9,
+                14, 7, 1, 7, 4, 13, 3, 14, 7, 2, 8, 8, 2, 6, 6, 8, 5, 3,
+                9, 13, 1, 3, 11, 6, 15, 15, 2, 4, 13, 3, 7, 7, 16, 8, 1,
+                2, 4, 15, 8, 15, 1, 2, 12, 14, 3, 7, 14, 8, 4, 5, 14, 1, 8, 7, 8, 10
+        );
 
         List<DataPoint> list = Lists.newArrayList();
-
-        list.add(new DataPoint(1, 13));
-        list.add(new DataPoint(2, 2));
-        list.add(new DataPoint(3, 9));
-        list.add(new DataPoint(4, 10));
-        list.add(new DataPoint(5, 4));
-        list.add(new DataPoint(6, 0));
-        list.add(new DataPoint(7, 9));
-        list.add(new DataPoint(8, 8));
-        list.add(new DataPoint(9, 7));
-        list.add(new DataPoint(10, 1));
-        list.add(new DataPoint(11, 2));
+        for (int i = 0; i < blue100.size(); i++) {
+            list.add(new DataPoint(i + 1, blue100.get(i)));
+        }
+        
         RegressionLine line = new RegressionLine(list);
         printSums(line);
         printLine(line);
 
         System.out.println(line.getA1() * 12 + line.getA0());
 
-        System.out.println();
-
-        log.info("{}", LinearRegression.calculate(list));
+//        System.out.println();
+//
+//        log.info("{}", LinearRegression.calculate(list));
 
     }
 
