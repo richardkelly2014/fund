@@ -21,15 +21,19 @@ public abstract class AbstractBlueService {
                 for (int j = 0; j < level.size() - 1; j++) {
 
                     int k = j;
-                    //1-1 1-2 1-3 出现的次数
-                    while (level.get(k) == baseState && level.get(k + 1) == state) {
+                    if (level.get(k) == baseState && level.get(k + 1) == state) {
                         index++;
-                        if (k < level.size() - 2) {
-                            k++;
-                        } else {
-                            break;
-                        }
                     }
+                    //1-1 1-2 1-3 出现的次数
+//                    while (level.get(k) == baseState && level.get(k + 1) == state) {
+//                        index++;
+//                        if (k < level.size() - 2) {
+//                            k++;
+//                        } else {
+//                            break;
+//                        }
+//                    }
+
                 }
                 result[s][i] = (double) index / (double) statusValue[s];
             }

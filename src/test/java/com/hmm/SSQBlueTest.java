@@ -1,9 +1,6 @@
 package com.hmm;
 
-import com.fund.ssq.blue.EightBlueServiceImpl;
-import com.fund.ssq.blue.FiveBlueServiceImpl;
-import com.fund.ssq.blue.Six10BlueServiceImpl;
-import com.fund.ssq.blue.ThreeBlueServiceImpl;
+import com.fund.ssq.blue.*;
 import com.google.common.collect.Lists;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,18 +9,25 @@ import java.util.List;
 
 public class SSQBlueTest {
 
+    private TwoBlueServiceImpl twoBlueService;
+    private FourBlueServiceImpl fourBlueService;
+    private EightBlueServiceImpl eightBlueService;
+
 
     private ThreeBlueServiceImpl threeBlueService;
     private FiveBlueServiceImpl fiveBlueService;
-    private EightBlueServiceImpl eightBlueService;
     private Six10BlueServiceImpl six10BlueService;
 
     @Before
     public void setup() {
         threeBlueService = new ThreeBlueServiceImpl();
         fiveBlueService = new FiveBlueServiceImpl();
-        eightBlueService = new EightBlueServiceImpl();
+
         six10BlueService = new Six10BlueServiceImpl();
+
+        twoBlueService = new TwoBlueServiceImpl();
+        fourBlueService = new FourBlueServiceImpl();
+        eightBlueService = new EightBlueServiceImpl();
     }
 
     @Test
@@ -39,7 +43,7 @@ public class SSQBlueTest {
                 2, 4, 15, 8, 15, 1, 2, 12, 14, 3, 7, 14, 8, 4, 5, 14, 1, 8, 7, 8, 10
         );
 
-        double[][] three = threeBlueService.transfor(blue100);
+        double[][] three = twoBlueService.transfor(blue100);
         System.out.println("3转移概论矩阵结果：");
         System.out.println("1-5\t6-10\t11-16");
         for (int i = 0; i < three.length; i++) {
@@ -49,7 +53,7 @@ public class SSQBlueTest {
             System.out.println();
         }
 
-        double[][] five = fiveBlueService.transfor(blue100);
+        double[][] five = fourBlueService.transfor(blue100);
         System.out.println("5转移概论矩阵结果：");
         System.out.println("1-3\t4-6\t7-9\t10-12\t13-16\t");
         for (int i = 0; i < five.length; i++) {
