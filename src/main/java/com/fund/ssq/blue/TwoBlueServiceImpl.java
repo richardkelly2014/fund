@@ -2,6 +2,7 @@ package com.fund.ssq.blue;
 
 import com.fund.ssq.AbstractBlueService;
 import com.fund.ssq.BlueService;
+import com.fund.ssq.BlueTransModel;
 import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ public class TwoBlueServiceImpl extends AbstractBlueService implements BlueServi
 
 
     @Override
-    public double[][] transfor(List<Integer> blues) {
+    public BlueTransModel transfor(List<Integer> blues) {
 
         int[] statusValueNum = new int[size];
         List<Integer> levels = Lists.newArrayList();
@@ -32,6 +33,11 @@ public class TwoBlueServiceImpl extends AbstractBlueService implements BlueServi
             }
         }
 
-        return trans(size, statusValueNum, status, levels);
+        double[][] value = trans(size, statusValueNum, status, levels);
+        return BlueTransModel.builder()
+                .type(2)
+                .probability(value)
+                .last(levels.get(levels.size() - 1))
+                .build();
     }
 }
