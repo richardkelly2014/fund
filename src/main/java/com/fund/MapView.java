@@ -1,5 +1,6 @@
 package com.fund;
 
+import com.fund.client.SsqClient;
 import com.fund.config.AbstractFxView;
 import com.fund.config.FXMLViewAndController;
 import javafx.beans.value.ObservableValue;
@@ -11,6 +12,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Element;
 import org.w3c.dom.html.HTMLInputElement;
@@ -26,6 +28,8 @@ public class MapView extends AbstractFxView {
     private TextField inputUrl;
 
     WebEngine webEngine;
+    @Autowired
+    private SsqClient ssqClient;
 
     @Override
     public void initialize() {
@@ -47,12 +51,15 @@ public class MapView extends AbstractFxView {
     }
 
     protected void inputUrlEvent(KeyEvent event) {
-        if (event.getCode() == KeyCode.ENTER) {
-            String url = this.inputUrl.getText();
-//            if (!url.startsWith("http://")) {
-//                url = "http://" + url;
-//            }
-            webEngine.load(url);
-        }
+//        if (event.getCode() == KeyCode.ENTER) {
+//            String url = this.inputUrl.getText();
+////            if (!url.startsWith("http://")) {
+////                url = "http://" + url;
+////            }
+//            webEngine.load(url);
+//        }
+
+        ssqClient.current();
+
     }
 }
