@@ -1,6 +1,7 @@
 package com.fund.client;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -25,16 +26,18 @@ public class Ssq500Client implements SsqClient {
     private RestTemplate restTemplateGbk;
 
     @Override
-    public String current() {
+    public int current() {
 
         ResponseEntity<String> responseEntity = restTemplateGbk.getForEntity(current_url, String.class);
         String value = responseEntity.getBody();
         Matcher matcher = lssuePattern.matcher(value);
-        while (matcher.find()) {
-            log.info("{}", matcher.group(1));
+        if (matcher.find()) {
+            String issue = matcher.group(1);
+            if (StringUtils.isNotBlank(issue)) {
+                return Integer.parseInt(issue);
+            }
         }
-
-        return null;
+        return 0;
     }
 
     @Override
