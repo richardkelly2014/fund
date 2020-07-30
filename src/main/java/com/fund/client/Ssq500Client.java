@@ -1,5 +1,7 @@
 package com.fund.client;
 
+import com.fund.model.SsqModel;
+import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,6 +24,9 @@ public class Ssq500Client implements SsqClient {
     private final static String current_url = "http://kaijiang.500.com/ssq.shtml";
 
     private Pattern lssuePattern = Pattern.compile("<font class=\"cfont2\"><strong>(.*?)</strong></font>");
+
+    private Pattern redPattern = Pattern.compile("<li class=\"ball_red\">(.*?)</li>");
+    private Pattern bluePattern = Pattern.compile("<li class=\"ball_blue\">(.*?)</li>");
 
 
     @Autowired
@@ -41,13 +48,32 @@ public class Ssq500Client implements SsqClient {
     }
 
     @Override
-    public String get(int lssueNo) {
+    public List<Integer> get(int lssueNo) {
         String getUrl = url + lssueNo + ".shtml";
+        byte[] buffer = restTemplateGbk.getForObject(getUrl, byte[].class);
 
-        String value = restTemplateGbk.getForEntity(getUrl, String.class).getBody();
+        String value = "";
+        try {
+            value = new String(buffer, "gbk");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        Matcher redMatcher = redPattern.matcher(value);
+        List<Integer> result = Lists.newArrayList();
+        while (redMatcher.find()) {
+            String red = redMatcher.group(1);
+            if (StringUtils.isNotBlank(red)) {
+                result.add(Integer.parseInt(red));
+            }
+        }
 
-        log.info("{}", value);
-
-        return null;
+        Matcher blueMatcher = bluePattern.matcher(value);
+        if (blueMatcher.find()) {
+            String blue = blueMatcher.group(1);
+            if (StringUtils.isNotBlank(blue)) {
+                result.add(Integer.parseInt(blue));
+            }
+        }
+        return result;
     }
 }

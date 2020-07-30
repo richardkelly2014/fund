@@ -1,9 +1,11 @@
 package com.fund.client;
 
 
+import java.util.List;
+
 public interface SsqClient {
 
     int current();
 
-    String get(int lssueNo);
+    List<Integer> get(int lssueNo);
 }

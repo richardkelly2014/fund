@@ -3,6 +3,8 @@ package com.fund;
 import com.fund.client.SsqClient;
 import com.fund.config.AbstractFxView;
 import com.fund.config.FXMLViewAndController;
+import com.fund.service.SsqService;
+import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
@@ -28,8 +30,9 @@ public class MapView extends AbstractFxView {
     private TextField inputUrl;
 
     WebEngine webEngine;
+
     @Autowired
-    private SsqClient ssqClient;
+    private SsqService ssqService;
 
     @Override
     public void initialize() {
@@ -59,7 +62,9 @@ public class MapView extends AbstractFxView {
 //            webEngine.load(url);
 //        }
 
-        ssqClient.current();
+        Platform.runLater(() -> {
+            ssqService.sync();
+        });
 
     }
 }

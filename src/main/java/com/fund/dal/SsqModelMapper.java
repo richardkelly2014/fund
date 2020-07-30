@@ -1,6 +1,7 @@
 package com.fund.dal;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * Created by jiangfei on 2020/7/29.
@@ -8,9 +9,29 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface SsqModelMapper {
 
-    int insert(int red1, int red2, int red3, int red4, int red5, int red6, int blue, int issue);
+    /**
+     * insert
+     *
+     * @param red1
+     * @param red2
+     * @param red3
+     * @param red4
+     * @param red5
+     * @param red6
+     * @param blue
+     * @param issue
+     * @return
+     */
+    int insert(@Param("red1") int red1,
+               @Param("red2") int red2,
+               @Param("red3") int red3,
+               @Param("red4") int red4,
+               @Param("red5") int red5,
+               @Param("red6") int red6,
+               @Param("blue") int blue,
+               @Param("issue") int issue);
 
-    int getLastIssue();
+    Integer getLastIssue();
 
-    int getFirstIssue();
+    Integer getFirstIssue();
 }

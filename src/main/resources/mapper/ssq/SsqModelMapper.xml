@@ -2,4 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.fund.dal.SsqModelMapper">
 
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into ssq
+          (issue,red1,red2,red3,red4,red5,red6,blue)
+        values
+          (#{issue},#{red1},#{red2},#{red3},#{red4},#{red5},#{red6},#{blue})
+    </insert>
+
+    <select id="getLastIssue" resultType="java.lang.Integer">
+        select issue
+        from ssq
+        order by issue desc
+        limit 1
+    </select>
+
+
+    <select id="getFirstIssue" resultType="java.lang.Integer">
+        select issue
+        from ssq
+        order by issue asc
+        limit 1
+    </select>
+
+
 </mapper>
