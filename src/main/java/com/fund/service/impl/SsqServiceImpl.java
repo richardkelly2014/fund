@@ -53,7 +53,7 @@ public class SsqServiceImpl implements SsqService {
             int last = 0;//lastIssue();
             last = last == 0 ? current - 500 : last;
 
-            while (current >= last) {
+            while (current > last) {
                 List<Integer> qiu = ssqClient.get(current);
                 if (qiu.size() > 0) {
                     log.info("get {},{}", current, qiu);
