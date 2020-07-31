@@ -4,6 +4,7 @@ import com.fund.client.SsqClient;
 import com.fund.config.AbstractFxView;
 import com.fund.config.FXMLViewAndController;
 import com.fund.service.SsqService;
+import com.fund.util.DefaultThreadFactory;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
@@ -17,7 +18,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Element;
+import org.w3c.dom.html.HTMLDocument;
 import org.w3c.dom.html.HTMLInputElement;
+
+import static com.fund.util.NumberConstante.current_url;
 
 @Slf4j
 @Component
@@ -47,10 +51,15 @@ public class MapView extends AbstractFxView {
 //
 //                HTMLInputElement su = (HTMLInputElement)webEngine.getDocument().getElementById("su");
 //                su.click();
+
+                HTMLDocument htmlDocument = (HTMLDocument) webEngine.getDocument();
+
+                log.info("{}", htmlDocument.getElementsByTagName("font"));
             }
         });
 
         inputUrl.setOnKeyPressed(this::inputUrlEvent);
+
     }
 
     protected void inputUrlEvent(KeyEvent event) {
@@ -61,10 +70,11 @@ public class MapView extends AbstractFxView {
 ////            }
 //            webEngine.load(url);
 //        }
-
-        Platform.runLater(() -> {
-            ssqService.sync();
-        });
+        if (event.getCode() == KeyCode.ENTER) {
+            DefaultThreadFactory.runLater(()->{
+                ssqService.sync();
+            });
+        }
 
     }
 }

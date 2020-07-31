@@ -1,6 +1,7 @@
 package com.fund.client;
 
 import com.fund.model.SsqModel;
+import com.fund.util.DateTimeUtil;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -30,13 +31,19 @@ public class Ssq500Client implements SsqClient {
 
 
     @Autowired
-    private RestTemplate restTemplateGbk;
+    private RestTemplate restTemplate;
 
     @Override
     public int current() {
 
-        ResponseEntity<String> responseEntity = restTemplateGbk.getForEntity(current_url, String.class);
-        String value = responseEntity.getBody();
+        byte[] buffer = restTemplate.getForObject(current_url, byte[].class);
+
+        String value = "";
+        try {
+            value = new String(buffer, "gb2312");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         Matcher matcher = lssuePattern.matcher(value);
         if (matcher.find()) {
             String issue = matcher.group(1);
@@ -50,11 +57,11 @@ public class Ssq500Client implements SsqClient {
     @Override
     public List<Integer> get(int lssueNo) {
         String getUrl = url + lssueNo + ".shtml";
-        byte[] buffer = restTemplateGbk.getForObject(getUrl, byte[].class);
+        byte[] buffer = restTemplate.getForObject(getUrl, byte[].class);
 
         String value = "";
         try {
-            value = new String(buffer, "gbk");
+            value = new String(buffer, "gb2312");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

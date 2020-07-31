@@ -12,18 +12,8 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class CustomRestTemplate {
 
-    @Autowired
-    private RestTemplateBuilder restTemplateBuilder;
-
     @Bean("restTemplate")
     public RestTemplate restTemplate() {
-        RestTemplate restTemplate = restTemplateBuilder.build();
-
-        return restTemplate;
-    }
-
-    @Bean("restTemplateGbk")
-    public RestTemplate restTemplateGBK() {
         RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory());
 
         return restTemplate;

@@ -1,6 +1,7 @@
 package com.fund.util;
 
 import lombok.experimental.UtilityClass;
+import org.mozilla.universalchardet.UniversalDetector;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -26,5 +27,14 @@ public final class DateTimeUtil {
         LocalDate date = LocalDate.parse(day, dayFormatter);
 
         return (int) (now.toEpochDay() - date.toEpochDay());
+    }
+
+    public static String getEncoding(byte[] bytes) {
+        UniversalDetector detector =new UniversalDetector(null);
+        detector.handleData(bytes, 0, bytes.length);
+        detector.dataEnd();
+        String encoding = detector.getDetectedCharset();
+        detector.reset();
+        return encoding;
     }
 }
