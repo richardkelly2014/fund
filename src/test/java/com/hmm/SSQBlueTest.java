@@ -9,6 +9,47 @@ import java.util.List;
 
 public class SSQBlueTest {
 
+
+//            double[][] twoProbability = two.getProbability();
+//            for (int i = 0; i < twoProbability.length; i++) {
+//                for (int j = 0; j < twoProbability.length; j++) {
+//                    if (i == twoRowIndex && j == twoIndex) {
+//                        System.out.printf("\033[31;0m%.8f\033[0m\t", twoProbability[i][j]);// 输出格式化后的数据
+//                    } else {
+//                        System.out.printf("%.8f\t", twoProbability[i][j]);// 输出格式化后的数据
+//                    }
+//                }
+//                System.out.println();
+//            }
+//
+//            System.out.println("\n");
+//
+//            double[][] fourProbability = four.getProbability();
+//            for (int i = 0; i < fourProbability.length; i++) {
+//                for (int j = 0; j < fourProbability.length; j++) {
+//                    if (i == fourRowIndex && j == fourIndex) {
+//                        System.out.printf("\033[32;0m%.8f\033[0m\t", fourProbability[i][j]);// 输出格式化后的数据
+//                    } else {
+//                        System.out.printf("%.8f\t", fourProbability[i][j]);// 输出格式化后的数据
+//                    }
+//                }
+//                System.out.println();
+//            }
+//
+//            System.out.println("\n");
+//
+//            double[][] eightProbability = eight.getProbability();
+//            for (int i = 0; i < eightProbability.length; i++) {
+//                for (int j = 0; j < eightProbability.length; j++) {
+//                    if (i == eightRowIndex && j == eightIndex) {
+//                        System.out.printf("\033[33;0m%.8f\033[0m\t", eightProbability[i][j]);// 输出格式化后的数据
+//                    } else {
+//                        System.out.printf("%.8f\t", eightProbability[i][j]);// 输出格式化后的数据
+//                    }
+//                }
+//                System.out.println();
+//            }
+
     private TwoBlueServiceImpl twoBlueService;
     private FourBlueServiceImpl fourBlueService;
     private EightBlueServiceImpl eightBlueService;

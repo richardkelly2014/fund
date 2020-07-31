@@ -40,4 +40,13 @@ public class TwoBlueServiceImpl extends AbstractBlueService implements BlueServi
                 .last(levels.get(levels.size() - 1))
                 .build();
     }
+
+    @Override
+    public int transforIndex(int blue) {
+        if (blue <= 8) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
 }

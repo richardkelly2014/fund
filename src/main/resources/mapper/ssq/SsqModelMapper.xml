@@ -24,5 +24,12 @@
         limit 1
     </select>
 
+    <select id="getBlue" resultType="java.lang.Integer">
+        select blue
+        from ssq
+        order by issue desc
+        limit #{start} ,#{limit}
+    </select>
+
 
 </mapper>

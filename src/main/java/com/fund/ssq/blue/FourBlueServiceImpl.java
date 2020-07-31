@@ -46,4 +46,18 @@ public class FourBlueServiceImpl extends AbstractBlueService implements BlueServ
                 .last(levels.get(levels.size() - 1))
                 .build();
     }
+
+
+    @Override
+    public int transforIndex(int blue) {
+        if (blue <= 4) {
+            return 0;
+        } else if (blue <= 8) {
+            return 1;
+        } else if (blue <= 12) {
+            return 2;
+        } else {
+            return 3;
+        }
+    }
 }

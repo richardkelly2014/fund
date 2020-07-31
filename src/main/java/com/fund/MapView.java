@@ -3,6 +3,7 @@ package com.fund;
 import com.fund.client.SsqClient;
 import com.fund.config.AbstractFxView;
 import com.fund.config.FXMLViewAndController;
+import com.fund.service.BlueSsqBusinessService;
 import com.fund.service.SsqService;
 import com.fund.util.DefaultThreadFactory;
 import javafx.application.Platform;
@@ -17,11 +18,7 @@ import javafx.scene.web.WebView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.w3c.dom.Element;
 import org.w3c.dom.html.HTMLDocument;
-import org.w3c.dom.html.HTMLInputElement;
-
-import static com.fund.util.NumberConstante.current_url;
 
 @Slf4j
 @Component
@@ -37,6 +34,8 @@ public class MapView extends AbstractFxView {
 
     @Autowired
     private SsqService ssqService;
+    @Autowired
+    private BlueSsqBusinessService blueSsqBusinessService;
 
     @Override
     public void initialize() {
@@ -71,8 +70,8 @@ public class MapView extends AbstractFxView {
 //            webEngine.load(url);
 //        }
         if (event.getCode() == KeyCode.ENTER) {
-            DefaultThreadFactory.runLater(()->{
-                ssqService.sync();
+            DefaultThreadFactory.runLater(() -> {
+                blueSsqBusinessService.learn();
             });
         }
 

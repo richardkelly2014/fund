@@ -21,6 +21,12 @@ public class SsqServiceImpl implements SsqService {
     private SsqClient ssqClient;
 
     @Override
+    public List<Integer> getBlues(int start, int limit) {
+
+        return ssqModelMapper.getBlue(start, limit);
+    }
+
+    @Override
     public int create(int issue, int blue, int red1, int red2, int red3, int red4, int red5, int red6) {
         return ssqModelMapper.insert(red1, red2, red3, red4, red5, red6, blue, issue);
     }

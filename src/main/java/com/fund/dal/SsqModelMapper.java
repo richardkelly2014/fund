@@ -3,6 +3,8 @@ package com.fund.dal;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * Created by jiangfei on 2020/7/29.
  */
@@ -30,6 +32,8 @@ public interface SsqModelMapper {
                @Param("red6") int red6,
                @Param("blue") int blue,
                @Param("issue") int issue);
+
+    List<Integer> getBlue(@Param("start") int start, @Param("limit") int limit);
 
     Integer getLastIssue();
 

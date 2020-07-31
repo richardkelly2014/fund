@@ -55,4 +55,25 @@ public class EightBlueServiceImpl extends AbstractBlueService implements BlueSer
                 .last(levels.get(levels.size() - 1))
                 .build();
     }
+
+    @Override
+    public int transforIndex(int blue) {
+        if (blue <= 2) {
+            return 0;
+        } else if (blue <= 4) {
+            return 1;
+        } else if (blue <= 6) {
+            return 2;
+        } else if (blue <= 8) {
+            return 3;
+        } else if (blue <= 10) {
+            return 4;
+        } else if (blue <= 12) {
+            return 5;
+        } else if (blue <= 14) {
+            return 6;
+        } else {
+            return 7;
+        }
+    }
 }
