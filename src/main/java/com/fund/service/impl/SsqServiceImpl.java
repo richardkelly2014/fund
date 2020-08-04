@@ -53,10 +53,10 @@ public class SsqServiceImpl implements SsqService {
 
     @Override
     public void sync() {
-        int current = 17154;//ssqClient.current();
+        int current = ssqClient.current();
         log.info("{}", current);
         if (current > 0) {
-            int last = 0;//lastIssue();
+            int last = lastIssue();
             last = last == 0 ? current - 500 : last;
 
             while (current > last) {
