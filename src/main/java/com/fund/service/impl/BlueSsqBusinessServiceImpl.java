@@ -56,8 +56,8 @@ public class BlueSsqBusinessServiceImpl implements BlueSsqBusinessService {
 
     @Override
     public void learn() {
-        int limit = 149;
-        List<Integer> yuxianblue = ssqService.getBlues(1, limit);
+        int limit = 150;
+        List<Integer> yuxianblue = ssqService.getBlues(0, limit);
         List<Integer> blue = ssqService.getBlues(150, 200);
 
         Collections.reverse(blue);

@@ -71,6 +71,7 @@ public class MapView extends AbstractFxView {
 //        }
         if (event.getCode() == KeyCode.ENTER) {
             DefaultThreadFactory.runLater(() -> {
+                //ssqService.sync();
                 blueSsqBusinessService.learn();
             });
         }
