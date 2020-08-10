@@ -7,7 +7,6 @@ public abstract class AbstractBlueService {
 
     protected double[][] trans(int size, int[] statusValue, int[] baseStatus, List<Integer> level) {
         // 1 2 3 相互转换概率
-        //System.out.println("篮球对应的状态值:" + level.size() + "\n" + level + "\n");
         double[][] result = new double[size][size];
 
         for (int s = 0; s < size; s++) {
