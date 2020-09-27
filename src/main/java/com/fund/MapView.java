@@ -1,12 +1,9 @@
 package com.fund;
 
-import com.fund.client.SsqClient;
 import com.fund.config.AbstractFxView;
 import com.fund.config.FXMLViewAndController;
 import com.fund.service.BlueSsqBusinessService;
 import com.fund.service.SsqService;
-import com.fund.util.DefaultThreadFactory;
-import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
@@ -22,7 +19,7 @@ import org.w3c.dom.html.HTMLDocument;
 
 @Slf4j
 @Component
-@FXMLViewAndController(value = "/MapView.fxml", title = "地图")
+@FXMLViewAndController(value = "template/MapView.fxml", title = "地图")
 public class MapView extends AbstractFxView {
 
     @FXML
@@ -53,28 +50,30 @@ public class MapView extends AbstractFxView {
 
                 HTMLDocument htmlDocument = (HTMLDocument) webEngine.getDocument();
 
-                log.info("{}", htmlDocument.getElementsByTagName("font"));
+
+                log.info("222{}", htmlDocument.getElementsByTagName("font"));
             }
         });
+
 
         inputUrl.setOnKeyPressed(this::inputUrlEvent);
 
     }
 
     protected void inputUrlEvent(KeyEvent event) {
-//        if (event.getCode() == KeyCode.ENTER) {
-//            String url = this.inputUrl.getText();
-////            if (!url.startsWith("http://")) {
-////                url = "http://" + url;
-////            }
-//            webEngine.load(url);
-//        }
         if (event.getCode() == KeyCode.ENTER) {
-            DefaultThreadFactory.runLater(() -> {
-                //ssqService.sync();
-                blueSsqBusinessService.learn();
-            });
+            String url = this.inputUrl.getText();
+//            if (!url.startsWith("http://")) {
+//                url = "http://" + url;
+//            }
+            webEngine.load(url);
         }
+//        if (event.getCode() == KeyCode.ENTER) {
+//            DefaultThreadFactory.runLater(() -> {
+//                //ssqService.sync();
+//                blueSsqBusinessService.learn();
+//            });
+//        }
 
     }
 }

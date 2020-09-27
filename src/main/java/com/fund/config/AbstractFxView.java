@@ -11,8 +11,11 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.*;
+import lombok.extern.slf4j.Slf4j;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -20,6 +23,7 @@ import java.util.ResourceBundle;
 /**
  * 试图和Controller结合
  */
+@Slf4j
 public abstract class AbstractFxView implements Initializable {
 
     private final URL resource;
@@ -152,6 +156,14 @@ public abstract class AbstractFxView implements Initializable {
 
     private URL getURLResource(final FXMLViewAndController annotation) {
         if (annotation != null && !annotation.value().equals("")) {
+
+            try {
+                File file = new File(annotation.value());
+                return file.toURI().toURL();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+
             return getClass().getResource(annotation.value());
         } else {
             throw new NullPointerException("value null");

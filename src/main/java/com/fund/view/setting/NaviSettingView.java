@@ -24,7 +24,7 @@ import java.util.List;
  * Created by jiangfei on 2020/6/26.
  */
 @Slf4j
-@Component
+//@Component
 @FXMLViewAndController(value = "/template/setting/NaviSettingView.fxml", title = "导航设置")
 public class NaviSettingView extends AbstractFxView {
 
