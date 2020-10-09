@@ -34,6 +34,7 @@ public class MapView extends AbstractFxView {
     @Autowired
     private BlueSsqBusinessService blueSsqBusinessService;
 
+
     @Override
     public void initialize() {
         webEngine = this.webView.getEngine();
@@ -66,7 +67,7 @@ public class MapView extends AbstractFxView {
 //            if (!url.startsWith("http://")) {
 //                url = "http://" + url;
 //            }
-            webEngine.load(url);
+            //webEngine.load(url);
         }
 //        if (event.getCode() == KeyCode.ENTER) {
 //            DefaultThreadFactory.runLater(() -> {
