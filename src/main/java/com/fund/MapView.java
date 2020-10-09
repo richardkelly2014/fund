@@ -1,9 +1,15 @@
 package com.fund;
 
+import com.fund.client.StockClient;
 import com.fund.config.AbstractFxView;
 import com.fund.config.FXMLViewAndController;
+import com.fund.dal.StockDailyMapper;
+import com.fund.model.StockBasicModel;
 import com.fund.service.BlueSsqBusinessService;
 import com.fund.service.SsqService;
+import com.fund.service.StockBasicService;
+import com.fund.service.StockDailyBusinessService;
+import com.fund.util.DefaultThreadFactory;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
@@ -16,6 +22,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.html.HTMLDocument;
+
+import java.util.List;
+
 
 @Slf4j
 @Component
@@ -33,6 +42,11 @@ public class MapView extends AbstractFxView {
     private SsqService ssqService;
     @Autowired
     private BlueSsqBusinessService blueSsqBusinessService;
+    @Autowired
+    private StockBasicService stockBasicService;
+
+    @Autowired
+    private StockDailyBusinessService stockDailyBusinessService;
 
 
     @Override
@@ -68,6 +82,17 @@ public class MapView extends AbstractFxView {
 //                url = "http://" + url;
 //            }
             //webEngine.load(url);
+            List<StockBasicModel> basicModels = stockBasicService.loadAllStock();
+            if (basicModels != null && basicModels.size() > 0) {
+                basicModels.stream().forEach(stockBasicModel -> {
+                    String tsCode = stockBasicModel.getTsCode();
+                    log.info("begin sync tsCode={}", tsCode);
+                    stockDailyBusinessService.syncDate(tsCode, "20200101", "20200930");
+                });
+            }
+
+            //stockDailyBusinessService.syncDate(url, "20200101", "20200930");
+
         }
 //        if (event.getCode() == KeyCode.ENTER) {
 //            DefaultThreadFactory.runLater(() -> {

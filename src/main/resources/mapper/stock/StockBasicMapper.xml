@@ -2,10 +2,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.fund.dal.StockBasicMapper">
 
+    <sql id="allField">
+        id,ts_code,symbol,`name`,area,industry,market,list_date
+    </sql>
+
+    <resultMap id="allMap" type="com.fund.model.StockBasicModel">
+        <id column="id" property="id"/>
+        <result column="ts_code" property="tsCode"/>
+        <result column="symbol" property="symbol"/>
+        <result column="name" property="name"/>
+        <result column="area" property="area"/>
+        <result column="industry" property="industry"/>
+        <result column="market" property="market"/>
+        <result column="list_date" property="listDate"/>
+    </resultMap>
+
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         insert into stock_basic
           (ts_code,symbol,`name`,area,industry,market,list_date)
         values
           (#{tsCode},#{symbol},#{name},#{area},#{industry},#{market},#{listDate})
     </insert>
+
+
+    <select id="selectAll" resultMap="allMap">
+        select <include refid="allField"/>
+        from stock_basic
+    </select>
 </mapper>

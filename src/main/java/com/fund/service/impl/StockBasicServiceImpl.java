@@ -2,6 +2,7 @@ package com.fund.service.impl;
 
 import com.fund.client.StockClient;
 import com.fund.dal.StockBasicMapper;
+import com.fund.model.StockBasicModel;
 import com.fund.service.StockBasicService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,12 @@ public class StockBasicServiceImpl implements StockBasicService {
 
     @Autowired
     private StockBasicMapper stockBasicMapper;
+
+    @Override
+    public List<StockBasicModel> loadAllStock() {
+        
+        return stockBasicMapper.selectAll();
+    }
 
     @Override
     public void firstSync() {

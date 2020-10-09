@@ -1,7 +1,10 @@
 package com.fund.dal;
 
+import com.fund.model.StockBasicModel;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 @Mapper
 public interface StockBasicMapper {
@@ -24,5 +27,8 @@ public interface StockBasicMapper {
                @Param("industry") String industry,
                @Param("market") String market,
                @Param("listDate") String listDate);
+
+
+    List<StockBasicModel> selectAll();
 
 }

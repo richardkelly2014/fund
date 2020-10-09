@@ -3,6 +3,7 @@ package com.gp;
 import com.alibaba.fastjson.JSON;
 import com.fund.client.model.TushareRequestModel;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.HttpEntity;
@@ -51,6 +52,38 @@ public class tuTest {
         log.info("{}", responseEntity.getBody());
     }
 
+    @Test
+    public void test2() {
+
+
+        Map<String, String> dailyMap = new HashMap<>();
+        dailyMap.put("ts_code", "601633.SH");
+        dailyMap.put("start_date", "20200920");
+        dailyMap.put("end_date", "20200930");
+
+        TushareRequestModel model = TushareRequestModel.builder()
+                .apiName("daily")
+                .token(token)
+                .params(dailyMap)
+                .build();
+
+        String postData = JSON.toJSONString(model);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("application/json; charset=UTF-8"));
+
+        HttpEntity<String> formEntity = new HttpEntity<>(postData, headers);
+
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(api, formEntity, String.class);
+        log.info("{}", responseEntity.getBody());
+    }
+
+    @Test
+    public void test3() {
+        String v = "601633.SH";
+        String[] vs = StringUtils.split(v, ".");
+        log.info("{},{}", v.substring(0, v.indexOf(".")), vs[0]);
+    }
 
     public RestTemplate restTemplate() {
         RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory());
