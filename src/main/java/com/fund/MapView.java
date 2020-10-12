@@ -5,10 +5,9 @@ import com.fund.config.AbstractFxView;
 import com.fund.config.FXMLViewAndController;
 import com.fund.dal.StockDailyMapper;
 import com.fund.model.StockBasicModel;
-import com.fund.service.BlueSsqBusinessService;
-import com.fund.service.SsqService;
-import com.fund.service.StockBasicService;
-import com.fund.service.StockDailyBusinessService;
+import com.fund.model.StockDailyModel;
+import com.fund.service.*;
+import com.fund.util.DateTimeUtil;
 import com.fund.util.DefaultThreadFactory;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
@@ -47,6 +46,8 @@ public class MapView extends AbstractFxView {
 
     @Autowired
     private StockDailyBusinessService stockDailyBusinessService;
+    @Autowired
+    private StockDailyService stockDailyService;
 
 
     @Override
@@ -82,14 +83,30 @@ public class MapView extends AbstractFxView {
 //                url = "http://" + url;
 //            }
             //webEngine.load(url);
-            List<StockBasicModel> basicModels = stockBasicService.loadAllStock();
-            if (basicModels != null && basicModels.size() > 0) {
-                basicModels.stream().forEach(stockBasicModel -> {
-                    String tsCode = stockBasicModel.getTsCode();
-                    log.info("begin sync tsCode={}", tsCode);
-                    stockDailyBusinessService.syncDate(tsCode, "20200101", "20200930");
-                });
-            }
+//            List<StockBasicModel> basicModels = stockBasicService.loadAllStock();
+//            if (basicModels != null && basicModels.size() > 0) {
+//                basicModels.stream().forEach(stockBasicModel -> {
+//                    String tsCode = stockBasicModel.getTsCode();
+//                    log.info("begin sync tsCode={}", tsCode);
+//                    stockDailyBusinessService.syncDate(tsCode, "20200101", "20200930");
+//                });
+//            }
+
+            List<StockDailyModel> allDailyModels = stockDailyService.loadAllDailyData();
+            allDailyModels.stream().forEach(stockDailyModel -> {
+                Integer id = stockDailyModel.getId();
+                String tradeDate = stockDailyModel.getTradeDate();
+
+                int[] result = DateTimeUtil.getYearMonthDayWeek(tradeDate, "yyyyMMdd");
+                int year = result[0];
+                int month = result[1];
+                int day = result[2];
+                int week = result[3];
+                int flag = stockDailyService.changeDate(id, year, month, day, week);
+                log.info("{},{},{},{},{}={}", id, year, month, day, week, flag);
+
+            });
+            //log.info("{}", allDailyModels.size());
 
             //stockDailyBusinessService.syncDate(url, "20200101", "20200930");
 

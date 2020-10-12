@@ -1,6 +1,10 @@
 package com.fund.service;
 
 
+import com.fund.model.StockDailyModel;
+
+import java.util.List;
+
 public interface StockDailyService {
 
     int insert(String tsCode,
@@ -15,4 +19,25 @@ public interface StockDailyService {
                String pctChg,
                String vol,
                String amount);
+
+    /**
+     * 修改日期
+     *
+     * @param id
+     * @param year
+     * @param month
+     * @param day
+     * @param week
+     * @return
+     */
+    int changeDate(Integer id, Integer year,
+                   Integer month, Integer day,
+                   Integer week);
+
+    /**
+     * 查询所有数据
+     *
+     * @return
+     */
+    List<StockDailyModel> loadAllDailyData();
 }
