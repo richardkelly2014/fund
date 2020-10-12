@@ -40,4 +40,26 @@ public interface StockDailyService {
      * @return
      */
     List<StockDailyModel> loadAllDailyData();
+
+    /**
+     * 根据tsCode 查询
+     *
+     * @param tsCode
+     * @param sort
+     * @return
+     */
+    List<StockDailyModel> loadDailyByCode(final String tsCode, boolean sort);
+
+    /**
+     * 查询交易日范围
+     *
+     * @param tsCode
+     * @param start
+     * @param end
+     * @param sort
+     * @return
+     */
+    List<StockDailyModel> loadDailyByCode(final String tsCode,
+                                          final String start,
+                                          final String end, boolean sort);
 }

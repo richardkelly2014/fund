@@ -92,21 +92,24 @@ public class MapView extends AbstractFxView {
 //                });
 //            }
 
-            List<StockDailyModel> allDailyModels = stockDailyService.loadAllDailyData();
-            allDailyModels.stream().forEach(stockDailyModel -> {
-                Integer id = stockDailyModel.getId();
-                String tradeDate = stockDailyModel.getTradeDate();
-
-                int[] result = DateTimeUtil.getYearMonthDayWeek(tradeDate, "yyyyMMdd");
-                int year = result[0];
-                int month = result[1];
-                int day = result[2];
-                int week = result[3];
-                int flag = stockDailyService.changeDate(id, year, month, day, week);
-                log.info("{},{},{},{},{}={}", id, year, month, day, week, flag);
-
-            });
+//            List<StockDailyModel> allDailyModels = stockDailyService.loadAllDailyData();
+//            allDailyModels.stream().forEach(stockDailyModel -> {
+//                Integer id = stockDailyModel.getId();
+//                String tradeDate = stockDailyModel.getTradeDate();
+//
+//                int[] result = DateTimeUtil.getYearMonthDayWeek(tradeDate, "yyyyMMdd");
+//                int year = result[0];
+//                int month = result[1];
+//                int day = result[2];
+//                int week = result[3];
+//                int flag = stockDailyService.changeDate(id, year, month, day, week);
+//                log.info("{},{},{},{},{}={}", id, year, month, day, week, flag);
+//
+//            });
             //log.info("{}", allDailyModels.size());
+
+            log.info("{}",stockDailyService.loadDailyByCode("000001.SZ",false));
+            log.info("{}",stockDailyService.loadDailyByCode("000001.SZ",true));
 
             //stockDailyBusinessService.syncDate(url, "20200101", "20200930");
 

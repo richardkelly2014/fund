@@ -1,6 +1,7 @@
 package com.fund.dal;
 
 import com.fund.model.StockDailyModel;
+import com.fund.model.help.QueryStockDailyParams;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -55,9 +56,23 @@ public interface StockDailyMapper {
                          @Param("day") Integer day,
                          @Param("week") Integer week);
 
-
+    /**
+     * 查询所有
+     *
+     * @return
+     */
     List<StockDailyModel> selectAll();
 
-
-
+    /**
+     * 根据参数查询
+     *
+     * @param params
+     * @param start
+     * @param limit
+     * @return
+     */
+    List<StockDailyModel> selectByParams(final @Param("params") QueryStockDailyParams params,
+                                         final @Param("sort") int sort,
+                                         final @Param("start") int start,
+                                         final @Param("limit") int limit);
 }

@@ -42,7 +42,7 @@
         </filter>
     </appender>
 
-    <logger name="com.ailong" level="DEBUG"/>
+    <logger name="com.fund" level="DEBUG"/>
 
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>

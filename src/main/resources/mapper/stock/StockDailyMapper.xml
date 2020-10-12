@@ -9,22 +9,22 @@
 
     <resultMap id="allMap" type="com.fund.model.StockDailyModel">
         <id property="id" column="id"/>
-        <result property="tsCode" column="ts_code" />
-        <result property="symbol" column="symbol" />
-        <result property="tradeDate" column="trade_date" />
-        <result property="open" column="open" />
-        <result property="high" column="high" />
-        <result property="low" column="low" />
-        <result property="close" column="close" />
-        <result property="preClose" column="pre_close" />
-        <result property="change" column="change" />
-        <result property="pctChange" column="pct_chg" />
-        <result property="vol" column="vol" />
-        <result property="amount" column="amount" />
-        <result property="year" column="year" />
-        <result property="month" column="month" />
-        <result property="day" column="day" />
-        <result property="week" column="week" />
+        <result property="tsCode" column="ts_code"/>
+        <result property="symbol" column="symbol"/>
+        <result property="tradeDate" column="trade_date"/>
+        <result property="open" column="open"/>
+        <result property="high" column="high"/>
+        <result property="low" column="low"/>
+        <result property="close" column="close"/>
+        <result property="preClose" column="pre_close"/>
+        <result property="change" column="change"/>
+        <result property="pctChange" column="pct_chg"/>
+        <result property="vol" column="vol"/>
+        <result property="amount" column="amount"/>
+        <result property="year" column="year"/>
+        <result property="month" column="month"/>
+        <result property="day" column="day"/>
+        <result property="week" column="week"/>
     </resultMap>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
@@ -48,8 +48,35 @@
 
 
     <select id="selectAll" resultMap="allMap">
-        select <include refid="allField" />
+        select
+        <include refid="allField"/>
         from stock_daily where id > 364399
+    </select>
+
+    <select id="selectByParams" resultMap="allMap">
+        select
+        <include refid="allField"/>
+        from stock_daily t
+        <where>
+            <if test="params.tsCode!=null">
+                and t.ts_code = #{params.tsCode}
+            </if>
+            <if test="params.startDate != null">
+                and t.trade_date &gt;= #{params.startDate}
+            </if>
+            <if test="params.endDate !=null">
+                and t.trade_date &lt;= #{params.endDate}
+            </if>
+        </where>
+        <if test="sort == 1">
+            order by t.trade_date asc
+        </if>
+        <if test="sort == 2">
+            order by t.trade_date desc
+        </if>
+        <if test="limit > 0">
+            limit #{start} , #{limit}
+        </if>
     </select>
 
 
