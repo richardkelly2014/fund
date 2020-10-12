@@ -14,6 +14,14 @@ public class DateTimeUtilTest {
     }
 
     @Test
+    public void test4(){
+        log.info("{}",DateTimeUtil.getYearMonthDayWeek("20200101","yyyyMMdd"));
+        log.info("{}",DateTimeUtil.getYearMonthDayWeek("20191230","yyyyMMdd"));
+        log.info("{}",DateTimeUtil.getYearMonthDayWeek("20200930","yyyyMMdd"));
+        log.info("{}",DateTimeUtil.getYearMonthDayWeek("20201001","yyyyMMdd"));
+    }
+
+    @Test
     public void test2() {
         String value = "jsonpgz({});";
         log.info("{}", value.substring(8, value.length() - 2));

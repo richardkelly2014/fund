@@ -1,10 +1,8 @@
 package com.fund.util;
 
 import lombok.experimental.UtilityClass;
-import org.mozilla.universalchardet.UniversalDetector;
 
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
 @UtilityClass
@@ -15,6 +13,24 @@ public final class DateTimeUtil {
     public static int getWeekByDay(String day) {
         LocalDate date = LocalDate.parse(day, dayFormatter);
         return date.getDayOfWeek().getValue();
+    }
+
+    public static int[] getYearMonthDayWeek(String day, String formatter) {
+        int[] result = new int[4];
+        LocalDate date = LocalDate.parse(day, DateTimeFormatter.ofPattern(formatter));
+
+        int year = date.getYear();
+        int month = date.getMonth().getValue();
+        int intDay = date.getDayOfMonth();
+        int week = date.getDayOfWeek().getValue();
+
+        result[0] = year;
+        result[1] = month;
+
+        result[2] = intDay;
+        result[3] = week;
+
+        return result;
     }
 
     public static String addDay(String day, int plus) {
@@ -29,12 +45,5 @@ public final class DateTimeUtil {
         return (int) (now.toEpochDay() - date.toEpochDay());
     }
 
-    public static String getEncoding(byte[] bytes) {
-        UniversalDetector detector =new UniversalDetector(null);
-        detector.handleData(bytes, 0, bytes.length);
-        detector.dataEnd();
-        String encoding = detector.getDetectedCharset();
-        detector.reset();
-        return encoding;
-    }
+
 }
