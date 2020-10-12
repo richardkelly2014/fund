@@ -57,4 +57,7 @@ public interface StockDailyMapper {
 
 
     List<StockDailyModel> selectAll();
+
+
+
 }
