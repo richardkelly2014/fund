@@ -23,6 +23,14 @@ public class StockDailyAnalysisServiceImpl implements StockDailyAnalysisService 
     }
 
     @Override
+    public int create(StockDailyAnalysisModel model) {
+
+        return create(model.getTsCode(), model.getSymbol(), model.getTradeDate(),
+                model.getChangeType(), model.getChangeStop(), model.getChangeStopNum(),
+                model.getLowDay(), model.getHighDay());
+    }
+
+    @Override
     public StockDailyAnalysisModel loadByTradeDate(String tsCode, String tradeDate) {
         if (StringUtils.isNotBlank(tsCode) && StringUtils.isNotBlank(tradeDate)) {
             return stockDailyAnalysisMapper.selectOneByTradeDate(tsCode, tradeDate);

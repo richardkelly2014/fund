@@ -66,4 +66,13 @@ public interface StockDailyService {
     List<StockDailyModel> loadDailyByCode(final String tsCode,
                                           final String start,
                                           final String end, boolean sort);
+
+    /**
+     * 查询 交易日最近一条记录
+     *
+     * @param tsCode
+     * @param tradeDate
+     * @return
+     */
+    StockDailyModel loadDailyLastByTradeDate(final String tsCode, final String tradeDate);
 }

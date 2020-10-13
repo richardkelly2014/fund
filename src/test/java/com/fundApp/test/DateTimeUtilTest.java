@@ -1,5 +1,6 @@
 package com.fundApp.test;
 
+import cn.hutool.core.util.NumberUtil;
 import com.fund.util.DateTimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -26,6 +27,26 @@ public class DateTimeUtilTest {
         log.info("{}", DateTimeUtil.minusDay("20200101", "yyyyMMdd", 1));
 
         log.info("{}", DateTimeUtil.plusDay("20200101", "yyyyMMdd", 1));
+    }
+
+    @Test
+    public void test6() {
+        String tradeDate = "20200928";
+        String td = "20200925";
+        log.info("{}", tradeDate.compareToIgnoreCase(td));
+    }
+
+    @Test
+    public void test7() {
+        float preClose = 8.44f;//12.25f;
+
+
+        float up = NumberUtil.round(NumberUtil.mul(preClose, (1 + 0.1)), 2).floatValue();
+        float down = NumberUtil.round(NumberUtil.mul(preClose, (1 - 0.1)), 2).floatValue();
+
+        log.info("{}", (up - up)==0);
+
+        log.info("{},{},{}", preClose, up, down);
     }
 
     @Test

@@ -29,6 +29,8 @@ public interface StockDailyAnalysisService {
                Integer lowDay,
                Integer highDay);
 
+    int create(StockDailyAnalysisModel model);
+
     /**
      * 查询某一天交易日
      *

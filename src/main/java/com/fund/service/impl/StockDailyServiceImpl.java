@@ -59,4 +59,33 @@ public class StockDailyServiceImpl implements StockDailyService {
 
         return stockDailyMapper.selectByParams(params, sortVal, 0, 0);
     }
+
+
+    @Override
+    public StockDailyModel loadDailyLastByTradeDate(String tsCode, String tradeDate) {
+
+        // tradeDate <= xxx desc
+        // limit 2条
+
+        final QueryStockDailyParams params = QueryStockDailyParams.builder()
+                .tsCode(tsCode)
+                .endDate(tradeDate)
+                .build();
+
+        List<StockDailyModel> listVal = stockDailyMapper.selectByParams(params, 2, 0, 2);
+
+        if (listVal != null && listVal.size() > 0) {
+
+            for (StockDailyModel stockDailyModel : listVal) {
+
+                String td = stockDailyModel.getTradeDate();
+                // tradeDate > td
+                if (tradeDate.compareToIgnoreCase(td) > 0) {
+                    return stockDailyModel;
+                }
+            }
+        }
+        //没找到
+        return null;
+    }
 }

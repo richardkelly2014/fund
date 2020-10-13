@@ -48,7 +48,8 @@ public class MapView extends AbstractFxView {
     private StockDailyBusinessService stockDailyBusinessService;
     @Autowired
     private StockDailyService stockDailyService;
-
+    @Autowired
+    private StockDailyAnalysisService stockDailyAnalysisService;
 
     @Override
     public void initialize() {
@@ -108,8 +109,9 @@ public class MapView extends AbstractFxView {
 //            });
             //log.info("{}", allDailyModels.size());
 
-            log.info("{}",stockDailyService.loadDailyByCode("000001.SZ",false));
-            log.info("{}",stockDailyService.loadDailyByCode("000001.SZ",true));
+            stockDailyBusinessService.analysis("002625.SZ","20200206","20200930");
+
+            //log.info("{}",stockDailyService.loadDailyLastByTradeDate("000001.SZ","20200914"));
 
             //stockDailyBusinessService.syncDate(url, "20200101", "20200930");
 
