@@ -29,10 +29,12 @@
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         insert into stock_daily
-          (ts_code,symbol,trade_date,`open`,high,low,`close`,pre_close,change,pct_chg,vol,amount)
+          (ts_code,symbol,trade_date,`open`,high,low,`close`,pre_close,change,pct_chg,vol,amount,
+          `year`,`month`,`day`,week)
         values
           (#{tsCode},#{symbol},#{tradeDate},#{open},#{high},#{low},#{close},#{preClose},
-          #{change},#{pctChg},#{vol},#{amount})
+          #{change},#{pctChg},#{vol},#{amount},
+          #{year},#{month},#{day},#{week})
     </insert>
 
 

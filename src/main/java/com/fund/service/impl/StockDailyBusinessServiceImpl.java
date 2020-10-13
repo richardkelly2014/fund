@@ -3,6 +3,7 @@ package com.fund.service.impl;
 import com.fund.client.StockClient;
 import com.fund.service.StockDailyBusinessService;
 import com.fund.service.StockDailyService;
+import com.fund.util.DateTimeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,8 +64,14 @@ public class StockDailyBusinessServiceImpl implements StockDailyBusinessService 
             String vol = item.get(9);
             String amount = item.get(10);
 
+            int[] result = DateTimeUtil.getYearMonthDayWeek(tradeDate, "yyyyMMdd");
+            int year = result[0];
+            int month = result[1];
+            int day = result[2];
+            int week = result[3];
+
             stockDailyService.insert(tsCode, symbol, tradeDate, open, high, low, close, preClose, change, pctChange,
-                    vol, amount);
+                    vol, amount, year, month, day, week);
         });
     }
 

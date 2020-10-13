@@ -18,10 +18,11 @@ public class StockDailyServiceImpl implements StockDailyService {
     @Override
     public int insert(String tsCode, String symbol, String tradeDate, String open,
                       String high, String low, String close, String preClose, String change,
-                      String pctChg, String vol, String amount) {
+                      String pctChg, String vol, String amount,
+                      int year, int month, int day, int week) {
 
         return stockDailyMapper.insert(tsCode, symbol, tradeDate, open, high, low, close, preClose,
-                change, pctChg, vol, amount);
+                change, pctChg, vol, amount, year, month, day, week);
     }
 
     @Override

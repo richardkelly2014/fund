@@ -38,7 +38,11 @@ public interface StockDailyMapper {
                @Param("change") String change,
                @Param("pctChg") String pctChg,
                @Param("vol") String vol,
-               @Param("amount") String amount);
+               @Param("amount") String amount,
+               @Param("year") Integer year,
+               @Param("month") Integer month,
+               @Param("day") Integer day,
+               @Param("week") Integer week);
 
     /**
      * update 日期

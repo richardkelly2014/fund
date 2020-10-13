@@ -18,7 +18,11 @@ public interface StockDailyService {
                String change,
                String pctChg,
                String vol,
-               String amount);
+               String amount,
+               int year,
+               int month,
+               int day,
+               int week);
 
     /**
      * 修改日期
