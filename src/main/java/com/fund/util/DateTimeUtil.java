@@ -38,6 +38,34 @@ public final class DateTimeUtil {
         return localDate.plusDays(plus).format(dayFormatter);
     }
 
+    /**
+     * 增加天数
+     *
+     * @param day
+     * @param formatter
+     * @param plus
+     * @return
+     */
+    public static String plusDay(String day, String formatter, int plus) {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(formatter);
+        LocalDate localDate = LocalDate.parse(day, dateTimeFormatter);
+        return localDate.plusDays(plus).format(dateTimeFormatter);
+    }
+
+    /**
+     * 减少天数
+     *
+     * @param day
+     * @param formatter
+     * @param plus
+     * @return
+     */
+    public static String minusDay(String day, String formatter, int plus) {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(formatter);
+        LocalDate localDate = LocalDate.parse(day, dateTimeFormatter);
+        return localDate.minusDays(plus).format(dateTimeFormatter);
+    }
+
     public static int differDay(String day) {
         LocalDate now = LocalDate.now();
         LocalDate date = LocalDate.parse(day, dayFormatter);

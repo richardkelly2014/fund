@@ -19,4 +19,12 @@ public interface StockDailyBusinessService {
      */
     void syncDate(String tsCode, String startDate, String endDate);
 
+    /**
+     * 第一次分析
+     *
+     * @param tsCode
+     */
+    void analysis(String tsCode, String startDate, String endDate);
+
+
 }

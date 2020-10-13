@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fund.dal.StockDailyAnalysisMapper">
+
+    <sql id="allField">
+        id,ts_code,symbol,trade_date,change_type,change_stop,change_stop_num,low_day,high_day
+    </sql>
+
+    <resultMap id="allMap" type="com.fund.model.StockDailyAnalysisModel">
+        <id property="id" column="id"/>
+        <result property="tsCode" column="ts_code"/>
+        <result property="symbol" column="symbol"/>
+        <result property="tradeDate" column="trade_date"/>
+        <result property="changeType" column="change_type"/>
+        <result property="changeStop" column="change_stop"/>
+        <result property="changeStopNum" column="change_stop_num"/>
+        <result property="lowDay" column="low_day"/>
+        <result property="highDay" column="high_day"/>
+    </resultMap>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into stock_daily_analysis
+          (ts_code,symbol,trade_date,change_type,change_stop,change_stop_num,low_day,high_day)
+        values
+          (#{tsCode},#{symbol},#{tradeDate},#{changeType},#{changeStop},
+          #{changeStopNum},#{lowDay},#{highDay})
+    </insert>
+
+
+    <select id="selectOneByTradeDate" resultMap="allMap">
+        select <include refid="allField" />
+        from stock_daily_analysis t
+        where t.ts_code = #{tsCode} and t.trade_date = #{tradeDate}
+        limit 0,1
+    </select>
+
+
+</mapper>

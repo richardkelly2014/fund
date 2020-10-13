@@ -34,6 +34,18 @@ public class StockDailyBusinessServiceImpl implements StockDailyBusinessService 
         }
     }
 
+    /**
+     * 分析
+     *
+     * @param tsCode
+     * @param startDate 开始时间
+     * @param endDate
+     */
+    @Override
+    public void analysis(String tsCode, String startDate, String endDate) {
+
+    }
+
     private void process(List<List<String>> items) {
         items.stream().forEach(item -> {
 
@@ -55,4 +67,5 @@ public class StockDailyBusinessServiceImpl implements StockDailyBusinessService 
                     vol, amount);
         });
     }
+
 }
