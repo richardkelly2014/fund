@@ -26,7 +26,9 @@ public interface StockDailyAnalysisMapper {
                @Param("changeStop") Integer changeStop,
                @Param("changeStopNum") Integer changeStopNum,
                @Param("lowDay") Integer lowDay,
-               @Param("highDay") Integer highDay);
+               @Param("highDay") Integer highDay,
+               @Param("changeStopReach") Integer changeStopReach,
+               @Param("crossStar") String crossStar);
 
 
     /**

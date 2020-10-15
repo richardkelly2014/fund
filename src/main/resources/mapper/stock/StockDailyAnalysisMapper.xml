@@ -16,19 +16,23 @@
         <result property="changeStopNum" column="change_stop_num"/>
         <result property="lowDay" column="low_day"/>
         <result property="highDay" column="high_day"/>
+        <result property="changeStopReach" column="change_stop_reach"/>
+        <result property="crossStar" column="cross_star"/>
     </resultMap>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         insert into stock_daily_analysis
-          (ts_code,symbol,trade_date,change_type,change_stop,change_stop_num,low_day,high_day)
+          (ts_code,symbol,trade_date,change_type,change_stop,change_stop_num,low_day,high_day,
+          change_stop_reach,cross_star)
         values
           (#{tsCode},#{symbol},#{tradeDate},#{changeType},#{changeStop},
-          #{changeStopNum},#{lowDay},#{highDay})
+          #{changeStopNum},#{lowDay},#{highDay},#{changeStopReach},#{crossStar})
     </insert>
 
 
     <select id="selectOneByTradeDate" resultMap="allMap">
-        select <include refid="allField" />
+        select
+        <include refid="allField"/>
         from stock_daily_analysis t
         where t.ts_code = #{tsCode} and t.trade_date = #{tradeDate}
         limit 0,1

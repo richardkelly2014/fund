@@ -109,7 +109,7 @@ public class MapView extends AbstractFxView {
 //            });
             //log.info("{}", allDailyModels.size());
 
-            stockDailyBusinessService.analysis("002625.SZ","20200206","20200930");
+            stockDailyBusinessService.analysis("002625.SZ", "20200101", "20200930");
 
             //log.info("{}",stockDailyService.loadDailyLastByTradeDate("000001.SZ","20200914"));
 

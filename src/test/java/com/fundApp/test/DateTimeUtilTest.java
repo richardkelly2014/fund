@@ -38,7 +38,7 @@ public class DateTimeUtilTest {
 
     @Test
     public void test7() {
-        float preClose = 8.44f;//12.25f;
+        float preClose = 7.6f;//12.25f;
 
 
         float up = NumberUtil.round(NumberUtil.mul(preClose, (1 + 0.1)), 2).floatValue();

@@ -16,10 +16,10 @@ public class StockDailyAnalysisServiceImpl implements StockDailyAnalysisService 
     @Override
     public int create(String tsCode, String symbol, String tradeDate,
                       Integer changeType, Integer changeStop, Integer changeStopNum,
-                      Integer lowDay, Integer highDay) {
+                      Integer lowDay, Integer highDay, Integer changeStopReach, String crossStar) {
 
         return stockDailyAnalysisMapper.insert(tsCode, symbol, tradeDate,
-                changeType, changeStop, changeStopNum, lowDay, highDay);
+                changeType, changeStop, changeStopNum, lowDay, highDay, changeStopReach, crossStar);
     }
 
     @Override
@@ -27,7 +27,7 @@ public class StockDailyAnalysisServiceImpl implements StockDailyAnalysisService 
 
         return create(model.getTsCode(), model.getSymbol(), model.getTradeDate(),
                 model.getChangeType(), model.getChangeStop(), model.getChangeStopNum(),
-                model.getLowDay(), model.getHighDay());
+                model.getLowDay(), model.getHighDay(), model.getChangeStopReach(), String.valueOf(model.getCrossStar()));
     }
 
     @Override

@@ -27,7 +27,9 @@ public interface StockDailyAnalysisService {
                Integer changeStop,
                Integer changeStopNum,
                Integer lowDay,
-               Integer highDay);
+               Integer highDay,
+               Integer changeStopReach,
+               String crossStar);
 
     int create(StockDailyAnalysisModel model);
 

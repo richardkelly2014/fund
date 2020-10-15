@@ -17,9 +17,11 @@ import java.util.List;
 @Service
 public class StockDailyBusinessServiceImpl implements StockDailyBusinessService {
 
+    private final static double h99 = (1 + 0.0991);
     private final static double h10 = (1 + 0.1);
     private final static double h20 = (1 + 0.2);
 
+    private final static double l99 = (1 - 0.0991);
     private final static double l10 = (1 - 0.1);
     private final static double l20 = (1 - 0.2);
 
@@ -91,7 +93,7 @@ public class StockDailyBusinessServiceImpl implements StockDailyBusinessService 
                 StockDailyAnalysisModel currentDailyAnalysisModel = new StockDailyAnalysisModel();
                 initPreDailyAnalysis(currentDailyModel, currentDailyAnalysisModel);
 
-                if (currentDailyAnalysisModel.getChangeStop() == 2) {
+                if (currentDailyAnalysisModel.getChangeStop() == 1) {
                     //如果本次是涨跌停
                     //上一次涨跌停次数+本次
                     int changeStopNum = currentDailyAnalysisModel.getChangeStopNum() + preDailyAnalysisModel.getChangeStopNum();
@@ -137,6 +139,7 @@ public class StockDailyBusinessServiceImpl implements StockDailyBusinessService 
         dailyAnalysisModel.setSymbol(dailyModel.getSymbol());
         dailyAnalysisModel.setTradeDate(dailyModel.getTradeDate());
 
+        float open = dailyModel.getOpen();
         //今日收盘
         float close = dailyModel.getClose();
         //今日最高
@@ -147,8 +150,11 @@ public class StockDailyBusinessServiceImpl implements StockDailyBusinessService 
         // 昨收盘
         float preClose = dailyModel.getPreClose();
 
+        float reachUp = NumberUtil.round(NumberUtil.mul(preClose, h99), 2).floatValue();
         //今日涨停价
         float up = NumberUtil.round(NumberUtil.mul(preClose, h10), 2).floatValue();
+
+        float reachDown = NumberUtil.round(NumberUtil.mul(preClose, l99), 2).floatValue();
         //今日跌停价
         float down = NumberUtil.round(NumberUtil.mul(preClose, l10), 2).floatValue();
 
@@ -158,15 +164,17 @@ public class StockDailyBusinessServiceImpl implements StockDailyBusinessService 
             //涨
             dailyAnalysisModel.setChangeType(1);
 
-            if (close - up == 0) {
-                //收盘-涨停价 ==0 涨停
-                dailyAnalysisModel.setChangeStop(2);
-                dailyAnalysisModel.setChangeStopNum(1);
-            } else if (high - up == 0) {
-                //最高价-涨停价==0，涨停过没封住
-                dailyAnalysisModel.setChangeStop(1);
-                dailyAnalysisModel.setChangeStopNum(0);
+            if (high - reachUp >= 0) {
+                //触达
+                dailyAnalysisModel.setChangeStopReach(1);
+            } else {
+                dailyAnalysisModel.setChangeStopReach(0);
+            }
 
+            if (close - up == 0) {
+                //涨停
+                dailyAnalysisModel.setChangeStop(1);
+                dailyAnalysisModel.setChangeStopNum(1);
             } else {
                 //无
                 dailyAnalysisModel.setChangeStop(0);
@@ -175,17 +183,20 @@ public class StockDailyBusinessServiceImpl implements StockDailyBusinessService 
         } else if (dailyModel.getChange() < 0) {
             //跌
             dailyAnalysisModel.setChangeType(3);
-            dailyAnalysisModel.setChangeStopNum(0);
+
+            if (low - reachDown <= 0) {
+                //触达
+                dailyAnalysisModel.setChangeStopReach(1);
+            } else {
+                dailyAnalysisModel.setChangeStopReach(0);
+            }
 
             if (close - down == 0) {
                 //跌停
-                dailyAnalysisModel.setChangeStop(2);
-                dailyAnalysisModel.setChangeStopNum(1);
-            } else if (low - up == 0) {
-                //跌停没封住
                 dailyAnalysisModel.setChangeStop(1);
-
+                dailyAnalysisModel.setChangeStopNum(1);
             } else {
+                dailyAnalysisModel.setChangeStopNum(0);
                 dailyAnalysisModel.setChangeStop(0);
             }
 
@@ -194,13 +205,16 @@ public class StockDailyBusinessServiceImpl implements StockDailyBusinessService 
             dailyAnalysisModel.setChangeType(2);
 
             dailyAnalysisModel.setChangeStop(0);
+            dailyAnalysisModel.setChangeStopReach(0);
             dailyAnalysisModel.setChangeStopNum(0);
 
         }
 
+        float star = NumberUtil.round(NumberUtil.div(NumberUtil.sub(open, close), close), 4).floatValue();
+        dailyAnalysisModel.setCrossStar(star);
+
         dailyAnalysisModel.setLowDay(0);
         dailyAnalysisModel.setHighDay(0);
-
 
     }
 
