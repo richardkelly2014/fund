@@ -24,6 +24,8 @@ public interface StockDailyService {
                int day,
                int week);
 
+    int batchInsert(List<List<Object>> dailys);
+
     /**
      * 修改日期
      *

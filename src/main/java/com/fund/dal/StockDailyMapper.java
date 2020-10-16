@@ -44,6 +44,8 @@ public interface StockDailyMapper {
                @Param("day") Integer day,
                @Param("week") Integer week);
 
+    int batchInsert(@Param("dailys") List<List<Object>> dailys);
+
     /**
      * update 日期
      *

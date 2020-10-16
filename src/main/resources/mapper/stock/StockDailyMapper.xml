@@ -34,6 +34,19 @@
           (#{tsCode},#{symbol},#{tradeDate},#{open},#{high},#{low},#{close},#{preClose},#{change},#{pctChg},#{vol},#{amount},#{year},#{month},#{day},#{week})
     </insert>
 
+    <insert id="batchInsert">
+        insert into stock_daily
+          (ts_code,symbol,trade_date,`open`,high,low,`close`,pre_close,`change`,pct_chg,vol,amount,`year`,`month`,`day`,week)
+        values
+          <foreach collection="dailys" item="daily" separator=",">
+              (
+                <foreach collection="daily" item="d" separator=",">
+                    #{d}
+                </foreach>
+              )
+          </foreach>
+    </insert>
+
 
     <update id="updateYYYYMMDDWW">
         update stock_daily

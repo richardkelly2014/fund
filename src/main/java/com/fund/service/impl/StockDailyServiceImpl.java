@@ -26,6 +26,12 @@ public class StockDailyServiceImpl implements StockDailyService {
     }
 
     @Override
+    public int batchInsert(List<List<Object>> dailys) {
+
+        return stockDailyMapper.batchInsert(dailys);
+    }
+
+    @Override
     public int changeDate(Integer id, Integer year, Integer month, Integer day, Integer week) {
 
         return stockDailyMapper.updateYYYYMMDDWW(id, year, month, day, week);

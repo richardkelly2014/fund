@@ -28,7 +28,8 @@ import java.util.Map;
 public class DBConfig implements TransactionManagementConfigurer {
 
     @Bean("master")
-    @ConfigurationProperties(prefix = "master.datasource", ignoreInvalidFields = true)
+    @ConfigurationProperties(ignoreInvalidFields = true)
+//    @ConfigurationProperties(prefix = "master.datasource", ignoreInvalidFields = true)
     @ConditionalOnClass(DruidDataSource.class)
     public DruidDataSource masterDataSource() {
         DruidDataSource datasource = DruidDataSourceBuilder.create().build();
@@ -49,8 +50,6 @@ public class DBConfig implements TransactionManagementConfigurer {
 
         dynamicRoutingDataSource.setDefaultTargetDataSource(masterDataSource());
         dynamicRoutingDataSource.setTargetDataSources(dataSourceMap);
-
-        log.info("{}", masterDataSource().getUrl());
 
         return dynamicRoutingDataSource;
     }

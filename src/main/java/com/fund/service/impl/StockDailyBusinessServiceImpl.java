@@ -8,6 +8,8 @@ import com.fund.service.StockDailyAnalysisService;
 import com.fund.service.StockDailyBusinessService;
 import com.fund.service.StockDailyService;
 import com.fund.util.DateTimeUtil;
+import com.google.common.collect.Lists;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@Slf4j
 public class StockDailyBusinessServiceImpl implements StockDailyBusinessService {
 
     private final static double Range10 = 0.1;
@@ -32,7 +35,7 @@ public class StockDailyBusinessServiceImpl implements StockDailyBusinessService 
 
         List<List<String>> items = stockClient.loadStockByDay(tsCode, tradeDate, null, null);
         if (items != null && items.size() > 0) {
-            process(items);
+            process(items, tsCode);
         }
     }
 
@@ -40,7 +43,7 @@ public class StockDailyBusinessServiceImpl implements StockDailyBusinessService 
     public void syncDate(String tsCode, String startDate, String endDate) {
         List<List<String>> items = stockClient.loadStockByDay(tsCode, null, startDate, endDate);
         if (items != null && items.size() > 0) {
-            process(items);
+            process(items, tsCode);
         }
     }
 
@@ -148,7 +151,7 @@ public class StockDailyBusinessServiceImpl implements StockDailyBusinessService 
 
         String tsCode = dailyModel.getTsCode();
         String tradeDate = dailyModel.getTradeDate();
-        
+
         if (tsCode.startsWith("68")) {
             //68开头
             tmpVal = NumberUtil.round(NumberUtil.mul(preClose, Range20), 2).floatValue();
@@ -227,8 +230,13 @@ public class StockDailyBusinessServiceImpl implements StockDailyBusinessService 
     }
 
 
-    private void process(List<List<String>> items) {
+    private void process(List<List<String>> items, String t) {
+
+        List<List<Object>> dailys = Lists.newArrayList();
+
+
         items.stream().forEach(item -> {
+            List<Object> v = Lists.newArrayList();
 
             String tsCode = item.get(0);
             String symbol = StringUtils.split(tsCode, ".")[0];
@@ -250,9 +258,33 @@ public class StockDailyBusinessServiceImpl implements StockDailyBusinessService 
             int day = result[2];
             int week = result[3];
 
-            stockDailyService.insert(tsCode, symbol, tradeDate, open, high, low, close, preClose, change, pctChange,
-                    vol, amount, year, month, day, week);
+//            stockDailyService.insert(tsCode, symbol, tradeDate, open, high, low, close, preClose, change, pctChange,
+//                    vol, amount, year, month, day, week);
+            v.add(tsCode);
+            v.add(symbol);
+            v.add(tradeDate);
+
+            v.add(NumberUtil.round(open, 2));
+            v.add(NumberUtil.round(high, 2));
+            v.add(NumberUtil.round(low, 2));
+            v.add(NumberUtil.round(close, 2));
+            v.add(NumberUtil.round(preClose, 2));
+            v.add(NumberUtil.round(change, 2));
+            v.add(NumberUtil.round(pctChange, 4));
+
+            v.add(NumberUtil.round(vol, 6));
+            v.add(NumberUtil.round(amount, 6));
+
+            v.add(year);
+            v.add(month);
+            v.add(day);
+            v.add(week);
+
+            dailys.add(v);
         });
+
+        int flag = stockDailyService.batchInsert(dailys);
+        log.info("{},{}", t, flag);
     }
 
 }
