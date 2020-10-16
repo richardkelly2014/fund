@@ -31,20 +31,19 @@ public class DateTimeUtilTest {
 
     @Test
     public void test6() {
-        String tradeDate = "20200928";
-        String td = "20200925";
-        log.info("{}", tradeDate.compareToIgnoreCase(td));
+        String tradeDate = "20200824";
+        String td = "20200823";
+        log.info("{}", td.compareTo(tradeDate));
     }
 
     @Test
     public void test7() {
-        float preClose = 7.6f;//12.25f;
+        float preClose = 5.55f;//12.25f;
+        float tmpVal = NumberUtil.round(NumberUtil.mul(preClose, 0.1), 2).floatValue();
 
-
-        float up = NumberUtil.round(NumberUtil.mul(preClose, (1 + 0.1)), 2).floatValue();
-        float down = NumberUtil.round(NumberUtil.mul(preClose, (1 - 0.1)), 2).floatValue();
-
-        log.info("{}", (up - up)==0);
+        log.info("{}", tmpVal);
+        float up = (float) NumberUtil.add(preClose, tmpVal);
+        float down = (float) NumberUtil.sub(preClose, tmpVal);
 
         log.info("{},{},{}", preClose, up, down);
     }

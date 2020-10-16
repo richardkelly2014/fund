@@ -17,13 +17,8 @@ import java.util.List;
 @Service
 public class StockDailyBusinessServiceImpl implements StockDailyBusinessService {
 
-    private final static double h99 = (1 + 0.0991);
-    private final static double h10 = (1 + 0.1);
-    private final static double h20 = (1 + 0.2);
-
-    private final static double l99 = (1 - 0.0991);
-    private final static double l10 = (1 - 0.1);
-    private final static double l20 = (1 - 0.2);
+    private final static double Range10 = 0.1;
+    private final static double Range20 = 0.2;
 
     @Autowired
     private StockClient stockClient;
@@ -149,14 +144,27 @@ public class StockDailyBusinessServiceImpl implements StockDailyBusinessService 
 
         // 昨收盘
         float preClose = dailyModel.getPreClose();
+        float tmpVal;
 
-        float reachUp = NumberUtil.round(NumberUtil.mul(preClose, h99), 2).floatValue();
+        String tsCode = dailyModel.getTsCode();
+        String tradeDate = dailyModel.getTradeDate();
+        
+        if (tsCode.startsWith("68")) {
+            //68开头
+            tmpVal = NumberUtil.round(NumberUtil.mul(preClose, Range20), 2).floatValue();
+        } else if (tsCode.startsWith("300") && tradeDate.compareToIgnoreCase("20200824") >= 0) {
+            // 300开头 20200824 以后
+            tmpVal = NumberUtil.round(NumberUtil.mul(preClose, Range20), 2).floatValue();
+        } else {
+            //其他 10%
+            tmpVal = NumberUtil.round(NumberUtil.mul(preClose, Range10), 2).floatValue();
+        }
+
         //今日涨停价
-        float up = NumberUtil.round(NumberUtil.mul(preClose, h10), 2).floatValue();
+        float up = (float) NumberUtil.add(preClose, tmpVal);
 
-        float reachDown = NumberUtil.round(NumberUtil.mul(preClose, l99), 2).floatValue();
         //今日跌停价
-        float down = NumberUtil.round(NumberUtil.mul(preClose, l10), 2).floatValue();
+        float down = (float) NumberUtil.sub(preClose, tmpVal);
 
 
         //根据涨幅判断，是涨/跌/平
@@ -164,7 +172,7 @@ public class StockDailyBusinessServiceImpl implements StockDailyBusinessService 
             //涨
             dailyAnalysisModel.setChangeType(1);
 
-            if (high - reachUp >= 0) {
+            if (high - up == 0) {
                 //触达
                 dailyAnalysisModel.setChangeStopReach(1);
             } else {
@@ -184,7 +192,7 @@ public class StockDailyBusinessServiceImpl implements StockDailyBusinessService 
             //跌
             dailyAnalysisModel.setChangeType(3);
 
-            if (low - reachDown <= 0) {
+            if (low - down == 0) {
                 //触达
                 dailyAnalysisModel.setChangeStopReach(1);
             } else {
