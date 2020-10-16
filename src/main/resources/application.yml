@@ -8,19 +8,24 @@ mybatis:
 master:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    driverClassName: org.sqlite.JDBC
-#    url: jdbc:sqlite::resource:db/fund.db
-    url: jdbc:sqlite:db/fund.db
-    username:
-    password:
-    filters: stat
-    initialSize: 2
-    maxActive: 300
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://bj-cdb-2kxha9uu.sql.tencentcdb.com:61288/banking?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
+    username: root
+    password: stock@123456
+    initialSize: 100
+    minIdle: 10
+    maxActive: 1000
     maxWait: 60000
-    timeBetweenEvictionRunsMillis: 60000
     minEvictableIdleTimeMillis: 300000
+    timeBetweenEvictionRunsMillis: 3600000
+    removeAbandoned: true
+    removeAbandonedTimeout: 180
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 50
+    logAbandoned: true
+    filters: config,stat
     validationQuery: SELECT 1
-    testWhileIdle: true
     testOnBorrow: false
     testOnReturn: false
-    poolPreparedStatements: false
+    testWhileIdle: true
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000

@@ -84,14 +84,16 @@ public class MapView extends AbstractFxView {
 //                url = "http://" + url;
 //            }
             //webEngine.load(url);
-//            List<StockBasicModel> basicModels = stockBasicService.loadAllStock();
-//            if (basicModels != null && basicModels.size() > 0) {
-//                basicModels.stream().forEach(stockBasicModel -> {
-//                    String tsCode = stockBasicModel.getTsCode();
-//                    log.info("begin sync tsCode={}", tsCode);
-//                    stockDailyBusinessService.syncDate(tsCode, "20200101", "20200930");
-//                });
-//            }
+            List<StockBasicModel> basicModels = stockBasicService.loadAllStock();
+            if (basicModels != null && basicModels.size() > 0) {
+                basicModels.stream().forEach(stockBasicModel -> {
+                    String tsCode = stockBasicModel.getTsCode();
+                    log.info("begin sync tsCode={}", tsCode);
+                    stockDailyBusinessService.syncDate(tsCode, "20200101", "20200930");
+                });
+            }
+
+            //stockDailyBusinessService.syncDate("000001.SZ", "20200101", "20200930");
 
 //            List<StockDailyModel> allDailyModels = stockDailyService.loadAllDailyData();
 //            allDailyModels.stream().forEach(stockDailyModel -> {
@@ -107,9 +109,9 @@ public class MapView extends AbstractFxView {
 //                log.info("{},{},{},{},{}={}", id, year, month, day, week, flag);
 //
 //            });
-            //log.info("{}", allDailyModels.size());
+            //log.info("{}", stockBasicService.loadAllStock());
 
-            stockDailyBusinessService.analysis("002625.SZ", "20200101", "20200930");
+            //stockDailyBusinessService.analysis("002625.SZ", "20200101", "20200930");
 
             //log.info("{}",stockDailyService.loadDailyLastByTradeDate("000001.SZ","20200914"));
 

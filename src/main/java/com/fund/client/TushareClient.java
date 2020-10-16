@@ -25,7 +25,7 @@ public class TushareClient implements StockClient {
 
     private final static String token = "707f55c17d3cd27085c286972051d7c9202445e200a7b92963703909";
 
-    private final static String api = "http://api.tushare.pro";
+    private final static String api = "http://api.waditu.com";
 
     @Autowired
     private RestTemplate restTemplate;
