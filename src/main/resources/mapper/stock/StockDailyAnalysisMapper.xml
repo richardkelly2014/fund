@@ -28,6 +28,18 @@
           (#{tsCode},#{symbol},#{tradeDate},#{changeType},#{changeStop},
           #{changeStopNum},#{lowDay},#{highDay},#{changeStopReach},#{crossStar})
     </insert>
+    
+    <insert id="batchInsert">
+        insert into stock_daily_analysis
+          (ts_code,symbol,trade_date,change_type,change_stop,change_stop_num,low_day,high_day,
+          change_stop_reach,cross_star)
+        values
+          <foreach collection="models" item="model" separator=",">
+              (#{model.tsCode},#{model.symbol},#{model.tradeDate},#{model.changeType},
+              #{model.changeStop},#{model.changeStopNum},#{model.lowDay},#{model.highDay},
+              #{model.changeStopReach},#{model.crossStar})
+          </foreach>
+    </insert>
 
 
     <select id="selectOneByTradeDate" resultMap="allMap">

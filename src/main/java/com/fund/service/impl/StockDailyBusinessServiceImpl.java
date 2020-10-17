@@ -69,6 +69,8 @@ public class StockDailyBusinessServiceImpl implements StockDailyBusinessService 
         //3.处理
         if (dailys != null && dailys.size() > 0) {
 
+            List<StockDailyAnalysisModel> batchList = Lists.newArrayList();
+
             //初始化 pre 上一次日行情分析
             int index = 0;
             if (preDailyAnalysisModel == null) {
@@ -80,7 +82,8 @@ public class StockDailyBusinessServiceImpl implements StockDailyBusinessService 
                 initPreDailyAnalysis(preDailyModel, preDailyAnalysisModel);
 
                 //保存第一条日行情分析
-                stockDailyAnalysisService.create(preDailyAnalysisModel);
+                //stockDailyAnalysisService.create(preDailyAnalysisModel);
+                batchList.add(preDailyAnalysisModel);
                 index = index + 1;
             }
 
@@ -114,13 +117,20 @@ public class StockDailyBusinessServiceImpl implements StockDailyBusinessService 
                 }
 
                 //保存
-                stockDailyAnalysisService.create(currentDailyAnalysisModel);
+                //stockDailyAnalysisService.create(currentDailyAnalysisModel);
+                batchList.add(currentDailyAnalysisModel);
 
                 //替换上次
                 preDailyAnalysisModel = currentDailyAnalysisModel;
                 preDailyModel = currentDailyModel;
 
             }
+
+            if (batchList.size() > 0) {
+
+                stockDailyAnalysisService.create(batchList);
+            }
+
         }
 
     }
@@ -233,7 +243,6 @@ public class StockDailyBusinessServiceImpl implements StockDailyBusinessService 
     private void process(List<List<String>> items, String t) {
 
         List<List<Object>> dailys = Lists.newArrayList();
-
 
         items.stream().forEach(item -> {
             List<Object> v = Lists.newArrayList();

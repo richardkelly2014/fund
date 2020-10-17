@@ -4,6 +4,8 @@ import com.fund.model.StockDailyAnalysisModel;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 @Mapper
 public interface StockDailyAnalysisMapper {
 
@@ -30,6 +32,13 @@ public interface StockDailyAnalysisMapper {
                @Param("changeStopReach") Integer changeStopReach,
                @Param("crossStar") String crossStar);
 
+    /**
+     * 批量插入
+     *
+     * @param models
+     * @return
+     */
+    int batchInsert(@Param("models") List<StockDailyAnalysisModel> models);
 
     /**
      * 根据交易日查询

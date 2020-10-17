@@ -3,6 +3,8 @@ package com.fund.service;
 
 import com.fund.model.StockDailyAnalysisModel;
 
+import java.util.List;
+
 /**
  * 日行情分析
  */
@@ -32,6 +34,14 @@ public interface StockDailyAnalysisService {
                String crossStar);
 
     int create(StockDailyAnalysisModel model);
+
+    /**
+     * 批量
+     *
+     * @param list
+     * @return
+     */
+    int create(List<StockDailyAnalysisModel> list);
 
     /**
      * 查询某一天交易日

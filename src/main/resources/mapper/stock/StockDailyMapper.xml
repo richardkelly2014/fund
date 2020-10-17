@@ -3,7 +3,7 @@
 <mapper namespace="com.fund.dal.StockDailyMapper">
 
     <sql id="allField">
-        id,ts_code,symbol,trade_date,`open`,high,low,`close`,pre_close,change,pct_chg,vol,amount,
+        id,ts_code,symbol,trade_date,`open`,high,low,`close`,pre_close,`change`,pct_chg,vol,amount,
         `year`,`month`,`day`,week
     </sql>
 

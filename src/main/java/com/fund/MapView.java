@@ -89,7 +89,7 @@ public class MapView extends AbstractFxView {
                 basicModels.stream().forEach(stockBasicModel -> {
                     String tsCode = stockBasicModel.getTsCode();
                     log.info("begin sync tsCode={}", tsCode);
-                    stockDailyBusinessService.syncDate(tsCode, "20200101", "20200930");
+                    stockDailyBusinessService.analysis(tsCode, "20200101", "20200930");
                 });
             }
 
@@ -110,7 +110,7 @@ public class MapView extends AbstractFxView {
 //
 //            });
 
-            //stockDailyBusinessService.analysis("002625.SZ", "20200101", "20200930");
+            //stockDailyBusinessService.analysis("002625.SZ", "20200101", "20200110");
 
             //log.info("{}",stockDailyService.loadDailyLastByTradeDate("000001.SZ","20200914"));
 

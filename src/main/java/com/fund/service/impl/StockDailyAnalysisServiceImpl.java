@@ -7,6 +7,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class StockDailyAnalysisServiceImpl implements StockDailyAnalysisService {
 
@@ -20,6 +22,12 @@ public class StockDailyAnalysisServiceImpl implements StockDailyAnalysisService 
 
         return stockDailyAnalysisMapper.insert(tsCode, symbol, tradeDate,
                 changeType, changeStop, changeStopNum, lowDay, highDay, changeStopReach, crossStar);
+    }
+
+    @Override
+    public int create(List<StockDailyAnalysisModel> list) {
+
+        return stockDailyAnalysisMapper.batchInsert(list);
     }
 
     @Override
