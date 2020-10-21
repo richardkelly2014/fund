@@ -1,7 +1,6 @@
 package com.fund;
 
 import com.fund.config.AbstractFxApplication;
-import com.fund.view.MainView;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
