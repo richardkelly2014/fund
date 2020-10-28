@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fund.dal.TestMapper">
+
+
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into t_stock_industry
+          (industry_name,industry_code,source,`type`)
+        value
+          (#{industryName},#{industryCode},#{source},#{type})
+    </insert>
+
+    <insert id="batchInsert">
+        insert into t_stock_industry_stock_basic
+          (industry_code,industry_name,stock_code,stock_name,industry_type)
+        values
+          <foreach collection="models" item="model" separator=",">
+              (#{model.industryCode},#{model.industryName},#{model.stockCode},#{model.stockName},#{model.industryType})
+          </foreach>
+    </insert>
+</mapper>
