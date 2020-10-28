@@ -4,6 +4,8 @@ import com.jfoenix.assets.JFoenixResources;
 import com.jfoenix.controls.JFXDecorator;
 import com.jfoenix.svg.SVGGlyph;
 import com.sun.javafx.application.LauncherImpl;
+
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.application.Preloader;
@@ -14,6 +16,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.net.URL;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 
@@ -31,6 +37,22 @@ public abstract class AbstractFxApplication extends Application {
     private static Application application;
     private static Class<? extends AbstractFxView> mainView;
     protected static ConfigurableApplicationContext applicationContext;
+
+    public static final URL BLUE_CAMPING = AbstractFxApplication.class.getResource("/images/accommodation_camping.glow.0092DA.32.png");
+    public static final URL BLACK_FIRE = AbstractFxApplication.class.getResource("/images/amenity_firestation.p.000000.32.png");
+
+    public static final URL BLACK_MAIL = AbstractFxApplication.class.getResource("/images/amenity_post_box.p.000000.32.png");
+    public static final URL GREEN_MAIL = AbstractFxApplication.class.getResource("/images/amenity_post_box.p.39AC39.32.png");
+
+
+    public static final URL BLACK_BUS = AbstractFxApplication.class.getResource("/images/transport_bus_station.p.000000.32.png");
+    public static final URL LT_GRAY_BUS = AbstractFxApplication.class.getResource("/images/transport_bus_station.p.999999.32.png");
+
+    public static final URL BLACK_TRAIN = AbstractFxApplication.class.getResource("/images/transport_train_station.p.000000.32.png");
+    public static final URL GREEN_TRAIN = AbstractFxApplication.class.getResource("/images/transport_train_station.p.39AC39.32.png");
+    public static final URL LT_GRAY_TRAIN = AbstractFxApplication.class.getResource("/images/transport_train_station.p.666666.32.png");
+
+    private final SystemTray tray = SystemTray.getSystemTray();
 
     private CountDownLatch countDownLatch = new CountDownLatch(1);
 
@@ -105,6 +127,25 @@ public abstract class AbstractFxApplication extends Application {
         stage.setTitle(mainView.getDefaultTitle());
         stage.setOnCloseRequest(this::applicationClose);
         stage.show();
+
+        PopupMenu pm = new PopupMenu();
+
+        BufferedImage image = ImageIO.read(LT_GRAY_BUS);
+
+        MenuItem mi = new MenuItem("exit");
+        //右键菜单监听
+        mi.addActionListener(e -> {
+            //点击右键菜单退出程序
+            System.exit(0);
+        });
+        pm.add(mi);
+
+        TrayIcon trayIcon = new TrayIcon(image, "自动备份工具", pm);
+
+        trayIcon.setToolTip("自动备份工具");
+        tray.add(trayIcon);
+
+        Platform.setImplicitExit(false);
     }
 
     @Override
@@ -118,9 +159,9 @@ public abstract class AbstractFxApplication extends Application {
     }
 
     protected void applicationClose(WindowEvent event) {
-        try {
-            stop();
-        } catch (Exception e) {
-        }
+//        try {
+//            stop();
+//        } catch (Exception e) {
+//        }
     }
 }
