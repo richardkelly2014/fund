@@ -212,6 +212,11 @@
             <version>1.13.1</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

@@ -3,6 +3,7 @@ package com.fundApp.test;
 import com.fund.dal.TestMapper;
 import com.fund.model.Test2Model;
 import com.fund.model.TestModel;
+import com.fund.util.HttpRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.util.Lists;
@@ -10,14 +11,22 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.client.*;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+import java.nio.charset.Charset;
 import java.util.List;
 
 /**
@@ -28,10 +37,16 @@ import java.util.List;
 @SpringBootApplication(scanBasePackages = {"com.fund"})
 @Slf4j
 public class THSTest {
+
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
     private TestMapper testMapper;
+
+    //@Before
+    public void install() {
+        restTemplate = restTemplate();
+    }
 
     @Test
     public void test1() {
@@ -69,20 +84,26 @@ public class THSTest {
 
     @Test
     public void test2() {
+
         dyDetail("C", "制造业", 4);
     }
 
     String urlFormatter = "http://q.10jqka.com.cn/dy/detail/field/199112/order/desc/page/%s/ajax/1/code/%s";
 
+    String dd = "http://q.10jqka.com.cn/zjhhy/detail/field/199112/order/desc/page/%s/ajax/1/code/%s";
+
     public void dyDetail(String code, String name, int type) {
 
         int page = 1;
+        int maxPage = 1;
         do {
-            String get = String.format(urlFormatter, page, code);
+            String get = String.format(dd, page, code);
 
             log.info("{},{}", page, get);
 
             String body = restTemplate.getForObject(get, String.class);
+
+            log.info("{}", body);
 
             Document document = Jsoup.parse(body);
             Elements elements = document.getElementsByTag("tbody").get(0).children();
@@ -118,7 +139,7 @@ public class THSTest {
                     testMapper.batchInsert(models);
                 }
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -133,5 +154,52 @@ public class THSTest {
 //
 //        String text = document.getElementsByClass("board-hq").get(0).child(0).text();
 //        log.info("{}", text);
+    }
+
+    public RestTemplate restTemplate() {
+
+        String userName = "mr_coder@163.com";
+        String passWord = "JiangFei11";
+
+        RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory());
+        restTemplate.getMessageConverters().set(1, new StringHttpMessageConverter(Charset.forName("gb2312")));
+        restTemplate.getInterceptors().add(new ProxyClientHttpRequestInterceptor(userName, passWord));
+
+        return restTemplate;
+    }
+
+    public ClientHttpRequestFactory clientHttpRequestFactory() {
+        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
+        factory.setReadTimeout(30000);//单位为ms
+        factory.setConnectTimeout(30000);//单位为ms
+
+
+        factory.setProxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("60.166.86.180", 5412)));
+        return factory;
+    }
+
+
+    public static class ProxyClientHttpRequestInterceptor implements ClientHttpRequestInterceptor {
+
+        private final String username;
+        private final String password;
+        private final String base64;
+
+        public ProxyClientHttpRequestInterceptor(String username, String password) {
+            this.username = username;
+            this.password = password;
+            String base64Creds = HttpRequest.Base64.encode(username + ":" + password);
+            this.base64 = base64Creds;
+        }
+
+        @Override
+        public ClientHttpResponse intercept(org.springframework.http.HttpRequest httpRequest, byte[] bytes, ClientHttpRequestExecution clientHttpRequestExecution) throws IOException {
+            HttpHeaders headers = httpRequest.getHeaders();
+            if (!headers.containsKey("Proxy-Authorization")) {
+                headers.add("Proxy-Authorization", "Basic " + base64);
+            }
+
+            return clientHttpRequestExecution.execute(httpRequest, bytes);
+        }
     }
 }

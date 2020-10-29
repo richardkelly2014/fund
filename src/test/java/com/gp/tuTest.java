@@ -12,8 +12,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,6 +55,12 @@ public class tuTest {
     }
 
     @Test
+    public void test1122(){
+
+        log.info("{}", restTemplate.getForObject("http://www.baidu.com", String.class));
+    }
+
+    @Test
     public void test2() {
 
 
@@ -87,7 +95,7 @@ public class tuTest {
 
     public RestTemplate restTemplate() {
         RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory());
-
+        restTemplate.getMessageConverters().set(1,new StringHttpMessageConverter(StandardCharsets.UTF_8));
         return restTemplate;
     }
 
