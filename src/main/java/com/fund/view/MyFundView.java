@@ -36,7 +36,7 @@ import java.util.function.Function;
  * Created by jiangfei on 2020/7/5.
  */
 @Slf4j
-//@Component
+@Component
 @FXMLViewAndController(value = "/template/MyFundView.fxml", title = "我的")
 public class MyFundView extends AbstractFxView {
 

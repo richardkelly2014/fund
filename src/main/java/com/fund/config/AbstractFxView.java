@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -157,14 +158,17 @@ public abstract class AbstractFxView implements Initializable {
     private URL getURLResource(final FXMLViewAndController annotation) {
         if (annotation != null && !annotation.value().equals("")) {
 
-            try {
-                File file = new File(annotation.value());
-                return file.toURI().toURL();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
+            String path = annotation.value();
+            if (StringUtils.startsWith(path, "/")) {
+                return getClass().getResource(annotation.value());
+            } else {
+                try {
+                    File file = new File(annotation.value());
+                    return file.toURI().toURL();
+                } catch (MalformedURLException e) {
+                    throw new NullPointerException(e.getMessage());
+                }
             }
-
-            return getClass().getResource(annotation.value());
         } else {
             throw new NullPointerException("value null");
         }

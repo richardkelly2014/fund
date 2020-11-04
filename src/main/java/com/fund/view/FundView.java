@@ -39,7 +39,7 @@ import java.util.function.Function;
  * Created by jiangfei on 2020/6/27.
  */
 @Slf4j
-//@Component
+@Component
 @FXMLViewAndController(value = "/template/FundView.fxml", title = "基金")
 public class FundView extends AbstractFxView {
 

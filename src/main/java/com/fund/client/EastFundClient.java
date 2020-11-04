@@ -22,7 +22,7 @@ import static com.fund.util.NumberConstante.unitBase;
 @Service
 public class EastFundClient implements FundClient {
 
-    private final static String ListURL = "http://fund.eastmoney.com/f10/F10DataApi.aspx";
+    private final static String ListURL = "https://fund.eastmoney.com/f10/F10DataApi.aspx";
     private final static String RealURL = "http://fundgz.1234567.com.cn/js/";
     private Pattern trPattern = Pattern.compile("<tr>(.*?)</tr>");
     private Pattern tdPattern = Pattern.compile("<td>(\\d{4}-\\d{2}-\\d{2})</td><td.*?>(.*?)</td><td.*?>(.*?)</td><td.*?>(.*?)%</td><td.*?>(.*?)</td><td.*?>(.*?)</td><td.*?></td>");

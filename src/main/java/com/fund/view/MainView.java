@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
  * Created by jiangfei on 2020/6/25.
  */
 @Slf4j
-//@Component
+@Component
 @FXMLViewAndController(value = "/template/MainView.fxml", title = "基金")
 public class MainView extends AbstractFxView {
 
