@@ -1,5 +1,7 @@
 package com.gp;
 
+import cn.hutool.core.date.DateField;
+import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSON;
 import com.fund.client.model.TushareRequestModel;
 import lombok.extern.slf4j.Slf4j;
@@ -55,7 +57,7 @@ public class tuTest {
     }
 
     @Test
-    public void test1122(){
+    public void test1122() {
 
         log.info("{}", restTemplate.getForObject("http://www.baidu.com", String.class));
     }
@@ -93,9 +95,19 @@ public class tuTest {
         log.info("{},{}", v.substring(0, v.indexOf(".")), vs[0]);
     }
 
+
+    @Test
+    public void test4() {
+        String endDateStr = DateUtil.yesterday().toDateStr();
+        String beginDateStr = DateUtil.yesterday().offset(DateField.DAY_OF_YEAR, -30).toDateStr();
+
+        log.info("{},{}", endDateStr, beginDateStr);
+    }
+
+
     public RestTemplate restTemplate() {
         RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory());
-        restTemplate.getMessageConverters().set(1,new StringHttpMessageConverter(StandardCharsets.UTF_8));
+        restTemplate.getMessageConverters().set(1, new StringHttpMessageConverter(StandardCharsets.UTF_8));
         return restTemplate;
     }
 
