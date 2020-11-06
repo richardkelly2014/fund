@@ -18,4 +18,35 @@
               (#{model.industryCode},#{model.industryName},#{model.stockCode},#{model.stockName},#{model.industryType})
           </foreach>
     </insert>
+
+    <insert id="batchInsertTheme">
+      insert into t_fund_theme
+        (data_id,data_field,theme_name)
+      values
+        <foreach collection="models" item="model" separator=",">
+            (#{model.dataId},#{model.dataField},#{model.themeName})
+        </foreach>
+    </insert>
+
+    <insert id="batchInsertThemeFund">
+      insert into t_fund_theme_fund
+        (data_id,theme_name,fund_code,fund_name)
+      values
+        <foreach collection="models" item="model" separator=",">
+            (#{model.dataId},#{model.themeName},#{model.fundCode},#{model.fundName})
+        </foreach>
+    </insert>
+
+    <select id="selectAll" resultType="com.fund.model.TestFundBasicModel">
+        select id,fund_code,fund_name
+        from t_fund_basic
+        where status = 1
+    </select>
+
+    <select id="selectThemeAll" resultType="com.fund.model.TestFundThemeModel">
+      select *
+      from t_fund_theme
+      where id >=94
+    </select>
+
 </mapper>
