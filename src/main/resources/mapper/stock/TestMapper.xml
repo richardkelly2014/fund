@@ -12,41 +12,79 @@
 
     <insert id="batchInsert">
         insert into t_stock_industry_stock_basic
-          (industry_code,industry_name,stock_code,stock_name,industry_type)
+        (industry_code,industry_name,stock_code,stock_name,industry_type)
         values
-          <foreach collection="models" item="model" separator=",">
-              (#{model.industryCode},#{model.industryName},#{model.stockCode},#{model.stockName},#{model.industryType})
-          </foreach>
+        <foreach collection="models" item="model" separator=",">
+            (#{model.industryCode},#{model.industryName},#{model.stockCode},#{model.stockName},#{model.industryType})
+        </foreach>
     </insert>
 
     <insert id="batchInsertTheme">
-      insert into t_fund_theme
+        insert into t_fund_theme
         (data_id,data_field,theme_name)
-      values
+        values
         <foreach collection="models" item="model" separator=",">
             (#{model.dataId},#{model.dataField},#{model.themeName})
         </foreach>
     </insert>
 
     <insert id="batchInsertThemeFund">
-      insert into t_fund_theme_fund
+        insert into t_fund_theme_fund
         (data_id,theme_name,fund_code,fund_name)
-      values
+        values
         <foreach collection="models" item="model" separator=",">
             (#{model.dataId},#{model.themeName},#{model.fundCode},#{model.fundName})
         </foreach>
     </insert>
 
+    <update id="updateFundBasic">
+        update t_fund_basic
+        set
+          fund_type_name=#{fundTypeName},
+          fund_invest_type_name= #{investTypeName},
+          fund_risk_name = #{riskName},
+          fund_company= #{companyName}
+        where
+          fund_code= #{fundCode}
+    </update>
+
+    <update id="updateFundBasicStatus">
+        update t_fund_basic
+        set
+          status = #{status}
+        where
+          fund_code= #{fundCode}
+    </update>
+
+    <update id="updateFundBasicAndStatus">
+        update t_fund_basic
+        set
+          fund_type_name=#{fundTypeName},
+          fund_invest_type_name= #{investTypeName},
+          fund_risk_name = #{riskName},
+          fund_company= #{companyName},
+          status = 1
+        where
+          fund_code= #{fundCode}
+    </update>
+
+
     <select id="selectAll" resultType="com.fund.model.TestFundBasicModel">
         select id,fund_code,fund_name
         from t_fund_basic
-        where status = 1
+        where status = 1 and id >=3060
     </select>
 
     <select id="selectThemeAll" resultType="com.fund.model.TestFundThemeModel">
       select *
       from t_fund_theme
       where id >=94
+    </select>
+
+    <select id="selectAllLimit" resultType="com.fund.model.TestFundBasicModel">
+        select *
+        from t_fund_basic t
+        where t.`status` = 2 and t.fund_type_name is null and t.fund_name not like '%后端%';
     </select>
 
 </mapper>

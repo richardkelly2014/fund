@@ -18,7 +18,27 @@ public interface TestMapper {
 
     List<TestFundBasicModel> selectAll();
 
-    int batchInsertTheme(@Param("models")List<TestFundThemeModel> models);
+    List<TestFundBasicModel> selectAllLimit(@Param("start") int start, @Param("end") int end);
+
+
+    int updateFundBasic(@Param("fundCode") String fundCode,
+                        @Param("fundTypeName") String fundTypeName,
+                        @Param("investTypeName") String investTypeName,
+                        @Param("riskName") String riskName,
+                        @Param("companyName") String companyName);
+
+    int updateFundBasicAndStatus(
+            @Param("fundCode") String fundCode,
+            @Param("fundTypeName") String fundTypeName,
+            @Param("investTypeName") String investTypeName,
+            @Param("riskName") String riskName,
+            @Param("companyName") String companyName
+    );
+
+    int updateFundBasicStatus(@Param("fundCode") String fundCode,
+                              @Param("status") int status);
+
+    int batchInsertTheme(@Param("models") List<TestFundThemeModel> models);
 
     List<TestFundThemeModel> selectThemeAll();
 

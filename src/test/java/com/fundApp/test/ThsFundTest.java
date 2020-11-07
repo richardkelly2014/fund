@@ -1,6 +1,7 @@
 package com.fundApp.test;
 
 import com.fund.dal.TestMapper;
+import com.fund.model.TestFundBasicModel;
 import com.fund.model.TestFundThemeFundModel;
 import com.fund.model.TestFundThemeModel;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +10,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,7 +46,6 @@ public class ThsFundTest {
 
         System.setProperty("webdriver.chrome.driver", "db/chromedriver");
 
-
         ChromeOptions options = new ChromeOptions();
 
         //是否启用浏览器界面的参数
@@ -54,6 +55,11 @@ public class ThsFundTest {
         //options.addArguments("no-sandbox");
 
         chrome = new ChromeDriver(options);
+    }
+
+    @After
+    public void after() {
+        chrome.quit();
     }
 
     @Test
@@ -132,22 +138,81 @@ public class ThsFundTest {
             }
 
             testMapper.batchInsertThemeFund(themeFundModels);
-
         }
-
-
     }
 
     @Test
     public void test3() {
-        chrome.get("http://www.baidu.com");
-        sleep();
-        chrome.get("http://www.163.com");
+        //http://fund.10jqka.com.cn/010089/#interduce
+        String urlFormatter = "http://fund.10jqka.com.cn/%s/interduce.html#interduce";
+
+        List<TestFundBasicModel> list = testMapper.selectAllLimit(7759, 8000);
+
+        for (TestFundBasicModel basicModel : list) {
+
+            String fundCode = basicModel.getFundCode();
+            String url = String.format(urlFormatter, fundCode);
+
+            log.info("{}", url);
+
+            chrome.get(url);
+
+            sleep();
+
+            String html = chrome.getPageSource();
+
+            Document document = Jsoup.parse(html);
+
+            Element closeElement = document.getElementsByClass("m_title").first();
+            if (closeElement != null) {
+
+                String risk = closeElement.child(0).child(1).text();
+
+                Element element = document.getElementsByClass("m_table sub_table")
+                        .first().child(0);
+
+                String type = element.child(1).child(1).text();
+
+                String investType = element.child(2).child(1).text();
+
+                String companyName = element.child(6).child(1).text();
+
+                log.info("{},{},{},{}", type, risk, investType, companyName);
+
+                testMapper.updateFundBasicAndStatus(fundCode, type, investType, risk, companyName);
+
+            } else {
+
+
+                Element element = document.getElementsByClass("ti-left").first();
+                if (element == null) {
+                    testMapper.updateFundBasicStatus(fundCode, 2);
+                    continue;
+                }
+                String type = element.child(2).text();
+                String risk = element.child(3).text();
+
+                Element baseElement = document.getElementsByClass("g-dialog").first();
+
+                String investType = baseElement.child(4).child(1).text();
+                String companyName = baseElement.child(12).child(1).text();
+
+                log.info("{},{},{},{}", type, risk, investType, companyName);
+
+                testMapper.updateFundBasic(fundCode, type, investType, risk, companyName);
+            }
+            sleep(1000);
+        }
     }
 
+
     private void sleep() {
+        sleep(3000);
+    }
+
+    private void sleep(long t) {
         try {
-            Thread.sleep(10000);
+            Thread.sleep(t);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
