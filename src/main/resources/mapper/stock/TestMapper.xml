@@ -82,9 +82,8 @@
     </select>
 
     <select id="selectAllLimit" resultType="com.fund.model.TestFundBasicModel">
-        select *
-        from t_fund_basic t
-        where t.`status` = 2 and t.fund_type_name is null and t.fund_name not like '%后端%';
+        select * from t_fund_basic t
+        where t.`status` = 2 and t.fund_name not like '%后端%'
     </select>
 
 </mapper>

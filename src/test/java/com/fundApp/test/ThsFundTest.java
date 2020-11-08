@@ -143,8 +143,9 @@ public class ThsFundTest {
 
     @Test
     public void test3() {
-        //http://fund.10jqka.com.cn/010089/#interduce
-        String urlFormatter = "http://fund.10jqka.com.cn/%s/interduce.html#interduce";
+        //
+        //String urlFormatter = "http://fund.10jqka.com.cn/%s/interduce.html#interduce";
+        String urlFormatter = "http://fund.10jqka.com.cn/%s/#interduce";
 
         List<TestFundBasicModel> list = testMapper.selectAllLimit(7759, 8000);
 
@@ -199,9 +200,9 @@ public class ThsFundTest {
 
                 log.info("{},{},{},{}", type, risk, investType, companyName);
 
-                testMapper.updateFundBasic(fundCode, type, investType, risk, companyName);
+                testMapper.updateFundBasicAndStatus(fundCode, type, investType, risk, companyName);
             }
-            sleep(1000);
+            //sleep(1000);
         }
     }
 
