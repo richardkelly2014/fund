@@ -37,6 +37,16 @@
         </foreach>
     </insert>
 
+    <insert id="batchInsertFundDaily">
+        insert into t_fund_daily_rate
+        (fund_code,unit_value,grand_value,rate_type,rate,`day`,week)
+        values
+        <foreach collection="models" item="model" separator=",">
+            (#{model.fundCode},#{model.unitValue},
+            #{model.grandValue},#{model.rateType},#{model.rate},#{model.day},#{model.week})
+        </foreach>
+    </insert>
+
     <update id="updateFundBasic">
         update t_fund_basic
         set
@@ -83,7 +93,8 @@
 
     <select id="selectAllLimit" resultType="com.fund.model.TestFundBasicModel">
         select * from t_fund_basic t
-        where t.`status` = 2 and t.fund_name not like '%后端%'
+        where t.`status` = 1 and t.fund_type!=8
+        limit #{start},#{end}
     </select>
 
 </mapper>

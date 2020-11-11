@@ -43,4 +43,13 @@ public interface TestMapper {
     List<TestFundThemeModel> selectThemeAll();
 
     int batchInsertThemeFund(@Param("models") List<TestFundThemeFundModel> models);
+
+    /**
+     * 批量插入
+     *
+     * @param models
+     * @return
+     */
+    int batchInsertFundDaily(@Param("models") List<TestFundDailyModel> models);
+
 }
