@@ -3,10 +3,74 @@ package com.fundApp.test;
 import cn.hutool.core.util.NumberUtil;
 import com.fund.util.DateTimeUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
+
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 
 @Slf4j
 public class DateTimeUtilTest {
+
+
+    @Test
+    public void test01() {
+        Instant instant = Instant.ofEpochMilli(System.currentTimeMillis());
+        Date date = Date.from(instant);
+
+        Date dayOfStar = getDayOfStart(date);
+        int part = 0;
+        int startPart = part - 2;
+
+        int startMin = startPart * 5;
+        int endMin = part * 5 + 5;
+
+        Date start = plusMinutes(dayOfStar, startMin);
+        Date end = plusMinutes(dayOfStar, endMin);
+
+        log.info("{},{}", dateFormat(start, ""), dateFormat(end, ""));
+    }
+
+    String dateFormat(Date date, String pattern) {
+        if (StringUtils.isBlank(pattern)) {
+            pattern = "yyyy-MM-dd HH:mm:ss";
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+        return sdf.format(date);
+    }
+
+    /**
+     * 增加分钟
+     *
+     * @param date
+     * @param min
+     * @return
+     */
+    Date plusMinutes(Date date, int min) {
+        ZoneId zone = ZoneId.systemDefault();
+        Instant instant = date.toInstant();
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, zone).plusMinutes(min);
+        return Date.from(localDateTime.atZone(zone).toInstant());
+    }
+
+    /**
+     * 获取一天的开始
+     *
+     * @param date
+     * @return
+     */
+    Date getDayOfStart(Date date) {
+        ZoneId zoneId = ZoneId.systemDefault();
+        Instant instant = date.toInstant();
+
+        LocalDateTime start = LocalDateTime.ofInstant(instant, zoneId).withHour(0).withMinute(0).withSecond(0);
+
+        return Date.from(start.atZone(zoneId).toInstant());
+    }
 
     @Test
     public void test1() {
