@@ -93,7 +93,7 @@
 
     <select id="selectAllLimit" resultType="com.fund.model.TestFundBasicModel">
         select * from t_fund_basic t
-        where t.`status` = 1 and t.fund_type!=8
+        where t.`status` = 1 and t.fund_type!=8 and t.id >= 1755
         limit #{start},#{end}
     </select>
 

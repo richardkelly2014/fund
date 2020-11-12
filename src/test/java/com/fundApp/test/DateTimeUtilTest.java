@@ -34,6 +34,31 @@ public class DateTimeUtilTest {
         log.info("{},{}", dateFormat(start, ""), dateFormat(end, ""));
     }
 
+    @Test
+    public void test02() {
+        Instant instant = Instant.ofEpochMilli(System.currentTimeMillis());
+        Date date = Date.from(instant);
+        int part = getTimeSuff(date) - 1;
+
+        Date dayOfStar = getDayOfStart(date);
+
+        int startMin = part * 10;
+        int endMin = startMin + 10;
+
+        Date start = plusMinutes(dayOfStar, startMin);
+        Date end = plusMinutes(dayOfStar, endMin);
+
+        log.info("{},{}", dateFormat(start, ""), dateFormat(end, ""));
+    }
+
+    private int getTimeSuff(Date date) {
+
+        int min = DateTimeUtil.getHour(date) * 60 + DateTimeUtil.getMin(date);
+        int index = min / 10;
+
+        return index;
+    }
+
     String dateFormat(Date date, String pattern) {
         if (StringUtils.isBlank(pattern)) {
             pattern = "yyyy-MM-dd HH:mm:ss";

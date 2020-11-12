@@ -2,8 +2,12 @@ package com.fund.util;
 
 import lombok.experimental.UtilityClass;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 @UtilityClass
 public final class DateTimeUtil {
@@ -13,6 +17,20 @@ public final class DateTimeUtil {
     public static int getWeekByDay(String day) {
         LocalDate date = LocalDate.parse(day, dayFormatter);
         return date.getDayOfWeek().getValue();
+    }
+
+    public static int getHour(Date date) {
+        ZoneId zone = ZoneId.systemDefault();
+        Instant instant = date.toInstant();
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, zone);
+        return localDateTime.getHour();
+    }
+
+    public static int getMin(Date date) {
+        ZoneId zone = ZoneId.systemDefault();
+        Instant instant = date.toInstant();
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, zone);
+        return localDateTime.getMinute();
     }
 
     public static int[] getYearMonthDayWeek(String day, String formatter) {
