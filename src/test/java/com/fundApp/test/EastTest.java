@@ -41,7 +41,7 @@ public class EastTest {
     @Test
     public void test1() {
 
-        List<TestFundBasicModel> basicModels = testMapper.selectAllLimit(1000, 500);
+        List<TestFundBasicModel> basicModels = testMapper.selectAllLimit(3000, 500);
 
         for (TestFundBasicModel basicModel : basicModels) {
             String fundCode = basicModel.getFundCode();
@@ -56,7 +56,7 @@ public class EastTest {
 
                 parse(body, fundCode);
 
-                sleep(1000);
+                sleep(2000);
             }
 
         }
