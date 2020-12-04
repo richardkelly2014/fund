@@ -82,7 +82,7 @@
     <select id="selectAll" resultType="com.fund.model.TestFundBasicModel">
         select id,fund_code,fund_name
         from t_fund_basic
-        where status = 1 and id >=3060
+        where status = 1
     </select>
 
     <select id="selectThemeAll" resultType="com.fund.model.TestFundThemeModel">
