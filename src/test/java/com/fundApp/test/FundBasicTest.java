@@ -4,6 +4,7 @@ import com.fund.dal.TestMapper;
 import com.fund.model.FundBaseModel;
 import com.fund.model.TestFundBasicModel;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -52,10 +53,58 @@ public class FundBasicTest {
             Element date = element.child(2);
             Element scale = element.child(3);
 
-
             log.info("{}---{},{}---{},{}", fundCode, date.child(1).text(), date.child(3).text(),
                     scale.child(1).text(), scale.child(3).text());
 
+            String issue_date = date.child(1).text();
+
+            if (StringUtils.isNotBlank(issue_date)) {
+                issue_date = issue_date.replace("年", "-");
+                issue_date = issue_date.replace("月", "-");
+                issue_date = issue_date.replace("日", "");
+            }
+
+            String setup_date = date.child(3).text();
+            if (StringUtils.isNotBlank(setup_date)) {
+                setup_date = StringUtils.split(setup_date, "/")[0];
+
+                setup_date = setup_date.replace("年", "-");
+                setup_date = setup_date.replace("月", "-");
+                setup_date = setup_date.replace("日", "").trim();
+            }
+
+            String asset_scale = scale.child(1).text();
+
+            if (StringUtils.isNotBlank(asset_scale)) {
+                int start = asset_scale.indexOf("亿");
+                if (start >= 0) {
+                    asset_scale = asset_scale.substring(0, start);
+                } else {
+                    asset_scale = "0";
+                }
+            }
+
+            String share_scale = scale.child(3).text();
+            if (StringUtils.isNotBlank(share_scale)) {
+                int start = share_scale.indexOf("亿");
+                if (start >= 0) {
+                    share_scale = share_scale.substring(0, start);
+                } else {
+                    share_scale = "0";
+                }
+            }
+
+
+            log.info("{}---{},{}---{},{}", fundCode, issue_date, setup_date, asset_scale, share_scale);
+
+            testMapper.updateFundBasicDate(fundCode, issue_date, setup_date, asset_scale, share_scale);
+            log.info("=================");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            //break;
         }
 
     }

@@ -35,7 +35,11 @@ public interface TestMapper {
             @Param("companyName") String companyName
     );
 
-    //int updateFundBasicDate();
+    int updateFundBasicDate(@Param("fundCode") String fundCode,
+                            @Param("issueDate") String issueDate,
+                            @Param("setupDate") String setupDate,
+                            @Param("asset") String asset,
+                            @Param("share") String share);
 
     int updateFundBasicStatus(@Param("fundCode") String fundCode,
                               @Param("status") int status);

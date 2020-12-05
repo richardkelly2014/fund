@@ -78,11 +78,23 @@
           fund_code= #{fundCode}
     </update>
 
+    <update id="updateFundBasicDate">
+        update t_fund_basic
+        set
+          issue_date = #{issueDate},
+          setup_date = #{setupDate},
+          asset_scale = #{asset},
+          share_scale = #{share}
+        where
+          fund_code= #{fundCode}
+    </update>
+
 
     <select id="selectAll" resultType="com.fund.model.TestFundBasicModel">
         select id,fund_code,fund_name
         from t_fund_basic
-        where status = 1
+        where status = 1 and setup_date is null
+        limit 0,5000
     </select>
 
     <select id="selectThemeAll" resultType="com.fund.model.TestFundThemeModel">

@@ -66,7 +66,6 @@ public class FundView extends AbstractFxView {
     private JFXSpinner spinnerInfo;
     @FXML
     private JFXButton btnAdd;
-
     @FXML
     private JFXButton btnTest;
 
