@@ -83,15 +83,15 @@ public class MapView extends AbstractFxView {
 //            if (!url.startsWith("http://")) {
 //                url = "http://" + url;
 //            }
-            //webEngine.load(url);
-            List<StockBasicModel> basicModels = stockBasicService.loadAllStock();
-            if (basicModels != null && basicModels.size() > 0) {
-                basicModels.stream().forEach(stockBasicModel -> {
-                    String tsCode = stockBasicModel.getTsCode();
-                    log.info("begin sync tsCode={}", tsCode);
-                    stockDailyBusinessService.analysis(tsCode, "20200101", "20200930");
-                });
-            }
+            webEngine.load(url);
+//            List<StockBasicModel> basicModels = stockBasicService.loadAllStock();
+//            if (basicModels != null && basicModels.size() > 0) {
+//                basicModels.stream().forEach(stockBasicModel -> {
+//                    String tsCode = stockBasicModel.getTsCode();
+//                    log.info("begin sync tsCode={}", tsCode);
+//                    stockDailyBusinessService.analysis(tsCode, "20200101", "20200930");
+//                });
+//            }
 
             //stockDailyBusinessService.syncDate("000001.SZ", "20200101", "20200930");
 
